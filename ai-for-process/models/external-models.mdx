@@ -1,0 +1,174 @@
+---
+title: "External models"
+description: "Connect and manage models hosted outside AI for Process, including OpenAI, Anthropic, Google, Cohere, and Amazon Bedrock, as well as custom models via API integration."
+---
+
+The **External Models** tab in the Models section lets you connect models hosted outside AI for Process. Once connected, these models are available in Prompt Studio, Workflows, Model Traces & Analytics, Audit Logs, and Billing.
+
+Two integration methods:
+
+- **Easy Integration** — Guided setup for OpenAI, Anthropic, Google, Cohere, or Amazon Bedrock.
+- **API Integration** — Custom model connection using an API endpoint, authentication, and request configuration.
+
+## View external models
+
+The **External Models** tab lists all models connected via Easy Integration or API Integration.
+
+| Field | Description |
+|---|---|
+| Model Name | Name assigned during integration. |
+| Type | Whether the model was added via Easy Integration or API Integration. |
+| Source | The provider or origin (for example, OpenAI, Hugging Face, Custom). |
+| Added On | Date the model was last added or updated. |
+
+Click a model to view or manage its connections.
+
+## Add an external model
+
+### Easy Integration
+
+Use Easy Integration to connect models from OpenAI, Anthropic, Google, Cohere, or Amazon Bedrock.
+
+#### Connect OpenAI, Anthropic, Google, or Cohere
+
+<Steps>
+  <Step title="Navigate to External Models">
+    Click **Models** in the top navigation bar. Go to the **External Models** tab and click **Add a model**.
+  </Step>
+  <Step title="Select Easy integration">
+    Select **Easy integration** and click **Next**.
+  </Step>
+  <Step title="Select a provider">
+    Select a provider and click **Next**. A list of supported models appears.
+  </Step>
+  <Step title="Select a model">
+    Select a model and click **Next**.
+  </Step>
+  <Step title="Enter your API key">
+    Enter the API key from your provider and click **Confirm**. The model is added to the External Models list.
+  </Step>
+</Steps>
+
+<Note>
+- To edit or delete a model, click the three-dot icon next to its name.
+- Use the **Inferencing** toggle to enable or disable the model. If the toggle is off, selecting the model in the playground returns an error.
+</Note>
+
+#### Connect Amazon Bedrock
+
+Before integrating Amazon Bedrock models, set up IAM credentials in your AWS account.
+
+**Prerequisites:**
+
+1. Create an IAM role in your AWS account with permission to invoke Bedrock models. Assign the following permissions:
+
+   ```json
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Action": [
+           "bedrock:InvokeModel",
+           "bedrock:ListFoundationModels"
+         ],
+         "Resource": "*"
+       }
+     ]
+   }
+   ```
+
+2. Set the trust policy to allow AI for Process to assume the role. Replace `<kore-arn>` with the AWS account ID provided by the platform:
+
+   ```json
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Principal": {
+           "AWS": "<kore-arn>"
+         },
+         "Action": "sts:AssumeRole"
+       }
+     ]
+   }
+   ```
+
+3. Submit a support ticket with your IAM Role ARN to register it with AI for Process. Wait for confirmation from Support.
+
+<Warning>Without registering your IAM role, the platform cannot assume it. Both your AWS account and the Kore.ai environment must explicitly trust each other for secure cross-account access.</Warning>
+
+**Connect Amazon Bedrock:**
+
+<Steps>
+  <Step title="Navigate to External Models">
+    Click **Models** > **External Models** > **Add a model**.
+  </Step>
+  <Step title="Select AWS Bedrock">
+    Select **Easy integration** > **AWS Bedrock** and click **Next**.
+  </Step>
+  <Step title="Configure credentials and model details">
+    In the AWS Bedrock dialog, enter:
+    - **IAM Role ARN**: The full ARN of the IAM role with Bedrock permissions.
+    - **Model name**: A display name to identify this model.
+    - **Model ID**: The Model ID or Endpoint ID.
+    - **Region**: The AWS region where the model is deployed.
+  </Step>
+  <Step title="Test and confirm">
+    Under **Test Response**, enter sample variable values and click **Test** to preview the response. Configure JSON paths for output text and token counts. Click **Confirm** to add the model.
+  </Step>
+</Steps>
+
+### API Integration
+
+Use API Integration to connect a custom model by configuring the endpoint, authentication, and request-response structure.
+
+<Steps>
+  <Step title="Navigate to External Models">
+    Click **Models** > **External Models** > **Add a model**.
+  </Step>
+  <Step title="Select Custom integration">
+    Select **Custom integration** and click **Next**.
+  </Step>
+  <Step title="Enter model details">
+    Enter a **Model name** and **Model endpoint URL**.
+  </Step>
+  <Step title="Set authorization">
+    Select an **Authorization profile** or select **None**.
+  </Step>
+  <Step title="Add headers">
+    In the **Headers** section, enter Key-Value pairs for any required headers.
+  </Step>
+  <Step title="Configure model">
+    Choose a configuration option:
+    - **Default**: Manually define variables, the request body, and test the model response. Map JSON paths for output text and token counts.
+    - **Existing Model Provider Structures**: Automatically map the request and response schemas using a known provider format (Anthropic Messages API or OpenAI Chat Completions API). Enable model features such as structured response, data generation, or modalities support.
+  </Step>
+  <Step title="Confirm">
+    Click **Confirm** to add the model.
+  </Step>
+</Steps>
+
+## Manage connections
+
+Each external model can have multiple connections, each with its own credentials. Track usage, billing, and analytics per connection independently.
+
+Click a model in the External Models list to open its Connections page. From here, add new connections or edit and delete existing ones.
+
+| Field | Description |
+|---|---|
+| Connection Name | Name given during model integration. Not editable after saving. |
+| Added By | User who created the connection. |
+| Added On | Date the connection was created. |
+| Actions | Toggle inference on/off, edit API key or credentials, delete the connection. |
+
+## Manage API integrations
+
+Once a custom API integration is active and the **Inferencing** toggle is on, the model is available across AI for Process.
+
+To manage an integration, click the three-dot icon next to its name:
+
+- **View**: View integration details.
+- **Copy**: Create an editable copy of the integration.
+- **Delete**: Remove the integration.

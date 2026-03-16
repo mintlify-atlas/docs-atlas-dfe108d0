@@ -1,0 +1,159 @@
+---
+title: "Web SDK"
+description: "Embed a fully featured bot chat widget into any web application with secure WebSocket communication."
+---
+
+The Kore.ai Web SDK lets you embed a fully featured bot chat widget into any web application. It runs entirely in the browser, communicates with the platform over a secure WebSocket (`wss://`), and authenticates users via signed JWTs.
+
+## Architecture
+
+```
+Browser (Web SDK)
+    │
+    ├── Renders chat widget (HTML/CSS/JS)
+    ├── Generates JWT (calls your JWT server)
+    └── WebSocket connection to Kore.ai platform
+              │
+              └── Platform processes messages, returns responses
+```
+
+The Web SDK does not store credentials in the browser. JWT generation must happen on your server.
+
+## Prerequisites
+
+- A published Kore.ai bot
+- A JWT generation server endpoint
+- A registered app (Client ID and Client Secret) from **App Settings** > **Dev Tools** > **Web/Mobile SDK**
+
+## Installation
+
+### Option 1: CDN (recommended for quick start)
+
+```html
+<link rel="stylesheet" href="https://cdn.kore.ai/kore-ai-sdk/web-sdk/latest/kore-bot-sdk.min.css">
+<script src="https://cdn.kore.ai/kore-ai-sdk/web-sdk/latest/kore-bot-sdk.min.js"></script>
+```
+
+### Option 2: npm
+
+```bash
+npm install @kore.ai/web-sdk
+```
+
+## Basic integration
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.kore.ai/kore-ai-sdk/web-sdk/latest/kore-bot-sdk.min.css">
+</head>
+<body>
+  <!-- Widget container -->
+  <div id="kore-chat-widget"></div>
+
+  <script src="https://cdn.kore.ai/kore-ai-sdk/web-sdk/latest/kore-bot-sdk.min.js"></script>
+  <script>
+    var chatConfig = {
+      botInfo: {
+        name: "My Bot",
+        chatBot: "Your Bot Name",
+        taskBotId: "st-xxxx-xxxx-xxxx-xxxx-xxxx"
+      },
+      // JWT server endpoint
+      JWTUrl: "https://your-server.com/api/jwt",
+      userIdentity: "user@example.com",
+      clientId: "cs-xxxx-xxxx-xxxx-xxxx-xxxx",
+      botOptions: {
+        koreAPIUrl: "https://bots.kore.ai/",
+        koreSpeechAPIUrl: "https://speech.kore.ai/",
+        ttsSocketUrl: "wss://speech.kore.ai/",
+        recorderWorkerPath: "../libs/recorderWorker.js",
+        openConnectionOnPageLoad: false
+      },
+      allowIframe: false
+    };
+
+    $(document).ready(function() {
+      koreBotChat.show(chatConfig);
+    });
+  </script>
+</body>
+</html>
+```
+
+## JWT server
+
+Your server must expose an endpoint that generates and returns a signed JWT:
+
+```javascript
+// Express.js example
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const app = express();
+
+app.get('/api/jwt', (req, res) => {
+  const payload = {
+    appId: 'your-client-id',
+    sub: req.query.userId || 'anonymous'
+  };
+  
+  const token = jwt.sign(payload, 'your-client-secret', {
+    algorithm: 'HS256',
+    expiresIn: '1h'
+  });
+  
+  res.json({ jwt: token });
+});
+```
+
+## Session persistence
+
+The Web SDK supports two session modes:
+
+| Mode | Description |
+|------|-------------|
+| **Anonymous session** | No `sub` claim in JWT. New session on each page load. |
+| **Identified session** | Include a unique `userId` as `sub`. Session persists across page loads. |
+
+## Configuration options
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `botInfo.name` | string | Display name for the bot |
+| `botInfo.taskBotId` | string | The bot's stream ID from the platform |
+| `JWTUrl` | string | URL of your JWT generation endpoint |
+| `clientId` | string | Client ID from the platform |
+| `userIdentity` | string | User identifier for session continuity |
+| `botOptions.openConnectionOnPageLoad` | boolean | Auto-open chat on page load |
+| `allowIframe` | boolean | Allow embedding in an iframe |
+
+## Accessibility
+
+The Web SDK is built to WCAG 2.2 Level AA standards:
+- Full keyboard navigation support
+- ARIA labels on all interactive elements
+- Screen reader compatible
+- High-contrast mode support
+- Respects OS-level reduced motion preferences
+
+## WebSocket events
+
+The SDK emits events you can listen to for custom behavior:
+
+```javascript
+// Message received from bot
+koreBotChat.on('message', function(event) {
+  console.log('Bot message:', event.data);
+});
+
+// User sends a message
+koreBotChat.on('userMessage', function(event) {
+  console.log('User said:', event.data);
+});
+
+// Session started
+koreBotChat.on('sessionStarted', function() {
+  console.log('Chat session started');
+});
+```

@@ -1,0 +1,198 @@
+---
+title: "Amazon Q integration"
+description: "Connect AI for Work to Amazon Q Business to extend enterprise search with 40+ AWS connectors while keeping data indexed within AWS."
+---
+
+AI for Work connects with Amazon Q to extend enterprise search beyond the platform's native connectors. This lets you use your existing Amazon Q Business index — its data sources, security model, and user authentication — without duplicating infrastructure.
+
+## Key benefits
+
+| Benefit | Description |
+|---------|-------------|
+| **Data sovereignty** | Data stays indexed within AWS — no partner cloud storage required |
+| **Unified search** | Access 90+ enterprise connectors, including AWS and non-AWS systems |
+| **Agentic actions** | Automate workflows — schedule meetings, update records, generate presentations — with search context |
+| **Flexible routing** | AI-driven intent recognition routes queries to the right retriever |
+| **Security** | End-to-end encryption at rest and in transit, with granular cross-account access control |
+| **Single Sign-On** | Users authenticate once in AI for Work; Amazon Q access is handled transparently via Trusted Token Issuer (TTI) |
+
+## Amazon Q vs. native RAG search
+
+| | Native Search (RAG) | Amazon Q |
+|--|---------------------|----------|
+| **Connectors** | 70+ connectors with custom connector support | 40+ connectors |
+| **Control** | Full control over ingestion, extraction, and retrieval configuration | Managed, standardized indexing |
+| **Best for** | Teams needing fine-grained customization and experimentation | Teams prioritizing simplicity and enterprise-grade accuracy out of the box |
+
+## Integration modes
+
+| Mode | When to use |
+|------|-------------|
+| **Enterprise Knowledge** | Amazon Q Index is your primary knowledge source; it becomes the default fallback for all workspace queries that don't match a specific agent |
+| **Search Agent** | Amazon Q is one of several search indices; it activates based on query context and intent recognition |
+
+## Prerequisites
+
+Before starting, ensure your AWS environment includes:
+
+- Read access to your Amazon Q Business application
+- Retriever access permissions
+- AWS IAM Identity Center integration permissions
+- Cross-account access permissions (if applicable)
+
+## Getting started
+
+### Enterprise Knowledge mode
+
+Use this mode when Amazon Q Index is your primary knowledge source and most enterprise connectors link to it.
+
+<Steps>
+  <Step title="Navigate to Enterprise Knowledge">
+    Log in to the **Admin Console** and select **Enterprise Knowledge** from the left navigation pane.
+  </Step>
+  <Step title="Create a new configuration">
+    Click **Configure** → **Create New** and choose **Amazon Q** as the knowledge source type.
+  </Step>
+  <Step title="Configure basic settings">
+    | Field | Description |
+    |-------|-------------|
+    | **Source Name** | A unique, descriptive identifier for this knowledge source |
+    | **Description** | A clear explanation of the source content and purpose |
+  </Step>
+  <Step title="Record the Tenant ID">
+    Copy the displayed **Tenant ID**. You will need this ID during AWS data accessor setup.
+  </Step>
+  <Step title="Enter AWS connection details">
+    | Field | Description |
+    |-------|-------------|
+    | **Application ID** | Unique identifier of your Amazon Q Business application |
+    | **Retriever ID** | Unique identifier of your Amazon Q Business retriever |
+    | **Access Resource Name (ARN)** | Resource identifier for secure access to Amazon Q |
+    | **Application Location** | AWS region hosting your Amazon Q Business application |
+    | **IDC Location** | AWS region hosting your AWS Identity Center instance |
+  </Step>
+  <Step title="Save and activate">
+    Click **Save** to store the configuration. Mark the source as **Active** to enable it as the default knowledge source for queries.
+  </Step>
+</Steps>
+
+<Note>
+  Enterprise Knowledge configured within a specific workspace becomes the default source for all users in that workspace. Select **Enterprise Workspace** during initial setup to give all users in the organization access.
+</Note>
+
+### Search Agent mode
+
+Use this mode when integrating Amazon Q alongside other search indices, or when you want to control query routing through agent description and intent.
+
+<Steps>
+  <Step title="Create a search agent">
+    Navigate to the **Search Agents** section and click **Create**. Enter an **Agent Name** and **Purpose** to guide the platform when routing relevant queries to this agent.
+  </Step>
+  <Step title="Select Amazon Q as the index type">
+    Select **Amazon Q** as the Index type.
+  </Step>
+  <Step title="Record the Tenant ID">
+    Copy the **Tenant ID** from the configuration screen for use during AWS data accessor setup.
+  </Step>
+  <Step title="Enter AWS integration details">
+    | Field | Description |
+    |-------|-------------|
+    | **Application ID** | Unique identifier of your Amazon Q Business application |
+    | **Retriever ID** | Unique identifier of your Amazon Q Business retriever |
+    | **Access Resource Name (ARN)** | Resource identifier for secure access to Amazon Q |
+    | **Application Location** | AWS region hosting your Amazon Q Business application |
+    | **IDC Location** | AWS region hosting your AWS Identity Center instance |
+  </Step>
+</Steps>
+
+## Configure the Amazon Q Business application
+
+This is a one-time setup that creates a secure connection between your Identity Provider (IdP) and AWS Identity Center using Trusted Token Issuer (TTI), allowing AI for Work to access your Amazon Q index.
+
+<Steps>
+  <Step title="Set up a Trusted Token Issuer in IAM Identity Center">
+    1. Open the **IAM Identity Center console**.
+    2. Go to **Settings** → **Authentication** tab.
+    3. Under **Trusted token issuers**, click **Create trusted token issuer**.
+    4. Configure the following:
+
+    | Field | Value |
+    |-------|-------|
+    | **Issuer URL** | `https://work.kore.ai` — must match the `iss` claim in the JWT |
+    | **Display Name** | A descriptive name for identification |
+    | **User Attributes** | Map attributes per your organization's requirements |
+
+    5. Save the configuration and confirm the TTI was created successfully.
+  </Step>
+  <Step title="Configure audience claims">
+    1. Verify that the `aud` claim in the IdP-issued token matches your Amazon Q application's audience requirement in IAM Identity Center.
+    2. Update claim mappings in the IdP admin interface as needed.
+    3. Confirm attribute mapping is established between your external IdP and AWS Identity Center.
+  </Step>
+  <Step title="Add and assign users in IAM Identity Center">
+    1. Add users in your external IdP and provision them with the mapped attributes from Step 1.
+    2. Authenticate users — the external IdP issues tokens that users exchange through IAM Identity Center for Amazon Q API credentials.
+    3. If required by your access policies, navigate to **IAM Identity Center** → **Applications** → **[Your Q App]** and select **Assign Users/Groups**.
+  </Step>
+  <Step title="Set up the Q Business application">
+    1. Create a new Q Business Application or open an existing one in the AWS console.
+    2. Add all users who need search access within the Q Business application.
+  </Step>
+  <Step title="Add data sources to the Amazon Q index">
+    1. In the Q Business application, create an index by adding the relevant data sources.
+    2. Add data sources such as Google Drive, JIRA, Amazon S3, or other enterprise systems.
+    3. Configure each data source connection following the [AWS documentation](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/isv-creating-index.html).
+  </Step>
+  <Step title="Add Kore.ai as a data accessor">
+    1. In the Q Business Application console, go to **Data Accessors** → **Add Data Accessor**.
+    2. Select **Kore.ai** from the available options.
+    3. In the **External ID** field, paste the **Tenant ID** from your Platform configuration screen.
+    4. Configure the Trusted Token Issuer — use an existing TTI or create a new one.
+    5. Set **Data Source Access** permissions:
+
+    | Option | Description |
+    |--------|-------------|
+    | **All data sources** | Grants Kore.ai access to all current and future data sources |
+    | **Specific data sources** | Limits access to selected data sources only |
+
+    6. Set **User Access** permissions:
+
+    | Option | Description |
+    |--------|-------------|
+    | **All Users** | Grants access to all users (ensure they are added to the application) |
+    | **Specific Users** | Limits access to selected individual users |
+
+    7. Copy the **Data Accessor Details** from the AWS console and paste them into your Platform configuration screen to complete the integration.
+  </Step>
+</Steps>
+
+## Technical reference
+
+### Architecture
+
+```
+[AI for Work Platform] ↔ [Amazon Q Index] ↔ [Enterprise Data Sources]
+        ↕
+[AWS IAM / STS]  ↔  [IAM Identity Center (TTI)]
+```
+
+| Component | Role |
+|-----------|------|
+| **AI for Work Platform** | Manages user interactions, business logic, and query routing |
+| **Amazon Q Index** | Stores vector embeddings and document metadata |
+| **AWS IAM / STS** | Handles authentication and credential brokering |
+| **IAM Identity Center (TTI)** | Exchanges IdP OIDC tokens for temporary AWS credentials |
+
+Components communicate over HTTPS using RESTful APIs signed with AWS Signature Version 4 (SigV4).
+
+### Security and authentication
+
+AI for Work uses the Trusted Token Issuer (TTI) model for Amazon Q authentication. This lets organizations use OIDC-compliant external IdPs without issuing separate AWS credentials to each user.
+
+**Authentication flow:**
+
+1. The user authenticates with their organization's IdP, which issues a signed OIDC token.
+2. AI for Work presents the token to AWS IAM Identity Center.
+3. IAM Identity Center verifies the token's validity, issuer, and claims against the pre-configured TTI.
+4. If valid, IAM Identity Center issues temporary AWS credentials scoped to Amazon Q index operations.
+5. AI for Work uses these credentials to query Amazon Q index APIs.

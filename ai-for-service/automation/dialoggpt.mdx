@@ -1,0 +1,146 @@
+---
+title: "DialogGPT"
+description: "Agentic orchestration engine that powers natural conversations at scale using LLMs and embeddings, without requiring training data."
+---
+
+DialogGPT is an agentic orchestration engine that powers natural conversations at scale. It autonomously manages intent identification, execution planning, and fulfillment across Dialog Tasks—without requiring training data. It uses text embeddings and generative models to identify user intents from task names and descriptions.
+
+<Note>DialogGPT is the default intent identification mode for new AI for Service apps.</Note>
+
+## How DialogGPT works
+
+DialogGPT processes each user utterance through three sequential steps:
+
+<Steps>
+  <Step title="Chunk shortlisting">
+    DialogGPT rephrases the user input to optimize retrieval, then uses a RAG pipeline to fetch relevant chunks—segments of dialog tasks, FAQs, or Search AI embeddings stored in a vector database.
+  </Step>
+  <Step title="Intent identification">
+    The Intelligent Conversation Orchestrator analyzes retrieved chunks with the user input and conversation context. Using an LLM, it identifies the most appropriate intent, resolves ambiguities, determines dependencies and execution order for multi-intent scenarios, and routes system intents to pre-defined handlers.
+  </Step>
+  <Step title="Flow management and fulfillment">
+    DialogGPT triggers the resolved intent and executes dialog tasks or FAQs, generates answers for system intents, requests clarification for ambiguous intents, or handles multi-intent scenarios sequentially or in parallel based on dependencies.
+  </Step>
+</Steps>
+
+## Key features
+
+| Feature | Description |
+|---------|-------------|
+| Zero-shot intent detection | Detects intents using RAG and LLMs—no utterance training required |
+| Multi-intent handling | Recognizes and executes multiple intents in a single utterance |
+| Ambiguity resolution | Prompts users with clarifying questions when intent is unclear |
+| Conversational nuance management | Handles pauses, repetitions, restarts, and digressions naturally |
+| Dynamic response generation | Grounds responses in user data, conversation history, and business rules |
+| Model flexibility | Supports commercial, custom, and XO GPT models |
+
+## Configuration
+
+### Conversation types
+
+Configure which conversation types DialogGPT handles. Dialogs and FAQs are enabled by default and cannot be disabled.
+
+| Conversation type | Description |
+|---|---|
+| **Dialogs** | AI Agent building blocks for task execution and user interaction |
+| **FAQs** | Pre-defined Q&A for common inquiries |
+| **Conversation intents** | Common conversational phrases (hold, repeat, end, agent transfer) |
+| **Knowledge from Search AI** | Answers sourced from enterprise data via Search AI |
+
+To manage: **Settings** > toggle on/off > **Save**.
+
+### Model configurations
+
+**Shortlisting relevant chunks:** **BGE-M3** is the supported and recommended embedding model.
+
+Optionally adjust **Similarity Threshold** and **Proximity Threshold** in advanced settings.
+
+**Conversation management:** Select the LLM for intent detection and execution planning. Supported models:
+
+| Model |
+|-------|
+| OpenAI GPT-4o |
+| OpenAI GPT-4o mini |
+| Azure OpenAI GPT-4o |
+| Amazon Bedrock |
+| Custom LLM |
+| XO GPT – DialogGPT |
+
+## Fulfillment
+
+### Intent events
+
+| Event | Default behavior |
+|-------|------------------|
+| **Intent not identified** | Trigger fallback task |
+| **Ambiguous intents** | Present list of qualified intents for user selection |
+| **Answer generation** | Activated when Knowledge from Search AI is enabled |
+| **Multiple intents** | Execute predefined MultiIntent dialog |
+
+### Conversation events
+
+Conversation Events activate when **Conversation Intents** is enabled.
+
+| Event | Default behavior |
+|-------|------------------|
+| **Interaction intents** | Execute ConversationEvent dialog task |
+| **Restart conversation** | Ask for confirmation → restart welcome flow |
+| **Agent transfer** | Ask for confirmation → execute DefaultAgentTransfer dialog |
+| **End conversation** | Ask for confirmation → end conversation |
+
+## Enabling DialogGPT
+
+<Steps>
+  <Step title="Navigate to DialogGPT">
+    Go to **Generative AI Tools** > **DialogGPT** and click **Get Started**.
+  </Step>
+  <Step title="Select conversation types">
+    Select the Conversation Types to enable.
+  </Step>
+  <Step title="Configure the embedding model">
+    Under **Model Configuration**, select the embeddings model for Dialogs and FAQs.
+  </Step>
+  <Step title="Select the conversation management model">
+    Select the **Conversation Management Model** and **Prompt**.
+  </Step>
+  <Step title="Enable DialogGPT">
+    Click **Enable DialogGPT**.
+  </Step>
+</Steps>
+
+**To disable:** Click the **More** icon (⋯) in the top right > **Disable DialogGPT** > confirm. Disabling reverts intent detection to traditional NLU.
+
+## Debug logs
+
+Debug Logs provide step-by-step visibility into DialogGPT's decision-making and execution flow. Access Debug Logs via the [Playground](/ai-for-service/automation/testing/playground).
+
+| Log entry | Description |
+|-----------|-------------|
+| Shortlisted chunks | Dialogs, FAQs, and Search AI chunks retrieved |
+| Resolved chunks | Final chunks used for intent resolution |
+| Fulfillment type | Intent, FAQ, or Answer |
+| Exit path | Intent identified, FAQ match, or generated answer |
+| Prompt payload | Full LLM prompt in JSON format |
+| Source information | Source reference (for Answer fulfillment type only) |
+
+## FAQs
+
+<AccordionGroup>
+  <Accordion title="Does DialogGPT require training data?">
+    No. DialogGPT uses zero-shot intent detection via pre-trained embeddings and LLMs. Developers provide concise dialog descriptions and FAQ alternate questions—embedding models handle the rest.
+  </Accordion>
+  <Accordion title="How does DialogGPT handle multiple intents in one query?">
+    It uses LLMs to parse multi-intent queries and executes intents in parallel where possible. For example, *"Check the weather and book a flight"* triggers both tasks simultaneously.
+  </Accordion>
+  <Accordion title="What happens if no intent is matched?">
+    DialogGPT routes the input to Search AI or a predefined fallback dialog—no dead ends.
+  </Accordion>
+  <Accordion title="How does DialogGPT compare to traditional NLP?">
+    | Aspect | Traditional NLP | DialogGPT |
+    |--------|-----------------|-----------|
+    | Training | Thousands of utterances per intent | Concise descriptions only |
+    | Multi-intent | Limited | Natively supported |
+    | Context handling | Rule-based | Embedding + LLM-based |
+    | Fallback | Predefined | Intelligent routing to search or fallback dialog |
+  </Accordion>
+</AccordionGroup>

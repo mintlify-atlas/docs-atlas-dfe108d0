@@ -1,0 +1,107 @@
+---
+title: "LLM integration"
+description: "Connect large language models to power your AI Agent's generative AI capabilities."
+---
+
+Connect large language models (LLMs) to power your AI Agent's generative AI capabilities. You can use pre-built integrations, bring your own model, or deploy Kore.ai's fine-tuned XO GPT models.
+
+## Integration options
+
+| Option | Description |
+|--------|-------------|
+| **Pre-built integrations** | Direct connections to Azure OpenAI, OpenAI, Anthropic, and Amazon Bedrock with out-of-the-box support. |
+| **Custom LLM (BYO)** | Connect any externally hosted or enterprise-hosted model using the Platform's Auth Profiles module. |
+| **Kore.ai XO GPT** | Fine-tuned models for conversation summarization, query rephrasing, and dialog orchestration. |
+
+## Authorization
+
+| Provider | Required fields |
+|----------|-----------------|
+| **Azure OpenAI** | API Key, Sub-Domain, Deployment ID. |
+| **OpenAI** | API Key. |
+| **Anthropic** | API Key. |
+| **Amazon Bedrock** | Access Key ID, Secret Access Key, Region, Model ID. |
+| **Custom LLM** | Endpoint, Authorization, Headers. |
+
+### Dynamic variables
+
+Use variables instead of static credential values to keep secrets secure and reusable across environments.
+
+- Prevent API key exposure by using secure environment variables.
+- Simplify key rotation — update variables in one place without reconfiguring integrations.
+
+## Configure pre-built integrations
+
+### Azure OpenAI
+
+1. Go to **Generative AI Tools** > **Models Library** > **Configure Now** for Azure OpenAI, then select **Next**.
+2. Complete Authorization by entering the **API Key**, **Sub-Domain**, and **Deployment ID**.
+3. Toggle on the required model and enter the Deployment ID.
+4. Read the **Policy Guidelines**, select the checkbox, and select **Save**.
+5. On Connection Status, select **Next** if successful.
+6. Optionally enable **Token Usage Limit** to track usage.
+7. Select **Save** > **Confirm & Save**.
+
+### OpenAI
+
+1. Go to **Models Library** > **Configure Now** for OpenAI, then select **Next**.
+2. Enter the **API Key**.
+3. Read the **Policy Guidelines** and select **Save**.
+4. Select **Save** > **Confirm & Save**.
+
+### Anthropic
+
+1. Go to **Models Library** > **Configure Now** for Anthropic, then select **Next**.
+2. Enter the **API Key**.
+3. Add models using **+Add** (custom prompts are required — no system prompts provided).
+4. Select **Save** > **Confirm & Save**.
+
+### Amazon Bedrock
+
+Setup requires two phases: configuring your AWS account, then configuring the integration in the Platform.
+
+**Phase A: Configure your AWS account**
+
+1. Create an IAM role that grants the Platform access to invoke Bedrock models.
+2. Set the trust policy to allow the Platform to assume your IAM role.
+3. Set the STS endpoint for the region where your IAM role resides.
+4. Raise a support ticket with Kore.ai to register your IAM Role ARN.
+
+**Phase B: Configure the integration**
+
+1. Go to **Models Library** > **Configure Now** for Amazon Bedrock.
+2. Enter the **Provider Name**, **Model Name**, **IAM Role ARN**, **Amazon STS API**, **Amazon Resource Name (ARN)**, and **Endpoint**.
+3. Select **Save** > **Confirm & Save**.
+
+## Configure custom LLM integration
+
+1. Go to **Models Library** > **Configure Now** for Custom LLM.
+2. Enter the **Integration Name**, **Model Name**, **Endpoint**, and **Headers**.
+3. Select an existing authorization profile or create a new one.
+4. Read the **Policy Guidelines** and select **Next**.
+5. Enter the test payload and test the connection.
+6. Select **Save** > **Confirm & Save**.
+
+## Configure Kore.ai XO GPT
+
+1. Go to **Generative AI Tools** > **Models Library**.
+2. Select **Enable Now** for Kore.ai XO GPT.
+3. On the **Models** tab, toggle on the required models.
+4. Read the **Policy Guidelines**, select the checkbox, and select **Save**.
+
+## Manage token usage
+
+Token usage tracking gives you visibility into LLM consumption and performance.
+
+| Field | Description |
+|-------|-------------|
+| **Maximum Tokens** | Token usage limit for notification purposes. |
+| **Duration** | Number of days before the token limit resets automatically. Maximum: 90 days. |
+| **Schedule Start Date** | Start date for the usage cycle. |
+
+## Reset or delete an integration
+
+1. Go to **Generative AI Tools** > **Models Library**.
+2. Select the three-dot menu (More options) for the integration.
+3. Select **Reset Configuration** or **Delete**.
+4. Confirm the action.

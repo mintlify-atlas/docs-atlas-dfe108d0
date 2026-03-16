@@ -1,0 +1,231 @@
+---
+title: "User management"
+description: "Manage users, roles, groups, and enterprise directory for your AI for Work account."
+---
+
+Manage users, roles, groups, and enterprise directory for your AI for Work account.
+
+<Note>
+  Only administrators can access User Management settings.
+</Note>
+
+## User enrollment
+
+User enrollment controls how users join your account. To change the enrollment mode, go to **Admin Console > User Management > Users** and click **Change** in the top navigation.
+
+| Enrollment mode | Description |
+|-----------------|-------------|
+| **Open to Domain** | Any user in your configured domain(s) can log in automatically. |
+| **Invite Only** | Only users who receive an explicit invitation can join. |
+| **Manage users with AD Sync** | Users are automatically added, updated, or removed by syncing with Google, Microsoft, or LDAP directory groups. |
+
+### Configure AD sync enrollment
+
+<Steps>
+  <Step title="Select AD Sync">
+    Click **Manage users with AD Sync**. A pop-up shows the current user count. Click **Confirm** to proceed.
+  </Step>
+  <Step title="Select a distribution list">
+    Select a distribution list (DL) from your service account and assign a role. All users enrolling through this DL receive the assigned role. If a user belongs to multiple DLs, the highest role applies: **Admin > Custom Admins > Members**.
+  </Step>
+  <Step title="Preview the sync">
+    Click **Sync now** to preview the account delta — users to be added, removed, or updated.
+  </Step>
+  <Step title="Set sync frequency">
+    Click **Set Sync Now**, choose a sync frequency and start time, then click **Confirm**. Auto sync runs daily and sends invites to new users, removes users no longer in the groups, and updates roles.
+  </Step>
+  <Step title="Save configuration">
+    Click **Save Configuration** to apply all changes.
+  </Step>
+</Steps>
+
+**AD sync behavior reference:**
+
+| Behavior | Detail |
+|----------|--------|
+| Suspend users | Admins can suspend users from the Users page even with AD Sync active. |
+| Delete users or change roles | Not allowed while AD Sync is active. |
+| Synced DLs | Created as user groups with the same name as the DL. Admins can rename or delete these groups. |
+| Super Admins | Never removed from the account by sync. |
+| Switching enrollment modes | Switching to **Invite Only** or **Open to Domain** retains all previously synced users. |
+
+## Users
+
+Navigate to **Admin Console > User Management > Users** to view and manage all users across your network accounts.
+
+### User statuses
+
+| Status | Description |
+|--------|-------------|
+| **Active** | User can log in and interact with other users. |
+| **Invited** | User was invited but has not yet accepted. |
+| **Suspended** | User cannot log in. An admin can reactivate at any time. |
+| **Removed** | Soft-deleted by an admin. Can be restored to **Active** within 60 days, after which permanently deleted. |
+
+### Invite users
+
+<Tabs>
+  <Tab title="By email">
+    1. Click **Invite users** in the top navigation.
+    2. Select the **Add manual** radio button.
+    3. Enter one or more email addresses.
+    4. Click **Invite**.
+  </Tab>
+  <Tab title="By file import">
+    1. Click **Invite users** in the top navigation.
+    2. Click **Click to upload** or drag and drop your file into the upload area.
+    3. Click **Invite**.
+  </Tab>
+</Tabs>
+
+### Search, filter, sort, and group
+
+| Tool | Purpose |
+|------|----------|
+| **Search** | Enter keywords to find specific users. Clear the field to view all. |
+| **Filter** | Narrow the list by **Status** or **Role**. |
+| **Sort By** | Order users by **First name**, **Last name**, or **Last login time**. |
+| **Group** | Cluster users by shared attributes such as **Status** or **Role**. |
+
+## Roles
+
+Roles control what each user can see and do. Two default roles exist: **Admin** and **Member**.
+
+### Modify an existing role
+
+1. In the Users table, click the role displayed for the user you want to update.
+2. Select the new role from the dropdown.
+3. Confirm the change.
+
+### Create a custom role
+
+<Steps>
+  <Step title="Access role management">
+    Click **Manage role** from the User Management interface and click **Add Role**.
+  </Step>
+  <Step title="Configure the role">
+    Enter a **Role name** and select one or more **Access Permissions**:
+
+    | Permission | Description |
+    |------------|-------------|
+    | User Management | Access to user and group management. |
+    | Assist configuration | Access to assistant configuration settings. |
+    | LLM Configuration | Access to LLM model settings. |
+    | Security | Access to security settings. |
+    | Analytics | Access to analytics and reporting. |
+
+    Choose a **Color** to visually distinguish the role throughout the system.
+  </Step>
+</Steps>
+
+<Note>
+  At least one Access Permission must be selected to create a role.
+</Note>
+
+## User groups
+
+User groups let you organize users by department, location, or any shared attribute. Groups are for administrative use only and are not visible to end users.
+
+Navigate to **Admin Console > User Management > User groups**.
+
+### Create a group
+
+<Steps>
+  <Step title="Click Create group">
+    Click **Create group**.
+  </Step>
+  <Step title="Enter group details">
+    Enter a **Group Name** and, optionally, a **Description**.
+  </Step>
+  <Step title="Add users">
+    Add users using one of these methods:
+
+    | Method | Steps |
+    |--------|-------|
+    | Sync from distribution list | Search for a DL and click **Start Syncing**. |
+    | Import from file | Click **Click to upload**. Supported formats: XLS, CSV. |
+    | Add manually | Type the user's name and select from the results. |
+  </Step>
+  <Step title="Create the group">
+    Click **Create group**.
+  </Step>
+</Steps>
+
+### Modify a group
+
+1. On the **User groups** page, click the group name.
+2. Edit the description, add users, or hover over a username and click the delete icon to remove them.
+3. Click **Back**. Changes are auto-saved.
+
+### Delete a group
+
+1. On the **User groups** page, click the group name.
+2. Click the delete icon.
+3. In the confirmation dialog, click **Delete**.
+
+<Warning>
+  Group deletion is permanent and cannot be undone.
+</Warning>
+
+## Enterprise directory
+
+Enterprise Directory provides centralized employee contact management with intelligent search, customizable filters, and rich contact profiles.
+
+### Access the directory
+
+1. Open the application and select **Enterprise Directory**.
+2. Contacts appear ranked by designation in a hierarchical view.
+3. To view your own contact card, go to your **Profile** section.
+
+### Search and filter contacts
+
+- **Search bar**: Enter keywords for real-time results matching names, designations, departments, or any searchable field.
+- **Filters**: Narrow results by **Department**, **Designation**, **First Name**, **Location**, or any custom filters your admin configures.
+
+### Admin setup
+
+Go to **Admin Hub > Connections > Enterprise Directory**, then click **Add Directory Source** to launch the Configuration Wizard.
+
+<Steps>
+  <Step title="Source configuration">
+    Select **Push Data to Directory through API** as the data source. Click **Get API Details to Push Data** to retrieve the API endpoint URL, authentication credentials, required data format, and sample API request payload.
+  </Step>
+  <Step title="Field configuration">
+    Configure the fields used to capture employee information:
+
+    | Field type | Behavior |
+    |------------|----------|
+    | **Default fields** | Name, Designation, Phone, Email — protected from deletion. |
+    | **Custom fields** | Add or remove at any time for organization-specific data. |
+
+    At minimum, configure the four mandatory fields: **Name, Designation, Phone, Email**.
+  </Step>
+  <Step title="Data synchronization">
+    The directory updates automatically each time your system pushes data via the API.
+
+    | Feature | Detail |
+    |---------|--------|
+    | **API Token** | Include in the `auth` header of all API requests. Regenerate periodically for security. |
+    | **Last updated** | Timestamp of the most recent data push. |
+    | **Record summary** | Count of records added, updated, or deleted in the last push. |
+  </Step>
+  <Step title="Display settings">
+    **Hide conditions** — Control which contacts are visible to end users:
+
+    | Condition | Behavior |
+    |-----------|----------|
+    | **Full string match** | Hides contacts where the field exactly matches the specified value. |
+    | **Starts with** | Hides contacts where the field begins with the specified prefix. |
+
+    **Detail card layout** — Click **Edit Layout**, drag and drop fields to reorder, and hide non-essential fields.
+
+    **Filter settings** — Select single-select fields (e.g., Department, Designation, Location) to expose as search filters for end users.
+  </Step>
+  <Step title="Publish the directory">
+    Push at least one contact record via the API, then choose a publishing scope:
+    - **Publish to all users**: Makes the directory immediately available to everyone in the account.
+    - **Keep unpublished**: Saves the configuration for later activation.
+
+    Click **Publish**.
+  </Step>
+</Steps>

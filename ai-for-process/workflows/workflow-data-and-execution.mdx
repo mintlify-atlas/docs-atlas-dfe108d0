@@ -1,0 +1,225 @@
+---
+title: "Workflow data and execution"
+description: "Understand the context object, reference node data, add conditional logic, and work with loop iteration in AI for Process workflows."
+---
+
+Workflows in AI for Process use a central runtime object to store and share data across nodes. This object, called the **context object**, tracks everything from workflow inputs and node outputs to execution state and environment configuration.
+
+## The context object
+
+The context object is a shared runtime container created for every workflow execution. It is updated continuously as the workflow runs, making data available to each node as it executes.
+
+Every execution has a single context object with three top-level categories:
+
+| Category | Key examples | Description |
+|---|---|---|
+| **Run metadata** | `startDate`, `status`, `appId`, `cfProcessId` | Identifiers and timestamps for the workflow instance. |
+| **Execution state** | `steps`, `branch`, `activeSteps`, `status` | Progress and outcome data for each node. |
+| **Environment & config** | `env`, `agentTimeout`, `asyncExecDetails` | Runtime and environment parameters. |
+
+### The `steps` object
+
+The `steps` object is the most critical part of the context. It maps each node name to its execution state.
+
+```json
+"steps": {
+  "NodeNameA": { ... },
+  "NodeNameB": { ... },
+  "NodeNameC": { ... }
+}
+```
+
+Each node entry contains:
+
+| Field | Description |
+|---|---|
+| `input` | Data received by the node at execution time. |
+| `output` | Result produced by the node. |
+| `statusCode` / `isSuccessful` | Whether execution succeeded, failed, or was skipped. |
+| `logs` | Optional log text or debug messages. |
+| `executionTime`, `totalTime` | Node-level timing data. |
+| `reqObj` / `resObj` | For AI nodes, the raw request and response envelopes. |
+| `metadata` | Node-specific information such as schema references or task IDs. |
+
+## Input and output variables
+
+- **Input variables** provide initial data to the workflow. Access them using: `context.steps.Start.inputVariable`
+- **Output variables** store results you want to return. Set them from the End node: `{{context.steps.AInode.output}}`
+
+### Add an input variable
+
+<Steps>
+  <Step title="Open Manage I/O">
+    On the canvas, click **Manage I/O** at the top, or click the **Start** node.
+  </Step>
+  <Step title="Add the variable">
+    On the **Input** tab, click **+ Add input variable**. Enter a **Name (key)**, select a **Type**, and optionally enable the **Mandatory** toggle.
+  </Step>
+  <Step title="Save">
+    Click **Save**.
+  </Step>
+</Steps>
+
+### Add an output variable
+
+<Steps>
+  <Step title="Open Manage I/O">
+    Click **Manage I/O** on the canvas.
+  </Step>
+  <Step title="Add the variable">
+    On the **Output** tab, click **+ Add output variable**. Enter a **Name (key)** and select a **Type** (String, Number, JSON, or Boolean).
+  </Step>
+  <Step title="Save">
+    Click **Save**.
+  </Step>
+</Steps>
+
+## Referencing context data in nodes
+
+Nodes reference each other's data using the double-curly `{{ }}` syntax. This resolves at runtime without requiring code.
+
+```json
+{
+  "QueryGenerator": {
+    "input": {
+      "schema": "{{steps.SchemaRetriever.output.schema}}"
+    }
+  }
+}
+```
+
+### Supported reference patterns
+
+```text
+{{context.appId}}
+{{context.steps.QueryGenerator.output.sql_query}}
+{{context.schema[0].column_name}}
+{{context.steps.Start.variable_name}}
+```
+
+- `context` refers to the full context object.
+- `steps` provides scoped access to individual node data.
+- References work in input fields, API node parameters, LLM prompts, and conditions.
+
+### Evaluation behavior
+
+- **Lazy evaluation**: Values resolve immediately before the node executes.
+- **Missing keys**: If a referenced key doesn't exist, the expression resolves to `null` or an empty string.
+- **Circular references**: Automatically detected and blocked.
+
+## Adding and modifying context keys
+
+You can extend the context object dynamically using Script Nodes to store computed values or pass control variables between nodes.
+
+<CodeGroup>
+
+```javascript JavaScript
+// Add a simple key-value pair
+context.newKey = "Hello World";
+
+// Store structured data
+context.customData = {
+  runId: context.cfProcessId,
+  stage: "validation",
+  timestamp: new Date().toISOString()
+};
+```
+
+```python Python
+# Add or modify keys in the context dictionary
+context['newKey'] = "Hello World"
+
+# Store complex objects
+context['customData'] = {
+    "runId": context.get('cfProcessId'),
+    "stage": "validation"
+}
+```
+
+</CodeGroup>
+
+**Guidelines:**
+- Use camelCase naming (for example, `customerInfo`, `retryCounter`).
+- Don't override system-reserved keys: `steps`, `branch`, `status`, `dbquery`.
+- Keep data lightweight — avoid storing large arrays or raw API responses.
+
+## Storing structured data from AI node responses
+
+When an AI node returns a structured response, the platform automatically parses it and stores each key individually. You don't need to write code to extract values.
+
+1. Attach a **response JSON schema** to the AI node to define the expected output structure.
+2. The model returns structured output matching the schema.
+3. The platform auto-parses the response and stores each key in the node's context entry.
+4. Access keys in later nodes: `{{context.steps.AI0001.output.fieldName}}`
+
+## Conditional logic and execution flow
+
+The Condition Node routes workflow execution based on whether defined logical conditions are met. It supports three condition types:
+
+- `IF` — Directs the flow to a specific path when criteria are met.
+- `ELSE IF` — Evaluates additional criteria when the initial `IF` condition is not satisfied.
+- `ELSE` — Defines the fallback path when no conditions are met.
+
+<Note>A Condition Node can be called a maximum of 10 times in a workflow run. Exceeding this limit results in an error.</Note>
+
+### Configure a Condition Node
+
+<Steps>
+  <Step title="Add a Condition node">
+    In Flow Builder, click the `+` icon on any existing node and select **Condition**.
+  </Step>
+  <Step title="Set the IF condition">
+    Click the node to open its properties panel. Select a context variable using the `{{context.` syntax, choose an operator (for example, **Contains** or **Equals**), and enter a value. Optionally combine criteria using **AND** or **OR**.
+  </Step>
+  <Step title="Set routing">
+    Under **Go To**, select the node to execute when the condition is met. Under **ELSE**, select the fallback node.
+  </Step>
+</Steps>
+
+**Common use cases:**
+
+- Route by classification — direct flow based on category or priority.
+- Fallback logic — use `ELSE` to redirect when no match is found.
+- Validation checks — stop or branch when required data is missing.
+- Multi-step filtering — combine conditions for granular control.
+
+## Loop Node context
+
+When a Loop Node executes, it creates its own context object that tracks iteration progress and results.
+
+```json
+{
+  "loopId": "string",
+  "startTime": "timestamp",
+  "iterationCount": "number",
+  "inputs": ["array of input values"],
+  "outputArray": ["array of iteration results"],
+  "totalCount": "number",
+  "childNodesExecuted": "number"
+}
+```
+
+### Accessing loop data
+
+**Inside the loop** — use special context variables scoped to the current iteration:
+
+| Variable | Description |
+|---|---|
+| `{{context.currentItem}}` | The item being processed in the current iteration. |
+| `{{context.currentIndex}}` | Zero-based index of the current item. |
+| `{{context.currentOutput[x]}}` | Output from a specific previous iteration. |
+
+**Outside the loop** — after the loop completes:
+
+| Variable | Description |
+|---|---|
+| `{{context.steps.Loop0001.output}}` | The complete array of all iteration results. |
+| `{{context.steps.Loop0001.output[0]}}` | The result from a specific iteration. |
+
+## Best practices
+
+1. **Use consistent node naming** — Names like `QueryGenerator` or `DataCleaner` make context references traceable.
+2. **Prefer declarative references** — Use `{{context.<key>}}` syntax wherever possible.
+3. **Mask sensitive data** — Don't write credentials or PII directly to the context object.
+4. **Keep context data lightweight** — Store only what downstream nodes need.
+5. **Validate connected paths** — Every condition branch must connect to a node. Unconnected paths cause runtime errors.

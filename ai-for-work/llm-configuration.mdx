@@ -1,0 +1,137 @@
+---
+title: "LLM configuration"
+description: "Configure the language models and business rules that power AI for Work, including pre-built integrations, custom models, embedding models, and answering rules."
+---
+
+Configure the language models and business rules that power AI for Work. This guide covers adding pre-built and custom LLM integrations, setting up embedding models, and defining answering and entity rules.
+
+## General purpose LLMs
+
+AI for Work integrates with OpenAI, Azure OpenAI, and Google Gemini out of the box, and supports custom models via API endpoint. All configurations are managed from the Admin Console.
+
+### Supported providers
+
+| Provider | Available models | Best for |
+|----------|-----------------|----------|
+| **OpenAI** | GPT-5-mini, GPT-5-nano, GPT-5, GPT-4.1, GPT-4.1-mini, GPT-4o, GPT-3.5-turbo, o3, o3-mini, o4-mini | General-purpose tasks, conversational AI, complex reasoning, content generation |
+| **Azure OpenAI** | GPT-5-mini, GPT-5-nano, GPT-5, GPT-4.1, GPT-4.1-mini, GPT-4o, GPT-3.5-turbo, o3, o3-mini, o4-mini | Enterprise deployments requiring Azure infrastructure, compliance, and enhanced security |
+| **Google Gemini** | Gemini 2.5 Pro (Recommended), Gemini 2.5 Flash (Recommended), Gemini 2.5 Flash Lite, Gemini 2.0 Flash, Gemini 2.0 Flash Lite | Multi-modal tasks, fast responses, Google Cloud deployments |
+
+### Model tiers
+
+| Tier | Best for | Example models |
+|------|----------|----------------|
+| **Basic** | High-volume, straightforward tasks — classification, simple Q&A, routine inquiries | GPT-4o-mini, Gemini 2.5 Flash, Gemini 2.0 Flash |
+| **Standard** | Complex reasoning, multi-step workflows, deeper contextual understanding — recommended default | GPT-4.1, GPT-4o, Gemini 2.5 Pro |
+| **Premium** | Advanced reasoning and complex problem-solving requiring maximum AI capability | o3, o3-mini, o4-mini |
+
+### Add a pre-built LLM
+
+<Steps>
+  <Step title="Navigate to General Purpose">
+    Go to **Admin Console** > **Assist Configuration** > **General Purpose**.
+  </Step>
+  <Step title="Select a provider">
+    Click **New** and select a provider: **OpenAI**, **Azure OpenAI**, or **Google Gemini**.
+  </Step>
+  <Step title="Enter configuration details">
+    Enter the required details:
+    - **Integration Name** — A unique identifier (for example, `OpenAI-Production`)
+    - **API Key** — Your provider API key
+    - **Model Name** — Select from the dropdown
+  </Step>
+  <Step title="Save">
+    Review and accept the **Policy Guidelines**, then click **Save**. Confirm the integration appears as active in the **General LLM Integrations** list.
+  </Step>
+</Steps>
+
+**Provider-specific notes:**
+
+| Provider | Notes |
+|----------|-------|
+| **OpenAI** | Get your API key from [platform.openai.com](https://platform.openai.com). Rotate keys regularly. |
+| **Azure OpenAI** | In the Azure Portal, open your Azure OpenAI resource and go to **Keys and Endpoints**. Copy the endpoint URL and an API key. Confirm your subscription has the required quotas. |
+| **Google Gemini** | Enable the Vertex AI API in Google Cloud Console or use Gemini Studio. Create a service account, generate credentials, and verify selected models are enabled in Google Model Garden. |
+
+### Add a custom LLM
+
+Use this option for proprietary or self-hosted models exposed via API.
+
+<Steps>
+  <Step title="Navigate to General Purpose">
+    Go to **Admin Console** > **Assist Configuration** > **General Purpose**.
+  </Step>
+  <Step title="Select Custom LLM">
+    Click **New** and select **Custom LLM**.
+  </Step>
+  <Step title="Enter basic configuration">
+    - **Integration Name** — A descriptive name for this integration
+    - **Model Name** — The model identifier
+    - **Endpoint URL** — The full API URL where your model is hosted
+  </Step>
+  <Step title="Configure API settings">
+    - **Method** — Select the HTTP method (typically `POST`)
+    - **Max Request Tokens** — Set a token limit to control cost and response size
+  </Step>
+  <Step title="Set up authentication">
+    Select **Auth Type**: API Key, Bearer Token, or Custom Header. Enter the credentials required by your model.
+
+    Add custom headers if required by clicking **+ Add a Header** and entering key-value pairs.
+  </Step>
+  <Step title="Test the connection">
+    Enter a sample payload and click **Test**. Success confirms connectivity; Error returns details to help you troubleshoot.
+  </Step>
+  <Step title="Save">
+    Accept the **Policy Guidelines** and click **Save**.
+  </Step>
+</Steps>
+
+### Embedding models
+
+Embedding models convert text into vector representations, enabling semantic search, similarity matching, and other AI-powered features. Unlike keyword search, embeddings capture meaning and context, producing more intelligent results.
+
+Both pre-built and custom embedding models are supported.
+
+<Note>
+  Embedding models are required for the attachments feature, which lets users attach files and ask questions about their content.
+</Note>
+
+### Managing integrations
+
+**View active integrations**: All configured models appear in the **General LLM Integrations** list.
+
+| Field | Description |
+|-------|-------------|
+| **Integration Name** | Identifier for the configuration |
+| **Provider** | OpenAI, Azure OpenAI, Gemini, or Custom |
+| **Model Name** | Specific model version in use |
+| **Status** | Active, inactive, or error |
+| **Last Updated** | Timestamp of the most recent change |
+
+**Modify an integration**: Locate the integration in the list, click the edit icon or integration name, update the required fields, test the connection, then click **Save**.
+
+**Remove an integration**: Locate the integration, click **Delete** or **Deactivate**, and confirm when prompted. Reconfigure any dependent features to use an alternative model.
+
+## Business rules
+
+Business rules control how AI for Work selects entities and generates responses when specific keywords appear in user input. Use them to ensure answers align with organizational policies and goals.
+
+Access business rules at **Admin Console** > **Business Rules**.
+
+### Answering rules
+
+Answering rules define the response the system returns when a user query contains specific keywords. When a keyword is detected, the system displays the answer you configured instead of generating one dynamically.
+
+| Field | Description |
+|-------|-------------|
+| **Connection** | Toggle **on** to make the rule connection-specific. Toggle **off** for keyword-only matching, independent of any connection. |
+| **Rule** | Enter the question and specify the answer the system should display. |
+
+### Entity rules
+
+Entity rules prefill entities in a query when the system detects specific keywords within a matching connection intent. This automates data entry and streamlines interactions that depend on predefined values.
+
+| Field | Description |
+|-------|-------------|
+| **Connection** | Select a custom connection from the available list. |
+| **Rule** | Write the rule in detail, then click **Build Flow** to proceed. |

@@ -1,0 +1,133 @@
+---
+title: "Model Hub"
+description: "Deploy and manage AI models in AI for Process. Connect external providers, deploy open-source models, fine-tune models on your data, and monitor model usage."
+---
+
+Model Hub centralizes AI model management in AI for Process. Use it to connect external provider models, deploy open-source models, fine-tune models on your data, and expose models as API endpoints for use in Prompts and Workflows.
+
+## Model types
+
+| Model type | Description | Best for |
+|---|---|---|
+| **External Models** | Commercial models from OpenAI, Anthropic, Google, Azure, Cohere, and Amazon Bedrock. Connect via guided setup or custom API endpoint. | Production workloads requiring proven reliability. |
+| **Open-Source Models** | 30+ curated models plus any Hugging Face text generation model. Deploy platform-hosted models, import from Hugging Face, or upload model files. | Cost control, customization, data privacy. |
+| **Fine-Tuned Models** | Custom models trained on your enterprise data. | Domain-specific tasks, consistent outputs. |
+
+## External models
+
+External Models connects models hosted outside AI for Process. Once connected, models are available in Prompt Studio, Workflows, Model Traces & Analytics, Audit Logs, and Billing.
+
+Two integration methods:
+
+- **Easy Integration** — Guided setup for OpenAI, Anthropic, Google, Cohere, or Amazon Bedrock.
+- **API Integration** — Custom model connection using an endpoint URL, authentication, and request-response configuration.
+
+To add an external model, go to **Models** > **External Models** > **Add a model**.
+
+For complete steps, see [External models](/ai-for-process/models/external-models).
+
+## Open-source models
+
+Open-Source Models lets you deploy platform-hosted models, import models from Hugging Face, or upload model files from your local machine. Platform-hosted models can be optimized before deployment using CTranslate2 or vLLM.
+
+Three ways to add a model:
+
+- **Deploy a platform-hosted model** — Select from 30+ supported models and optionally apply optimization.
+- **Deploy from Hugging Face** — Import any public or private Hugging Face model using a connected account.
+- **Import from local files** — Upload a base model or adapter model as a `.zip` file.
+
+For complete deployment steps, see [Open-source models](/ai-for-process/models/open-source-models).
+
+## Fine-tuned models
+
+Fine-Tuned Models lets you train a custom model on your data and deploy it for use in Prompts and Workflows.
+
+Fine-tuning types supported by model size:
+
+| Base model parameters | Supported fine-tuning types |
+|---|---|
+| < 1B | Full fine-tune, LoRA, QLoRA |
+| ≥ 1B and < 5B | LoRA, QLoRA |
+| ≥ 5B and ≤ 8B | QLoRA |
+
+For complete fine-tuning steps, see [Fine-tuned models](/ai-for-process/models/fine-tuned-model).
+
+## Model parameters
+
+When deploying open-source or fine-tuned models, configure these generation parameters:
+
+| Parameter | Description |
+|---|---|
+| **Temperature** | Controls output randomness. Higher values produce more varied responses. |
+| **Maximum length** | Maximum number of tokens to generate. |
+| **Top p** | Alternative to temperature; restricts sampling to top probability mass. |
+| **Top k** | Restricts sampling to the top k highest-probability tokens. |
+| **Stop sequences** | Sequences at which the model stops generating. |
+| **Inference batch size** | Number of concurrent requests to process per batch. |
+| **Min / Max replicas** | Scaling boundaries for the deployed model. |
+| **Scale up / down delay** | Wait time before auto-scaling up or down. |
+
+## Workflow calling (tool calling)
+
+In the Text-to-Text node, models can autonomously call external workflows during execution. You can attach up to three workflows to an AI node. The model determines whether to respond directly or invoke a workflow based on the request context.
+
+This feature is only available for models that support it. When a compatible model is selected, the **Workflow calling available** tab appears in the Properties panel.
+
+## Model selection guide
+
+| Use case | Recommended model type |
+|---|---|
+| Use a commercial model quickly | External Model — Easy Integration |
+| Connect a custom or proprietary API | External Model — API Integration |
+| Privacy-sensitive or on-premises use | Open-Source — platform-hosted |
+| Specialized domain tasks | Fine-Tuned Model |
+| Fine-tuning on limited resources | QLoRA (parameter-efficient) |
+| High-throughput large model inference | Open-Source with vLLM optimization |
+| Low-latency small model inference | Open-Source with CTranslate2 |
+
+## Structured output
+
+Certain open-source models can return responses as structured JSON using the `response_format` parameter.
+
+Two ways to use structured output:
+
+- **API calls** — Add the `response_format` parameter to your model endpoint request.
+- **Workflow builder** — Define the JSON schema in the Text-to-Text node. AI for Process attaches it automatically.
+
+**Requirements:**
+- Supported on `v2/chat/completions` endpoints only.
+- Not supported for models optimized with CTranslate2, fine-tuned models, Hugging Face imports, or locally imported models.
+- Supported schema data types: `string`, `number`, `boolean`, `integer`, `object`, `array`, `enum`, and `anyOf`.
+
+<Note>If a model supports both tool calls and JSON Schema, tool calls take precedence and the schema is ignored.</Note>
+
+For the list of models that support structured output, see [Supported models](/ai-for-process/models/supported-models#structured-output).
+
+## Model endpoint and API keys
+
+After deploying an open-source or fine-tuned model, AI for Process generates an API endpoint. You receive an email notification when the endpoint is ready.
+
+**Generate an API key:**
+
+<Steps>
+  <Step title="Open API keys">
+    Open the deployed model and click the **API Keys** tab.
+  </Step>
+  <Step title="Generate">
+    Click **Create a new API key**, enter a name, and click **Generate key**.
+  </Step>
+  <Step title="Copy">
+    Click **Copy and close** to save the key.
+  </Step>
+</Steps>
+
+API keys are scoped per deployment. The model endpoint timeout can be set between 30 and 180 seconds (default: 60 seconds).
+
+<Note>Timeout precedence: Workflow timeout > Node timeout > Model timeout.</Note>
+
+## Monitoring
+
+Track model usage and performance from two locations:
+
+- **Workflow Monitor** — Go to **Workflows** > select a deployed workflow > **Workflow runs**. Use the **Model runs** tab to view AI node executions, response times, failure rates, and model-level metrics.
+- **Model Traces & Analytics** — Available for all model types. Tracks token usage, latency, and billing per connection.

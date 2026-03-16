@@ -1,0 +1,101 @@
+---
+title: "User prompts and messages"
+description: "Configure, format, and customize the messages and prompts displayed to users in Entity, Confirmation, and Message nodes."
+---
+
+After creating an Entity, Confirmation, or Message node in the Dialog Builder, you can modify the default message or user prompt displayed to the end-user, add new prompts or messages, and add channel-specific prompts or messages.
+
+## Prompt types
+
+Dialog Tasks support two types of user prompts:
+
+- **Standard:** The prompt defined when adding a node in Dialog Builder. When multiple standard prompts are defined for a node, the platform chooses a random one to display.
+- **Channel-specific:** Optionally, define user prompts for specific channels such as email, SMS, Twitter, and more. Different widgets can be used based on channels (for example, a slider for numbers, date and time picker, and range selectors).
+
+## Configure the user prompt
+
+You can add or edit the prompts or AI Agent messages from the **Component Properties** tab of an Entity, Confirmation, or Message node.
+
+<Steps>
+  <Step title="Open the node">
+    On the dialog task builder, click the **+** icon next to the respective node, then select the node type and create a new node.
+  </Step>
+  <Step title="Navigate to User Prompts">
+    The node window opens with the **Component Properties** tab selected by default. Navigate to the **User Prompts** (or Responses) section.
+  </Step>
+  <Step title="Edit the default message">
+    Hover on the message text and click the **edit** icon. The editor appears and you can edit the message. Double-click to highlight text and access the formatting toolbar.
+  </Step>
+  <Step title="Add a new prompt">
+    Click **+ Add**. The Message editor opens. In the **Channel** dropdown, select **All Channels** (default) or a specific channel for channel-specific messages.
+  </Step>
+  <Step title="Select a template and save">
+    Choose a template (Text, Buttons, Quick Reply, or Custom JavaScript) and click **Save**.
+  </Step>
+</Steps>
+
+<Note>Button and Quick Reply templates are not available for every channel. You can use stored context variables with `{{variable brackets}}`. For example: `Hello {{context.session.UserContext.firstName}}.`</Note>
+
+## Prompt templates
+
+### Plain text prompts
+
+Use the **Plain Text** tab in the editor to compose prompts using basic editor controls and HTML.
+
+Supported markup:
+
+| Markdown | Output |
+|----------|--------|
+| `#h1` | Heading One |
+| `#h2` | Heading Two |
+| `*Bold*` | **Bold** |
+| `~Italic~` | *Italic* |
+| `[Link](https://example.com)` | Hyperlink |
+
+### Button prompts
+
+In cases where you wish to provide a limited number of distinct choices, use the Button template. You need to select the Button template, add a **Description** (mandatory), then add button titles and a corresponding value that would be sent to the engine on click.
+
+<Note>You can add up to a maximum of 5 buttons to a prompt.</Note>
+
+### Quick reply template
+
+For quick Yes/No, True/False options, use the Quick Reply template. Add a **Description** (mandatory), then add the quick reply item titles and values.
+
+### JavaScript prompts
+
+On the **Advanced** tab, add custom code to handle the user prompt message using system and session variables. Enable **Auto Save** to save your work automatically after one second of inactivity.
+
+```javascript
+var loc = context.weatherapi.response.body.query.results.channel.item.condition.text.toLowerCase();
+print("Here are the details:\n");
+if (loc.indexOf("clear") >= 0) {
+    print('Its clear outside.');
+} else if (loc.indexOf("sunny") >= 0) {
+    print("Its sunny outside");
+}
+print("Temperature: " + context.temp + "\n");
+```
+
+## Channel-specific user prompts
+
+By default, dialog tasks configure standard user prompts for all channels. You can define a specific response for one or more channels.
+
+**Key rules:**
+- If any channel-specific override is present, the platform uses that over the *All channel* response.
+- You can have more than one response configured for a channel; the AI Agent randomly chooses if more than one is configured.
+
+**Slack channel override example:**
+
+```javascript
+var message = {};
+var attachments = [];
+var attachment = {
+    'text': "Exception occurred during API execution",
+    'color': '#FFCC00',
+    'attachment_type': 'default'
+};
+attachments.push(attachment);
+message.attachments = attachments;
+print(JSON.stringify(message));
+```

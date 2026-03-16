@@ -1,0 +1,185 @@
+---
+title: "Supported libraries"
+description: "Reference list of Python libraries pre-imported and available in the Function Node script editor."
+---
+
+The following Python libraries are pre-imported and available in the Function Node script editor.
+
+- [json](#json)
+- [enum](#enum)
+- **Numerical libraries**: [NumPy](#numpy), [pandas](#pandas), [collections](#collections), [math](#math), [cmath](#cmath), [statistics](#statistics), and [random](#random).
+- **String manipulation libraries**: [re](#re) and [textwrap](#textwrap).
+- **Date-time libraries**: [datetime](#datetime), [time](#time), and [calendar](#calendar).
+- [Itertools](#itertools)
+
+Libraries are imported in the Function Node as follows:
+
+```python
+import json
+import numpy
+import scipy
+import pandas
+import collections
+import math
+import cmath
+import statistics
+import random
+import enum
+import re
+import textwrap
+import datetime
+import time
+import calendar
+import itertools
+```
+
+## json
+
+Functions: `JSONDecodeError`, `JSONDecoder`, `JSONEncoder`, `dumps`, `loads`.
+
+## enum
+
+Functions: `DynamicClassAttribute`, `Enum`, `Flag`, `IntEnum`, `IntFlag`.
+
+## Numerical libraries
+
+### NumPy
+
+Provides array computing, linear algebra, Fourier transforms, and matrix operations. Includes functions for array creation, manipulation, mathematical operations, statistics, sorting, and more.
+
+<Accordion title="View all NumPy functions">
+
+```text
+abs, absolute, add, all, allclose, amax, amin, angle, any, append,
+apply_along_axis, arange, arccos, arccosh, arcsin, arcsinh, arctan,
+arctan2, arctanh, argmax, argmin, argpartition, argsort, array,
+array_equal, array_equiv, array_split, asarray, atleast_1d, atleast_2d,
+average, bincount, bitwise_and, bitwise_or, bitwise_xor, block, broadcast,
+broadcast_to, ceil, clip, column_stack, concatenate, conj, corrcoef,
+correlate, cos, cosh, count_nonzero, cov, cross, cumprod, cumsum,
+date_range, deg2rad, delete, diag, diagonal, diff, digitize, divide, dot,
+dstack, dtype, einsum, empty, equal, exp, exp2, expand_dims, eye, fabs,
+fill_diagonal, flip, floor, floor_divide, full, gcd, geomspace, gradient,
+heaviside, histogram, hstack, hypot, identity, indices, inner, insert, interp,
+intersect1d, isin, isclose, iscomplex, isfinite, isnan, isnan, isreal,
+kaiser, kron, lcm, left_shift, lexsort, linspace, log, log10, log1p, log2,
+logical_and, logical_not, logical_or, logical_xor, logspace, matmul, matrix,
+mean, median, meshgrid, min, minimum, mod, modf, moveaxis, multiply,
+nan_to_num, nanmax, nanmean, nanmedian, nanmin, nanstd, nansum, nanvar,
+ndarray, ndim, negative, nonzero, ones, outer, packbits, pad, partition,
+percentile, poly1d, polyfit, polyval, power, prod, quantile, rad2deg,
+ravel, real, reciprocal, remainder, repeat, reshape, resize, roll,
+roots, rot90, round, searchsorted, select, setdiff1d, sign, sin, sinc,
+sinh, size, sort, split, sqrt, square, squeeze, std, subtract, sum,
+swapaxes, take, tan, tanh, tensordot, tile, trace, transpose, trapz,
+tri, tril, triu, true_divide, trunc, union1d, unique, unpackbits,
+vander, var, vdot, vectorize, vsplit, vstack, where, zeros
+```
+
+</Accordion>
+
+[Learn more](https://numpy.org/doc/stable/reference/index.html#reference).
+
+### pandas
+
+Provides data structures and data analysis tools. Includes `DataFrame`, `Series`, `Index`, data merging, reshaping, time series, and aggregation.
+
+<Accordion title="View all pandas functions">
+
+```text
+BooleanDtype, Categorical, CategoricalDtype, CategoricalIndex, DataFrame,
+DateOffset, DatetimeIndex, DataFrame, Float32Dtype, Float64Dtype, Grouper,
+Index, Interval, IntervalDtype, IntervalIndex, MultiIndex, NamedAgg, Period,
+PeriodDtype, RangeIndex, Series, SparseDtype, StringDtype, Timedelta,
+TimedeltaIndex, Timestamp, array, bdate_range, concat, cut, date_range,
+eval, factorize, from_dummies, get_dummies, infer_freq, interval_range,
+isna, isnull, json_normalize, lreshape, melt, merge, merge_asof, notna,
+notnull, period_range, qcut, reset_option, set_option, timedelta_range,
+to_datetime, to_numeric, to_timedelta, unique, value_counts, wide_to_long
+```
+
+</Accordion>
+
+[Learn more](https://pandas.pydata.org/docs/reference/index.html).
+
+### collections
+
+Functions: `ChainMap`, `Counter`, `OrderedDict`, `UserDict`, `UserList`, `UserString`, `defaultdict`, `deque`, `namedtuple`.
+
+[Learn more](https://docs.python.org/3/library/collections.html).
+
+### math
+
+Provides mathematical functions for real numbers, including trigonometry, logarithms, rounding, and combinatorics.
+
+<Accordion title="View all math functions">
+
+```text
+acos, acosh, asin, asinh, atan, atan2, atanh, ceil, comb, copysign,
+cos, cosh, degrees, dist, erf, erfc, exp, expm1, fabs, factorial,
+floor, fmod, frexp, fsum, gamma, gcd, hypot, isclose, isfinite, isinf,
+isnan, isqrt, ldexp, lgamma, log, log10, log1p, log2, modf, perm,
+pow, prod, radians, remainder, sin, sinh, sqrt, tan, tanh, trunc
+```
+
+</Accordion>
+
+[Learn more](https://docs.python.org/3/library/math.html).
+
+### cmath
+
+Functions: `acos`, `acosh`, `asin`, `asinh`, `atan`, `atanh`, `cos`, `cosh`, `exp`, `isclose`, `isfinite`, `isinf`, `isnan`, `log`, `log10`, `phase`, `polar`, `rect`, `sin`, `sinh`, `sqrt`, `tan`, `tanh`.
+
+[Learn more](https://docs.python.org/3/library/cmath.html).
+
+### statistics
+
+Functions: `Counter`, `Decimal`, `Fraction`, `NormalDist`.
+
+[Learn more](https://docs.python.org/3/library/statistics.html).
+
+### random
+
+Functions: `Random`, `SystemRandom`, `betavariate`, `choice`, `choices`, `expovariate`, `gammavariate`, `gauss`, `getrandbits`, `getstate`, `lognormvariate`, `normalvariate`, `paretovariate`, `randbytes`, `randint`, `random`, `randrange`, `sample`, `seed`, `setstate`, `shuffle`, `triangular`, `uniform`, `vonmisesvariate`, `weibullvariate`.
+
+[Learn more](https://docs.python.org/3/library/random.html).
+
+## String manipulation libraries
+
+### re
+
+Functions: `compile`, `error`, `escape`, `findall`, `finditer`, `fullmatch`, `match`, `purge`, `search`, `split`, `sub`, `subn`, `template`.
+
+[Learn more](https://docs.python.org/3/library/re.html).
+
+### textwrap
+
+Functions: `TextWrapper`, `dedent`, `fill`, `indent`, `shorten`, `wrap`.
+
+[Learn more](https://docs.python.org/3/library/textwrap.html).
+
+## Date-time libraries
+
+### datetime
+
+Functions: `date`, `datetime`, `time`, `timedelta`, `timezone`, `tzinfo`.
+
+[Learn more](https://docs.python.org/3/library/datetime.html).
+
+### time
+
+Functions: `asctime`, `clock_gettime`, `clock_gettime_ns`, `ctime`, `gmtime`, `localtime`, `mktime`, `monotonic`, `monotonic_ns`, `perf_counter`, `perf_counter_ns`, `process_time`, `process_time_ns`, `strftime`, `strptime`, `struct_time`, `time`, `time_ns`, `tzset`.
+
+[Learn more](https://docs.python.org/3/library/time.html).
+
+### calendar
+
+Functions: `Calendar`, `HTMLCalendar`, `IllegalMonthError`, `IllegalWeekdayError`, `LocaleHTMLCalendar`, `LocaleTextCalendar`, `TextCalendar`, `calendar`, `firstweekday`, `format`, `isleap`, `leapdays`, `month`, `monthcalendar`, `monthrange`, `prcal`, `prmonth`, `setfirstweekday`, `timegm`, `weekday`, `weekheader`.
+
+[Learn more](https://docs.python.org/3/library/calendar.html).
+
+## Itertools
+
+Functions: `accumulate`, `chain`, `combinations`, `combinations_with_replacement`, `compress`, `count`, `cycle`, `dropwhile`, `filterfalse`, `groupby`, `islice`, `permutations`, `product`, `repeat`, `starmap`, `takewhile`, `tee`, `zip_longest`.
+
+[Learn more](https://docs.python.org/3/library/itertools.html).

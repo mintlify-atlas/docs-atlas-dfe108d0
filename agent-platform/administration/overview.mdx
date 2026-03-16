@@ -1,0 +1,94 @@
+---
+title: "Account and workspace"
+description: "The centralized management interface for account administrators to configure users, roles, security, and monitoring."
+---
+
+The Settings Console is the centralized management interface for account administrators. Use it to configure users, roles, workspaces, integrations, security, and monitoring across Agent Platform.
+
+<Note>Only users with the **Admin** role and required permissions can access the Settings Console.</Note>
+
+## Accessing the Settings Console
+
+1. Log in and select the **Autonomous Agents** module.
+2. Select **Settings** in the top navigation bar.
+
+The console opens to the **Users** page in **User Management** by default.
+
+## Workspaces
+
+A workspace is a logical grouping of apps, tools, and configurations—typically organized by team or project. Every account starts with a default workspace assigned automatically.
+
+### Workspace behavior
+
+- Every app belongs to exactly one workspace.
+- Apps and tools are not shared across workspaces by default.
+- Configurations (AI models, auth profiles, environments, settings) are workspace-specific.
+- To move apps or tools between workspaces, use import/export.
+
+### Workspace switcher
+
+The active workspace is shown in the top-right corner of the platform. Click it to switch workspaces or browse all available ones.
+
+| Feature | Description |
+|---|---|
+| **Default workspace** | Mark any workspace as default—it loads automatically at login |
+| **Search and browse** | Find workspaces via search or pagination |
+| **Request access** | Request access to workspaces listed under Other Workspaces |
+| **Role visibility** | See your role and member count per workspace |
+
+## Settings sections
+
+<CardGroup cols={2}>
+  <Card title="User management" icon="users" href="/agent-platform/administration/user-management">
+    Invite users, bulk import, assign roles, and configure Active Directory sync.
+  </Card>
+  <Card title="Role management" icon="shield" href="/agent-platform/administration/role-management">
+    Control what users can do with role-based access control (RBAC) for accounts, tools, and agentic apps.
+  </Card>
+  <Card title="Security and control" icon="lock" href="/agent-platform/administration/security-and-control">
+    Configure SSO, MFA, authorization profiles, encryption, API scopes, and custom scripts.
+  </Card>
+  <Card title="Billing and usage" icon="credit-card" href="/agent-platform/administration/billing-and-usage">
+    Monitor credit consumption, tool run usage, and cost breakdowns.
+  </Card>
+</CardGroup>
+
+## Integrations
+
+Connect to 130+ pre-built third-party integrations organized by category (marketing, AI, sales, and more).
+
+- Create secure connections using the required authentication method.
+- Use configured connections in tool automation flows via the **Integration node**.
+
+## Custom scripts
+
+Import and manage reusable scripts that run in isolated containers.
+
+- Upload a script definition file and configure runtime settings, hardware, and memory allocation.
+- Review, deploy, re-deploy, export, or delete scripts.
+- Invoke scripts from the **Function node** in tool automation flows.
+
+## Guardrails
+
+View and manage pre-deployed guardrail models that scan prompt inputs and outputs across all tools.
+
+| Guardrail | Purpose |
+|---|---|
+| **Anonymize** | Redacts or masks sensitive information in text |
+| **Ban topics** | Blocks policy-restricted or sensitive topics |
+| **Prompt injection** | Detects malicious inputs designed to manipulate model behavior |
+| **Toxicity** | Identifies and manages harmful or abusive language |
+| **Bias detection** | Flags and neutralizes systematic biases in model outputs |
+| **Relevance** | Scores how well an output matches the input context |
+
+## Monitoring
+
+| Dashboard | What it tracks |
+|---|---|
+| **Audit logs** | All user activity: login/logout, roles, integrations, models, tools, users, prompts, datasets, guardrails |
+| **Tools analytics** | Tool run success/failure rates, average response times, node execution data |
+| **Model analytics** | Model performance, credit consumption, request rates, latency |
+| **Model traces** | Run-level metrics and metadata per model execution |
+| **Custom scripts** | Execution runs and logs for endpoints, Function nodes, and API nodes |
+
+All dashboards support date range filtering and search.

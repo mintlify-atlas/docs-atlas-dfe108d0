@@ -1,0 +1,113 @@
+---
+title: "Real-time agent coaching"
+description: "Configure coaching rules that trigger on-screen hints and alerts based on utterances and speech patterns."
+---
+
+Real-time Agent Coaching helps supervisors guide agents during live calls. Agent AI analyzes utterances and speech patterns, then triggers on-screen hints, nudges, or manager alerts when configured conditions are met.
+
+## Rules
+
+A rule combines a trigger (the condition) and an action (what happens when the condition is met). Each rule is independent and can be enabled, disabled, edited, deleted, or tagged.
+
+| Type | Description |
+|------|-------------|
+| **Pre-built** | Included with Agent Coaching: None Intent and Price Objection. |
+| **Custom** | Rules you create based on your contact center's needs. |
+
+### Pre-built rules
+
+**None Intent** prevents false positives during intent identification. This rule is enabled by default and cannot be disabled or deleted.
+
+**Price Objection** handles customer price objections with a configurable hint message.
+
+## Managing rules
+
+### Create a rule
+
+1. Go to **AgentAssist** > **Experience** > **Agent Coaching** and select **+ New Rule**.
+2. Enter the **Name**, **Description**, **Tags**, and **Channels** (Voice, Live Chat, or both).
+3. Select **Apply**.
+4. Select **+ Add a trigger** to define when the rule fires.
+5. Select **+ Add an action** to define what happens.
+6. Select **+ Add agents, groups** to assign the rule.
+7. Select **Save**.
+
+### Edit, delete, or enable/disable a rule
+
+- **Edit:** Select **Edit** on the rule.
+- **Delete:** Select **Delete** on the rule, then confirm.
+- **Enable/Disable:** Use the **Enabled** toggle on any rule.
+
+## Triggers
+
+### Utterance triggers
+
+Fire when a customer or agent says something matching the configured utterances.
+
+1. Select **+ Add a trigger** > **Utterance**.
+2. Select the **person** dropdown and choose **Agent** or **Customer**.
+3. Enter an utterance and select from AI-suggested similar utterances.
+4. Set the **frequency** (how many times the utterance must occur).
+5. Set the **time frame**: Anytime in conversation, By time, or By number of messages.
+
+### Speech analysis triggers
+
+Fire based on speech patterns.
+
+| Type | Description |
+|------|-------------|
+| **Cross Talk** | Both parties speak simultaneously. Set duration, frequency, and time frame. |
+| **Dead Air** | Silence from the agent or customer. Set duration, person, frequency, and time frame. |
+| **Speech Speed** | Speaking rate in words per minute. Set person, WPM threshold, frequency, and time frame. |
+| **Talk Ratio** | Agent-to-customer speaking time proportion. Set comparator and percentage value. |
+
+### Gen AI utterances
+
+Uses AI-powered prompts to analyze real-time conversations.
+
+1. Select **+ Add a trigger** > **Gen AI Utterances**.
+2. Select the person (Agent or Customer) and enter a prompt.
+3. Set the frequency and time frame.
+
+### Combining triggers (And/Or)
+
+Combine multiple triggers using **And** (all conditions must be met) or **Or** (any condition fires the rule).
+
+## Actions
+
+### Nudge agent
+
+Short, disappearing messages (5 seconds) for complimenting or redirecting agents.
+
+**Nudge types:** Positive, Neutral, Alert, Critical.
+
+1. Select **+ Add an action** > **Nudge Agent**.
+2. Select a nudge type and enter the nudge message.
+3. Optionally enable **Use Gen AI Output** to generate the message from a prompt.
+4. Optionally add utterance-based adherence tracking.
+
+### Hint agent
+
+Pop-up messages that advise agents to take action. May auto-close or persist.
+
+**Hint types:** Positive, Neutral, Warning, Critical.
+
+1. Select **+ Add an action** > **Hint Agent**.
+2. Select a hint type and enter a **title** and **message body**.
+3. Set the **display option**: **Auto Close** or **Does not auto close**.
+4. Optionally add adherence tracking (**Acknowledge Pressed** or **Utterance**).
+
+### Email manager
+
+Sends a push notification to a manager's desktop for situations requiring supervisor awareness.
+
+1. Select **+ Add an action** > **Email Manager**.
+2. Enter one or more manager email addresses.
+3. Enter a notification **subject** and **body**.
+
+## Assign rules
+
+Rules are assigned to All Agents by default. To narrow assignment:
+
+1. In the rule, select **+ Add agents, groups** under **Assign this to…**.
+2. Select the agents or groups and select **Save**.

@@ -1,0 +1,148 @@
+---
+title: "App diagnostics"
+description: "Validate your app's health and readiness before deployment."
+---
+
+Diagnostics performs comprehensive checks across all app components—agents, tools, events, memory, and orchestration logic. It automatically detects missing or misconfigured elements and prioritizes issues for efficient remediation.
+
+```
+Run Diagnostics → Scan Configuration → Identify Issues → Generate Report → Fix Issues
+```
+
+## Running diagnostics
+
+1. Navigate to your app's **Overview** page.
+2. Click **Run Diagnostics**.
+3. Wait for the scan to complete.
+4. Review the diagnostic report.
+
+## What gets checked
+
+| Category | Checks |
+|---|---|
+| **Agents** | Configuration completeness, tool linkages, knowledge connections, instruction quality, deprecated bindings |
+| **Tools** | Workflow tool deployment status, code tool syntax errors, MCP server connectivity, parameter validation, missing dependencies |
+| **Events** | Event trigger configuration, workflow bindings, parameter mappings, handler assignments |
+| **Knowledge** | Search AI application links, index status, connector health, data freshness |
+| **System** | Graph compilation, LLM configuration, orchestration logic, environment variables |
+
+## Report structure
+
+### Severity levels
+
+| Level | Meaning |
+|---|---|
+| **Error** | Critical issue preventing deployment |
+| **Warning** | Potential problem that should be addressed |
+| **Info** | Informational note or suggestion |
+
+## Common issues
+
+<AccordionGroup>
+  <Accordion title="Missing tool deployment">
+    ```
+    Error: Tool 'get_order_status' is not deployed
+
+    Agent 'Support Agent' references this tool but it hasn't been
+    deployed. The agent won't be able to invoke it.
+
+    Fix: Navigate to Tools → get_order_status → Deploy
+    ```
+  </Accordion>
+
+  <Accordion title="Stale knowledge index">
+    ```
+    Warning: Knowledge source 'product_catalog' index is stale
+
+    Last indexed: 7 days ago
+    Source last updated: 2 days ago
+
+    Some responses may use outdated information.
+
+    Fix: Navigate to Knowledge → product_catalog → Reindex
+    ```
+  </Accordion>
+
+  <Accordion title="Missing environment variables">
+    ```
+    Error: Environment variable 'API_KEY' is not set
+
+    Tool 'external_api_call' requires this variable but it's
+    not configured in the current environment.
+
+    Fix: Navigate to Settings → Environment → Add variable
+    ```
+  </Accordion>
+
+  <Accordion title="MCP server unreachable">
+    ```
+    Warning: MCP server 'enterprise_tools' is unreachable
+
+    Connection attempts failed for the past 15 minutes.
+    Tools from this server won't be available.
+
+    Fix: Check server status or update connection settings
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Quick fixes
+
+Many issues include a **[Fix now]** button:
+
+| Issue | Quick fix action |
+|---|---|
+| Tool not deployed | Opens deployment dialog |
+| Stale index | Triggers reindexing |
+| Missing link | Opens configuration page |
+| Invalid config | Opens editor with issue highlighted |
+
+## Validation rules
+
+### Agents must have
+
+- A name and description
+- At least one capability (tools or knowledge)
+- A valid AI model configured
+- All linked tools deployed
+
+### Tools must have
+
+- A name and description
+- Valid parameter definitions
+- Successful test execution
+- Deployed status (for workflow tools)
+
+### Events must have
+
+- Trigger condition defined
+- Handler workflow linked
+- Parameters mapped correctly
+
+## Best practices
+
+### Run before every deployment
+
+```markdown
+Pre-deployment:
+1. [ ] Run diagnostics
+2. [ ] Fix all errors
+3. [ ] Review warnings
+4. [ ] Create version
+5. [ ] Deploy to staging
+6. [ ] Test in staging
+7. [ ] Deploy to production
+```
+
+### Limitations
+
+Diagnostics performs **static and logical validation** only:
+
+| Checks | Doesn't check |
+|---|---|
+| Configuration completeness | Conversation quality |
+| Tool connectivity | Response accuracy |
+| Dependency resolution | User satisfaction |
+| Syntax validation | Edge case handling |
+
+<Tip>For conversation testing, use the **Playground** feature to simulate real interactions.</Tip>

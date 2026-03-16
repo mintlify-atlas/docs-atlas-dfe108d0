@@ -1,0 +1,261 @@
+---
+title: "Create an agent"
+description: "Configure a goal-driven AI agent with scope, instructions, tools, and knowledge."
+---
+
+An agent is a configurable, goal-driven AI component that understands user input, reasons using context, and takes action by invoking tools or delegating tasks to other agents.
+
+Each agent has four core components:
+
+| Component | Purpose |
+|---|---|
+| **Scope** | Defines what tasks the agent is responsible for |
+| **Instructions** | Governs how the agent behaves and responds |
+| **Tools** | Enables the agent to take actions and retrieve data |
+| **Knowledge** | Provides context for accurate, grounded responses |
+
+## Before you begin
+
+- **Create an agentic app.** Agents must be associated with an app and cannot exist independently. See [Create an agentic app](/agent-platform/agents/agentic-apps/create-an-app).
+- **Configure an AI model** with tool-calling support. The platform supports OpenAI, Gemini, Anthropic, and Azure OpenAI. See [Add an external model](/agent-platform/models/external-models).
+- **Verify your role.** You need App Owner or App Developer access. Viewers cannot create agents.
+
+## Choosing how to create an agent
+
+| Option | When to use | What you configure |
+|---|---|---|
+| **From scratch** | You want full control over all settings | Profile, instructions, tools, and knowledge |
+| **Connect external agent** | You have an agent hosted elsewhere | Connection details only |
+| **From marketplace** | You want a preconfigured, ready-to-use agent | Minimal edits required |
+
+To start: open your agentic app → **Agents** section → **+ New Agent**.
+
+## Step 1: Define the agent profile
+
+The agent profile establishes the agent's identity and purpose. The orchestrator uses it to identify the most suitable agent for each incoming task.
+
+### Name
+
+Choose a descriptive name that reflects the agent's function.
+
+```
+Good                          Avoid
+────                       ─────
+Order Support Agent           Agent 1
+Billing Assistant             Helper
+Travel Booking Specialist     Bot
+```
+
+### Description
+
+Write a description that tells the orchestrator when to route requests to this agent. Be specific about capabilities.
+
+```
+Good:  Handles customer inquiries about order status, shipping updates,
+       delivery modifications, and order cancellations. Can look up
+       orders by order number, email, or phone number.
+
+Weak:  Helps with orders.
+```
+
+### AI model
+
+Select the model that powers this agent's reasoning.
+
+| Use case | Recommended model |
+|---|---|
+| Complex reasoning | GPT-4, Claude 3 Opus |
+| Fast responses | GPT-3.5-turbo, Claude 3 Haiku |
+| Code generation | GPT-4, specialized code models |
+| Cost-sensitive tasks | Smaller models |
+
+### Context window
+
+Set how many conversation messages the agent retains. Higher limits provide more context but increase token usage.
+
+| Messages | Use case |
+|---|---|
+| 25 | Simple Q&A, transactional tasks |
+| 50 | Standard conversations (default) |
+| 100 | Multi-step processes |
+| 200 | Complex, long-running workflows |
+
+## Step 2: Configure agent definition
+
+The agent definition is the system prompt. It describes the agent's role, the tasks it can perform, and the rules it must follow.
+
+### Structure
+
+```markdown
+## Role
+Who is this agent and what is their purpose?
+
+## Guidelines
+How should the agent behave?
+
+## Response format
+How should responses be structured?
+
+## Constraints
+What should the agent never do?
+
+## Examples (optional)
+Concrete examples of good responses.
+```
+
+### Writing effective instructions
+
+**Define a specific role:**
+
+```markdown
+# Too vague
+You are a helpful assistant.
+
+# Better
+You are a product specialist who helps customers find the right
+products based on their needs and budget.
+```
+
+**Include scope boundaries:**
+
+```markdown
+### Out of scope
+- Payment processing and refunds (→ Billing Agent)
+- Product recommendations (→ Sales Agent)
+- Technical product support (→ Tech Support Agent)
+```
+
+**Set clear constraints:**
+
+```markdown
+## Constraints
+
+Never:
+- Share or confirm full credit card numbers
+- Make promises about timelines you can't guarantee
+- Engage with abusive or threatening language
+- Make up information when you don't know the answer
+```
+
+### Complete example
+
+```markdown
+## Role
+You are a customer support agent for CloudStore, an online electronics
+retailer. Help customers with orders, returns, and product questions
+with a friendly, efficient approach.
+
+## Guidelines
+
+### Communication
+- Be concise—aim for 2-3 sentences when possible
+- Use a warm but professional tone
+- Match technical depth to the customer's level
+
+### Order inquiries
+- Always look up the order first
+- Provide status, tracking, and expected delivery
+- Proactively mention any delays or issues
+
+### Returns and refunds
+- Explain the policy clearly (30 days, original condition)
+- Guide through the return process step-by-step
+- Offer exchanges as an alternative when appropriate
+
+## Response format
+- Simple questions: 1-2 sentence answers
+- Process explanations: numbered steps
+- Multiple options: bullet points
+
+## Constraints
+
+Never:
+- Share full payment details
+- Promise delivery dates not confirmed by tracking
+- Process refunds over $500 without supervisor approval
+```
+
+## Step 3: Add tools
+
+Tools are the functional extensions of an agent's intelligence. They enable agents to fetch data from external systems, create or update records, and trigger workflows or APIs.
+
+Agent Platform supports three tool types:
+
+- **Workflow tools** — Trigger automated workflows
+- **Code tools** — Execute custom logic
+- **MCP tools** — Connect via the Model Context Protocol
+
+### Adding a tool
+
+1. In agent configuration, go to **Tools** → **+ Add Tool**
+2. Choose **Create new** to build a tool, or **Import existing** to reuse one from the library
+3. Configure the tool with a clear name, description, and parameter definitions
+
+The description is used by the LLM to decide when and how to call the tool—write it carefully.
+
+```yaml
+name: get_order_status
+description: |
+  Retrieves the current status of a customer order including
+  shipping details, estimated delivery, and tracking number.
+
+parameters:
+  order_id:
+    type: string
+    description: The unique order identifier (for example, ORD-12345)
+    required: true
+```
+
+## Step 4: Add knowledge
+
+Link knowledge sources to enable RAG-based responses. The platform uses the Search AI application to search across enterprise knowledge bases, document repositories, FAQs, and external systems.
+
+### Connecting knowledge
+
+1. In agent configuration, go to **Knowledge** → **+ Connect Knowledge**
+2. Select an existing Search AI application or create a new one
+
+### Supported sources
+
+| Source | Best for |
+|---|---|
+| Documents | Policies, guides, FAQs |
+| Web crawler | Website content, help centers |
+| Confluence | Internal documentation |
+| SharePoint | Enterprise content |
+| Custom API | Dynamic data sources |
+
+## Step 5: Configure delegation logic
+
+<Note>This step applies to apps using the **Adaptive Network** orchestration pattern only. If your app uses any other pattern, delegation configuration isn't required.</Note>
+
+Delegation rules define how this agent routes or hands off a user query to another agent within the application.
+
+## Test and deploy
+
+### Test the agent
+
+1. Click **Test** in the agent toolbar
+2. Run conversations covering:
+
+| Scenario | What to verify |
+|---|---|
+| Happy path | Standard requests the agent handles correctly |
+| Edge cases | Invalid inputs, missing information, ambiguous requests |
+| Boundary cases | Requests outside the agent's defined scope |
+| Error cases | Tool failures, escalation triggers |
+
+### Deploy
+
+1. Click **Save** to preserve your configuration
+2. Run **Diagnostics** to validate all dependencies are properly configured
+3. **Publish** the app to make the agent live
+
+## Agent types by use case
+
+| Type | Scope | Tools | Knowledge |
+|---|---|---|---|
+| **Customer service** | Order tracking, returns, product questions | CRM lookup, order management, ticketing | FAQs, product docs, policies |
+| **Sales** | Product recommendations, pricing, checkout | Product search, cart management, payment | Catalog, pricing, promotions |
+| **HR / employee** | Leave requests, benefits, IT support | HR systems, ticket creation, knowledge search | HR policies, IT guides, company wiki |
+| **Process** | Document processing, approvals, data entry | Document extraction, workflow triggers, database updates | Process docs, compliance rules |

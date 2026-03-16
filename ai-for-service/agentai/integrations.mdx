@@ -1,0 +1,171 @@
+---
+title: "Agent AI integrations"
+description: "Connect Agent AI with contact center platforms, CRM systems, and custom web applications."
+---
+
+Connect Agent AI with your contact center platforms, CRM systems, and custom web applications to bring AI-powered assistance to your agents.
+
+## Amazon Connect
+
+Integrate Agent AI with Amazon Connect using multiple approaches:
+
+| Integration | Description |
+|-------------|-------------|
+| **Amazon Connect CCP — Chat** | Integrate Agent AI Chat using a Custom Contact Control Panel (CCP) with Kinesis Streams |
+| **Amazon Connect CCP — Voice** | Integrate Agent AI Voice using the CCP approach with real-time transcription |
+| **AWS Third-Party Applications** | Integrate Agent AI Voice using AWS third-party applications |
+| **Voice Automation** | Integrate Kore Voice Automation with Amazon Connect via Amazon's External Voice Connector |
+
+### Amazon Connect CCP setup (Chat)
+
+<Steps>
+  <Step title="Configure Amazon Connect">
+    In AWS Console, go to **Amazon Connect** > **Contact flows** and add the Kore Agent AI Lambda function.
+  </Step>
+  <Step title="Create a CCP instance">
+    Generate the CCP URL from Amazon Connect Admin Console under **Approved origins**.
+  </Step>
+  <Step title="Configure Agent AI">
+    In Kore.ai, go to **Agent AI** > **Integrations** > **Amazon Connect** and enter your Amazon Connect instance URL and queue ARN.
+  </Step>
+  <Step title="Deploy and test">
+    Use the Amazon Connect Contact Control Panel to verify that Agent AI suggestions appear during a test interaction.
+  </Step>
+</Steps>
+
+## Salesforce
+
+| Integration | Description |
+|-------------|-------------|
+| **Service Cloud Voice (Amazon Connect)** | Combine Salesforce CRM with Amazon Connect telephony for AI insights |
+| **OmniChannel Chat (Messaging)** | Agent AI with Salesforce OmniChannel Chat for AI-powered suggestions |
+| **Web Messaging (New Chat)** | Connect messaging to Salesforce Omni-Channel Service Cloud |
+| **Email-to-Case** | Embed Agent AI widget in Salesforce Service Console for email cases |
+| **NICE CX CTI** | Agent AI with NICE CX Telephony using the Salesforce NICE CX CTI package |
+
+### Salesforce OmniChannel setup
+
+<Steps>
+  <Step title="Install the Kore.ai managed package">
+    Install the Kore.ai Agent AI managed package from Salesforce AppExchange.
+  </Step>
+  <Step title="Configure connected app">
+    Create a Connected App in Salesforce and add the Agent AI OAuth credentials.
+  </Step>
+  <Step title="Add the widget">
+    Add the Kore Agent AI Lightning Web Component to the Salesforce Service Console layout.
+  </Step>
+  <Step title="Map to OmniChannel queues">
+    In Kore.ai, go to **Agent AI** > **Integrations** > **Salesforce** and map queues to Agent AI configurations.
+  </Step>
+</Steps>
+
+## Genesys Cloud CX
+
+Integrate Agent AI with Genesys Cloud CX for multi-bot and queue-based functionality.
+
+<Steps>
+  <Step title="Configure Genesys Cloud integration">
+    In Genesys Cloud, go to **Admin** > **Integrations** and add the Kore.ai Agent AI integration.
+  </Step>
+  <Step title="Set up OAuth client">
+    Create an OAuth client in Genesys Cloud with the required scopes for Agent AI access.
+  </Step>
+  <Step title="Configure Agent AI">
+    In Kore.ai, go to **Agent AI** > **Integrations** > **Genesys Cloud** and enter your Genesys organization ID and client credentials.
+  </Step>
+  <Step title="Map queues">
+    Map Genesys queues to Agent AI configurations to control which AI features appear for each queue.
+  </Step>
+</Steps>
+
+## NICE
+
+| Integration | Description |
+|-------------|-------------|
+| **NICE MAX Desktop** | Integrate Agent AI into the NICE MAX Desktop for chat and voice |
+| **NICE Agent Desktop Voice** | Integrate the Agent AI widget into NICE Agent Desktop for voice |
+
+### NICE MAX Desktop setup
+
+<Steps>
+  <Step title="Configure NICE MAX Desktop">
+    In NICE Admin, go to **Business Connection > System Data** and add the Kore.ai integration.
+  </Step>
+  <Step title="Add widget URL">
+    Enter the Kore.ai Agent AI widget URL in the NICE desktop configuration.
+  </Step>
+  <Step title="Configure CTI parameters">
+    Map the CTI screen-pop parameters to Agent AI context fields.
+  </Step>
+</Steps>
+
+## Five9
+
+Integrate Agent AI with Five9 for chat interactions.
+
+<Steps>
+  <Step title="Enable Kore.ai in Five9">
+    In Five9 Admin Console, go to **External CRM** > **Integrations** and enable the Kore.ai connector.
+  </Step>
+  <Step title="Configure widget URL">
+    Add the Kore.ai Agent AI widget URL to the Five9 Agent Desktop display settings.
+  </Step>
+  <Step title="Map interaction data">
+    Configure interaction-data pass-through so session and caller data flows into Agent AI context.
+  </Step>
+</Steps>
+
+## ServiceNow
+
+Integrate the Agent AI widget with ServiceNow Desktop for chat interactions.
+
+<Steps>
+  <Step title="Install the Kore.ai ServiceNow integration">
+    Install the Kore.ai plugin from the ServiceNow Store.
+  </Step>
+  <Step title="Configure the Agent AI app record">
+    In ServiceNow, go to **Kore.ai** > **Configuration** and enter your Agent AI application credentials.
+  </Step>
+  <Step title="Embed the widget">
+    Add the Kore.ai Agent AI widget UI component to the Agent Workspace layout.
+  </Step>
+</Steps>
+
+## Web SDK
+
+Use the Web SDK to embed and customize the Agent AI widget in your own web applications.
+
+### Installation
+
+```bash
+npm install @kore.ai/agentai-sdk
+```
+
+### Basic initialization
+
+```javascript
+import KoreAgentAI from '@kore.ai/agentai-sdk';
+
+const agentAI = new KoreAgentAI({
+  botId: 'your-bot-id',
+  clientId: 'your-client-id',
+  agentId: 'agent-id',
+  containerId: 'agentai-container'
+});
+
+agentAI.init();
+```
+
+### Key SDK capabilities
+
+| Capability | Description |
+|------------|-------------|
+| **Dialog execution** | Handle and customize dialog execution events |
+| **Real-time coaching** | Implement coaching event listeners |
+| **Widget customization** | Override default widget styles and behavior |
+| **Error handling** | Capture and respond to SDK error codes |
+
+<Info>
+For full SDK documentation including all event types and error codes, refer to the Agent AI SDK reference in the Kore.ai developer portal.
+</Info>

@@ -1,0 +1,118 @@
+---
+title: "API reference"
+description: "Programmatic access to Agent Platform for managing sessions, executing agents, and managing tools and models."
+---
+
+The Agent Platform provides two sets of APIs:
+
+- **Agentic App APIs**: The Agent Protocol API enables programmatic interaction with your agents, allowing you to manage conversational sessions, execute agent logic, retrieve responses, and track asynchronous tasks.
+- **Tools APIs**: Secured APIs to manage files, tools, models, and guardrails. Developers can perform key activities like deployment, import/export, monitoring, analytics, billing, and reporting.
+
+## Authentication
+
+### Agentic App APIs
+
+All Agentic App API requests are made to `https://<your-agent-platform-env>.<domain>.com/api/v2/`. All requests must include an API key in the `Authorization` header.
+
+<Note>The API keys are app-specific. They're not shared across accounts or workspaces. Ensure that you use the API key associated with the correct app when sending requests.</Note>
+
+### Tools APIs
+
+Public APIs require an API key for authentication and authorization. The account owner or admin can generate this key in the **Settings** console.
+
+### How to create an API key
+
+1. Log in to the platform and access the Settings Console.
+2. On the left menu, click **Security & Control** → **API Scopes**.
+3. Create an API app and include all the required scopes.
+
+<Note>You can copy the API key only once. Save the key in a secure location for future use.</Note>
+
+## Key concepts
+
+| Term | Definition |
+|---|---|
+| **App (AppId)** | Represents a specific app created for the platform. |
+| **Environment (envName)** | A deployment environment for the app. The environment name must match the exact name as configured in the application. |
+| **Session (sessionId)** | A unique ID representing a single conversation between a user and the agent. Sessions allow multi-turn conversations by preserving context. |
+| **Run (runId)** | Represents a single execution step within a session, typically triggered by user input and resulting in the agent's response. |
+
+## Session resolution process
+
+Session resolution follows a **priority-based approach** to determine how a session is created or reused.
+
+| Identifier | Priority | Purpose |
+|---|---|---|
+| `sessionId` | Highest | Used only to retrieve an existing session. Cannot be used to create new sessions. |
+| `sessionReference` | Medium | Attempts to find an existing session; if none found, creates a new one. |
+| `userReference` | Lowest | Always creates a new session associated with the specified user. |
+
+## Authorization process for API calls
+
+If an agent includes tools that require OAuth authorization, the platform returns an **IDP_Redirect** event at the first invocation of the session:
+
+```json
+{
+  "messageId": "msg-260f4d3c-5b8c-4056-af97-11317fc28c8d",
+  "events": [
+    {
+      "type": "IDP_Redirect",
+      "content": {
+        "auth_profiles": [
+          {
+            "url": "https://{host}/r/396c63515671634648357955",
+            "idpName": "Google",
+            "isAuthorized": false,
+            "sso_type": "oauth2"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+Go to the URL in the events object, complete the authorization, then reinvoke the API.
+
+## APIs list
+
+### Agentic App APIs
+
+| Use case | API |
+|---|---|
+| Create, retrieve, or end a session with an agent to maintain conversation context. | Sessions API |
+| Send user input to an agent within a session and receive the agent's response. | Runs API |
+| Upload or delete attachments to a conversation. | File Attachment APIs |
+| Create a new Agentic App. | Create App API |
+
+### File Management API
+
+| Use case | API |
+|---|---|
+| Upload a small or large public file. | File Upload API |
+
+### View process status API
+
+| Use case | API |
+|---|---|
+| Check the status of an ongoing or completed job related to tools or models. | Get Dock Status API |
+
+### Manage tools APIs
+
+| Use case | API |
+|---|---|
+| Import a new tool. | Import a New Tool API |
+| Import new configurations into an existing tool. | Import to an Existing Tool API |
+| Export a tool's configuration and associated data. | Export a Tool API |
+| Deploy a specific tool into an environment. | Deploy a Tool API |
+| Undeploy a specific tool from an environment. | Undeploy a Tool API |
+
+### Manage models APIs
+
+| Use case | API |
+|---|---|
+| Import a model in chunks. | Import a Model API |
+| Export a trained AI model. | Export a Model API |
+| Deploy a model into the environment. | Deploy a Model API |
+| Undeploy a model from the environment. | Undeploy a Model API |
+| Manage external model connections. | External Model Connection APIs |

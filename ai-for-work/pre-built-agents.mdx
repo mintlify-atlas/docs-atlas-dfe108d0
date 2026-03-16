@@ -1,0 +1,90 @@
+---
+title: "Pre-built agents"
+description: "Deploy pre-configured, customizable AI agents that integrate into your workflows to streamline operations and enhance productivity."
+---
+
+Deploy pre-configured, customizable AI agents that integrate into your workflows to streamline operations and enhance productivity.
+
+## Available pre-built API agents
+
+| Agent | Capabilities |
+|---|---|
+| **Zendesk** | Fetches Zendesk tickets based on entities |
+| **Slack** | Sends responses to Slack channels and threads |
+| **Microsoft 365 Calendar** | Creates calendar events, fetches events based on filters, checks colleague availability, and sends quick messages when you're late joining a meeting |
+| **Microsoft 365 Email** | Retrieves emails based on user queries and entities, sends responses as emails, sets individual emails as context, and supports follow-up questions |
+| **Microsoft OneDrive** | Fetches files based on user queries and filters, sets individual files as context, and supports follow-up questions |
+| **Microsoft Teams** | Fetches files based on user queries and filters, sets individual files as context, and supports follow-up questions |
+| **Jira** | Retrieves issues based on user queries using entity filters and creates Jira issues using AI intelligence |
+| **HubSpot** | Pulls deals based on user queries |
+| **Google Calendar** | Creates calendar events, fetches events based on filters, checks colleagues' availability, and sends quick messages when you're late joining meetings |
+| **Google Mail** | Retrieves emails based on user queries and entities, sends responses as emails, sets individual emails as context, and supports follow-up questions |
+| **Google Drive** | Fetches files based on user queries and filters, sets individual files as context, and supports follow-up questions |
+
+## Publish a pre-built agent
+
+Administrators can publish selected pre-built agents to make them available to users through the Agent Store.
+
+<Steps>
+  <Step title="Navigate to pre-built agents">
+    Go to **User Profile** > **Admin Console** > **Workspaces** > **API Agents** or **Prompt Agents**. You'll see a list of pre-built agents, each marked with a "Prebuilt" label.
+  </Step>
+  <Step title="Toggle or select the agent">
+    Toggle the switch **ON** next to the specific agent, or click the **ellipsis (⋮)** icon. A pop-up window appears.
+  </Step>
+  <Step title="Configure publishing settings">
+    Provide the following details:
+
+    | Setting | Options |
+    |---|---|
+    | **Published Version** | Select the version of the agent you want to publish |
+    | **Publish to** | **Admins** (admin users only), **Selected User Groups/Users** (specific individuals or groups), or **Everyone in the Account** |
+    | **Actions** | **Lookup** (users can search for existing items) or **Creation** (users can also create new items) |
+  </Step>
+  <Step title="Click Publish">
+    Click **Publish**. The system displays the **Auth Settings** screen before completing the publishing process.
+  </Step>
+</Steps>
+
+## Configure authentication settings
+
+When you click **Publish**, the platform presents the Auth Settings screen. You must configure authentication before the agent is available to users.
+
+**Authorization method**: The Auth Settings screen shows one of the following methods (read-only):
+
+- **OAuth**: Used by most pre-built agents (Jira, HubSpot, Microsoft 365 Calendar, Microsoft 365 Email, Microsoft OneDrive, Microsoft Teams, Google Calendar, Google Mail, Google Drive, Slack)
+- **Basic Auth**: Used by the Zendesk agent
+
+### OAuth application configuration
+
+For OAuth agents, choose one of two options:
+
+**Use Product Registered OAuth Application**: Routes OAuth credentials of the user's account to the product-registered application. The platform stores and manages credentials automatically.
+
+**Use Your Own OAuth Application**: Uses your organization's own OAuth application credentials. Enter the following:
+
+| Field | Description |
+|---|---|
+| **Client ID** | Client ID from your OAuth application |
+| **Client Secret** | Client Secret from your OAuth application |
+| **Redirect URL** | Auto-generated — register this in your OAuth application (read-only) |
+| **Scopes** | Required OAuth scopes — copy these to your OAuth application (read-only) |
+
+<Note>
+  For Google agents (Google Calendar, Google Mail, and Google Drive), only the **Your Own OAuth Application** option is available. You must provide your own OAuth application credentials.
+</Note>
+
+### Setting up your own OAuth application
+
+| Provider | Setup resource | Required scopes |
+|---|---|---|
+| **Jira** | [Atlassian OAuth 2.0 guide](https://developer.atlassian.com/cloud/oauth/getting-started/enabling-oauth-3lo/) | `offline_access`, `read:jira-user`, `read:jira-work`, `write:jira-work`, `manage:jira-project`, `manage:jira-configuration`, `manage:jira-data-provider`, `manage:jira-webhook`, `read:me` |
+| **HubSpot** | [HubSpot OAuth Quickstart Guide](https://developers.hubspot.com/docs/apps/legacy-apps/authentication/oauth-quickstart-guide) | `sales-email-read`, `crm.objects.deals.read`, `crm.objects.deals.write`, `crm.objects.contacts.read`, `crm.objects.contacts.write`, `crm.objects.companies.read`, `crm.objects.companies.write`, `crm.objects.owners.read` |
+| **Microsoft 365** | [Microsoft Graph app registration](https://learn.microsoft.com/en-us/graph/auth-register-app-v2) | See Microsoft documentation |
+| **Google** | [Google Cloud authentication profiles](https://docs.cloud.google.com/application-integration/docs/configure-authentication-profiles) | See Google documentation |
+| **Slack** | Slack API Apps page | `mpim:read`, `users:read`, `chat:write`, `team:read`, `channels:read`, `files:write`, `groups:read`, `remote_files:share` |
+| **Zendesk** | [Zendesk OAuth authentication](https://support.zendesk.com/hc/en-us/articles/4408845965210-Using-OAuth-authentication-with-your-application) | Uses Basic Auth instead of OAuth |
+
+## Using a published agent
+
+After the administrator publishes an agent and configures authentication, users can access it through the Agent Store. Users open the Agent Store, click **Connect** for the desired agent, and follow the on-screen instructions to **Add Connection**. After the user successfully adds the connection, the agent responds to user questions and queries through the **Ask or Search Anything** box on the homepage.

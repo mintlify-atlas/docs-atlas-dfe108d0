@@ -1,0 +1,98 @@
+---
+title: "Administration overview"
+description: "Manage your AI for Service account, users, security, and billing from the Administration module."
+---
+
+The Administration module provides tools to manage your platform account, users, security, and billing.
+
+## Key areas
+
+<CardGroup cols={2}>
+  <Card title="User management" icon="users">
+    Add users, manage groups and roles. Control who has access to your AI for Service platform.
+  </Card>
+  <Card title="Security and control" icon="shield">
+    Configure SSO, encryption, API scopes, two-factor authentication, and security settings.
+  </Card>
+  <Card title="App management" icon="grid-2">
+    Manage apps deployed in your account, including import/export and versioning.
+  </Card>
+  <Card title="Billing and usage" icon="credit-card" href="/ai-for-service/manage-assistant/plan-and-usage/billing-and-payments">
+    View plans, monitor usage limits, and manage billing details.
+  </Card>
+</CardGroup>
+
+## User management
+
+The Users module allows administrators to manage platform access.
+
+### Adding users
+
+<Steps>
+  <Step title="Open the Admin Console">
+    Navigate to **Admin** > **User Management**.
+  </Step>
+  <Step title="Invite a user">
+    Click **+ Invite User**, enter the user's email address, and assign a role.
+  </Step>
+  <Step title="Send bulk invitations">
+    To invite multiple users, use **Bulk Import** and upload a CSV file with email addresses and role assignments.
+  </Step>
+  <Step title="Sync from Active Directory">
+    Configure Active Directory sync by connecting your AD server under **Admin** > **User Management** > **Directory Sync**.
+  </Step>
+</Steps>
+
+### User roles
+
+| Role | Description |
+|------|-------------|
+| **Admin** | Full access to all platform features and settings |
+| **Developer** | Can build, configure, and deploy AI assistants |
+| **Business User** | Can use assistants and view analytics |
+| **Custom Role** | Configurable permissions based on your organization's needs |
+
+See [Users and roles](/ai-for-service/user-management/users-and-role) for full role permissions.
+
+## Security and control
+
+### Single sign-on (SSO)
+
+Configure SSO to allow users to log in with your organization's identity provider.
+
+Supported protocols:
+- SAML 2.0
+- WS-Federation
+- OIDC (OpenID Connect)
+
+To configure SSO, go to **Admin** > **Security & Control** > **Single Sign-On**.
+
+### Enterprise key management
+
+Bring your own encryption key (BYOK) for data at rest:
+- **AWS KMS** — Use AWS Key Management Service
+- **Azure Key Vault** — Use Azure-managed keys
+
+### API scopes
+
+Define which APIs each application or integration can access. Configure scopes under **Admin** > **Security & Control** > **API Scopes**.
+
+### Two-factor authentication (2FA)
+
+Enable 2FA to require users to verify their identity with a second factor when logging in. Supports TOTP-based authenticator apps.
+
+### Security settings
+
+Configure platform-wide security policies including:
+- Session timeout duration
+- Password complexity requirements
+- IP allowlisting
+
+## Account management
+
+Access account-level settings under **Admin** > **Account Settings**:
+- Account name and branding
+- Subscription plan and usage limits
+- Data retention policies
+
+See [Accounts and workspace overview](/ai-for-service/manage-assistant/plan-and-usage/accounts-or-workspace-overview) for workspace management.

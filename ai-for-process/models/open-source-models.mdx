@@ -1,0 +1,178 @@
+---
+title: "Open-source models"
+description: "Import, deploy, manage, and configure open-source models in AI for Process. Covers platform-hosted models, Hugging Face imports, local file imports, optimization, and deployment management."
+---
+
+Use Open-Source Models in Model Hub to deploy, import, and manage open-source AI models. Choose from platform-hosted models, import directly from Hugging Face, or upload model files from your local machine.
+
+## Model list
+
+The Open-Source Models page lists all available models:
+
+| Field | Description |
+|---|---|
+| **Model Name** | Name of the model. For imported models, derived from the uploaded `.zip` file. |
+| **Active Deployments** | Number of deployments currently active. |
+| **Deployment Failed** | Number of deployments that failed. |
+| **Ready to Deploy** | Number of deployments ready to deploy. |
+| **Source** | Origin: File (local), Platform Hosted, or Hugging Face. |
+
+## Import a model
+
+Import model files from your local machine as base models or adapter models.
+
+- **Base model**: A pre-trained model for general tasks or as the foundation for fine-tuning.
+- **Adapter model**: A smaller model that adjusts a base model for a specific task without full retraining. Requires specifying the related base model.
+
+<Note>The `deployconfig.json` file is included in model exports. When you re-import the same model, the deployment wizard pre-fills the previously selected settings from this file.</Note>
+
+### Import a base model
+
+<Steps>
+  <Step title="Start import">
+    Go to **Models** > **Open-source models** and click **Import model**. Select the **Base Model** tab.
+  </Step>
+  <Step title="Upload the file">
+    Drag and drop the model file, or click **Upload file** to browse. The system validates the file extension.
+  </Step>
+  <Step title="Import">
+    Click **Import**. Track the status: Importing → Validating → Ready to Deploy.
+  </Step>
+</Steps>
+
+### Import an adapter model
+
+<Steps>
+  <Step title="Start import">
+    Go to **Models** > **Open-source models** and click **Import model**. Select the **Adapter Model** tab.
+  </Step>
+  <Step title="Select a base model">
+    Browse the list of available base models and select one compatible with your adapter.
+  </Step>
+  <Step title="Upload the file">
+    Upload the adapter model file. Click **Import** and track the status.
+  </Step>
+</Steps>
+
+## Deploy a platform-hosted model
+
+AI for Process supports 30+ open-source models available as a service. Optionally optimize the model before deployment.
+
+<Steps>
+  <Step title="Start deployment">
+    Go to **Models** > **Open-source models** and click **Deploy a model**.
+  </Step>
+  <Step title="Enter general details">
+    Select the model from the dropdown, add a description and tags. Click **Next**.
+  </Step>
+  <Step title="Select optimization">
+    Choose an option and click **Next**:
+    - **Skip optimization**: No optimization applied.
+    - **CTranslate2**: Best for small to medium models with low-latency requirements.
+    - **vLLM**: Best for large-scale models with high-throughput needs.
+  </Step>
+  <Step title="Configure parameters">
+    Set Temperature, Maximum length, Top p, Top k, Stop sequences, Inference batch size, Min/Max replicas, and scale delays. Click **Next**.
+  </Step>
+  <Step title="Select hardware">
+    Choose hardware and click **Next**.
+  </Step>
+  <Step title="Review and deploy">
+    Accept the terms and conditions and click **Deploy**.
+  </Step>
+</Steps>
+
+## Deploy a model from Hugging Face
+
+<Note>AI for Process supports models compatible with Transformers library version 4.43.1 or lower.</Note>
+
+<Steps>
+  <Step title="Start deployment">
+    Go to **Models** > **Open-source models** and click **Deploy a model**. Click the **Hugging Face** option.
+  </Step>
+  <Step title="Enter details">
+    Enter a deployment name and description. Add tags. Click **Next**.
+  </Step>
+  <Step title="Import the model">
+    Select the **Hugging Face connection** from the dropdown. Enter the **Hugging Face model name** and click **Next**.
+  </Step>
+  <Step title="Configure parameters and hardware">
+    Set deployment parameters, select hardware, and click **Next**.
+  </Step>
+  <Step title="Review and deploy">
+    Accept the terms and conditions and click **Deploy**.
+  </Step>
+</Steps>
+
+## Model optimization
+
+Model optimization improves efficiency without compromising accuracy. AI for Process supports two types:
+
+### CTranslate2
+
+Fast inference engine for Transformer models, optimized for CPU and GPU deployment. Best for small to medium models in translation and NLP tasks where low latency is a priority.
+
+- Supports `int8_float16` quantization to reduce model size and improve speed.
+- Efficiently uses multi-threading for CPU and batch processing.
+
+### vLLM
+
+Designed for very large language models with billions of parameters. Best for high-performance environments with abundant GPU resources.
+
+- Uses advanced memory management and parallelism to maximize GPU utilization.
+- Supports AWQ (Activation-Weighted Quantization) for 4-bit precision with minimal accuracy degradation.
+
+### CTranslate2 vs. vLLM
+
+| Attribute | CTranslate2 | vLLM |
+|---|---|---|
+| **Model size** | Small to medium | Large (GPT-3 scale) |
+| **Best for** | Translation and NLP with low-latency needs | Large-scale, distributed environments |
+| **Inference speed** | Faster for real-time responses | Better throughput for large-scale batch processing |
+
+## View the API endpoint
+
+After deployment, an API endpoint is generated for external inferencing.
+
+<Note>You receive an email notification when deployment completes and the endpoint is ready.</Note>
+
+<Steps>
+  <Step title="Navigate to Model Endpoint">
+    Click the model from the models listing. Click the **Model Endpoint** tab in the left panel.
+  </Step>
+  <Step title="Copy the endpoint">
+    Click the **Copy** icon. The endpoint is available in cURL, Python, and Node.js formats.
+  </Step>
+</Steps>
+
+## Generate an API key
+
+<Steps>
+  <Step title="Open API keys">
+    Click the **API keys** tab in the left panel on the Models page.
+  </Step>
+  <Step title="Generate">
+    Click **Create a new API key**, enter a name, and click **Generate key**.
+  </Step>
+  <Step title="Copy">
+    Click **Copy and close** to copy the key.
+  </Step>
+</Steps>
+
+Keys are scoped per deployment. All generated keys are listed in the API keys section.
+
+## Configure your open-source model
+
+On the **Configurations** page, edit the description and tags, adjust the endpoint timeout, undeploy, or delete the model.
+
+**Model endpoint timeout**: Set between 30 and 180 seconds (default: 60 seconds).
+
+<Note>Timeout precedence: Workflow timeout > Node timeout > Model timeout.</Note>
+
+**Undeploy**: Click **Proceed to undeploy** on the Configurations page.
+
+**Delete**: You can delete an undeployed model. Click **Proceed to delete** to permanently remove the model and all associated data.
+
+## Deployment history
+
+The deployment history table shows each version's deployment name, timestamp, duration, and who performed the deployment. The system appends a version number on each redeployment. The most recent deployment is marked with a green tick.

@@ -1,0 +1,102 @@
+---
+title: "Bot SDKs overview"
+description: "Platform-specific client libraries for embedding Kore.ai bot capabilities and customizing conversation behavior."
+---
+
+The Bot SDKs are platform-specific client libraries that let you embed Kore.ai bot capabilities into your applications and give you precise control over conversation behavior.
+
+<CardGroup cols={3}>
+  <Card title="Web SDK" icon="globe" href="/ai-for-service/sdk/web-sdk">
+    Embed a chat widget in web apps using HTML5 and JavaScript. Communicates with the platform over WebSocket.
+  </Card>
+  <Card title="BotKit SDK" icon="server" href="/ai-for-service/sdk/botkit-sdk">
+    Server-side Node.js library for intercepting and customizing messages, webhook events, and agent transfers.
+  </Card>
+  <Card title="Widget SDK" icon="window-restore">
+    Render bot data as panels and widgets in a host application (e.g., Salesforce, ServiceNow).
+  </Card>
+</CardGroup>
+
+## Platform-specific SDKs
+
+| SDK | Platform | Repository |
+|-----|----------|------------|
+| **Web SDK** | Web / Hybrid mobile | [Koredotcom/web-kore-sdk](https://github.com/Koredotcom/web-kore-sdk) |
+| **iOS SDK** | Native iOS | [Koredotcom/iOS-kore-sdk](https://github.com/Koredotcom/iOS-kore-sdk) |
+| **Android SDK** | Native Android | [Koredotcom/android-kore-sdk](https://github.com/Koredotcom/android-kore-sdk) |
+| **React Native SDK** | iOS and Android | [Koredotcom/react-native-botsdk](https://github.com/Koredotcom/react-native-botsdk) |
+| **Flutter SDK** | iOS and Android | [KoreBotFlutterPlugin](https://github.com/DocsInternal-Kore/KoreBotFlutterPlugin) |
+
+<Note>In GitHub, select a version-specific branch from the top-left corner to access the correct version for your integration.</Note>
+
+## Prerequisites
+
+Before integrating any SDK:
+
+1. Have an application to embed the SDK into
+2. Host a JWT generation web service on your server
+3. Register your app on the platform to get a Client ID and Client Secret
+
+## Authentication overview
+
+All SDKs use JWT (JSON Web Token) authentication. The flow is:
+
+1. Your server generates a signed JWT containing the `appId` (Client ID) and optionally the `userId`
+2. The SDK sends this JWT to the Kore.ai platform on connection
+3. The platform validates the JWT using your Client Secret
+4. A secure WebSocket session is established
+
+### Generating a JWT
+
+```javascript
+const jwt = require('jsonwebtoken');
+
+const payload = {
+  appId: 'your-client-id',
+  sub: 'user-unique-id',  // optional: ties session to a user
+  iat: Math.floor(Date.now() / 1000)
+};
+
+const token = jwt.sign(payload, 'your-client-secret', {
+  algorithm: 'HS256',
+  expiresIn: '1h'
+});
+```
+
+## App registration
+
+To get your Client ID and Client Secret:
+
+<Steps>
+  <Step title="Open Dev Tools">
+    Go to **App Settings** > **Dev Tools** > **Web/Mobile SDK**.
+  </Step>
+  <Step title="Create a JWT app">
+    Click **Add** and enter a name for your app.
+  </Step>
+  <Step title="Copy credentials">
+    After saving, copy the **Client ID** and **Client Secret**. Use these in your JWT server.
+  </Step>
+</Steps>
+
+## SDK security
+
+### JWT structure
+
+The platform validates these fields in the JWT payload:
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `appId` | Yes | Your Client ID from the platform |
+| `sub` | No | Unique user identifier for persistent sessions |
+| `iat` | Recommended | Issued-at timestamp (prevents replay attacks) |
+| `jti` | Optional | Unique token ID (required if JTI enforcement is enabled) |
+
+### Supported algorithms
+
+- **HS256** — HMAC with SHA-256 (default, recommended for server-side)
+- **RS256** — RSA with SHA-256 (for asymmetric key scenarios)
+
+### JSON Web Encryption (JWE)
+
+Enable JWE encryption in your JWT app settings to encrypt the JWT payload. This adds an additional layer of security for sensitive user data passed in the token.

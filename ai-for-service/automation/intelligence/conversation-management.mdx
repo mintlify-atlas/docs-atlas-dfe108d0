@@ -1,0 +1,107 @@
+---
+title: "Conversation management"
+description: "Configure standard responses, interruption handling, small talk, and alert tasks to control how your AI Agent manages conversations."
+---
+
+Conversation management covers the core features that control how your AI Agent handles non-task situations: standard responses for system events, interruption handling when users change topics, small talk for casual conversation, and alert tasks for proactive notifications.
+
+## Standard responses
+
+Standard responses are pre-defined NLP interpreter messages the AI Agent displays based on events, user inputs, or system conditions. All defaults can be customized, and channel-specific overrides can be added.
+
+Go to **Automation AI > Conversation Intelligence > Conversation Management > Standard Responses**.
+
+### Response categories
+
+| Category | Description |
+|----------|-------------|
+| **Statements** | Responses triggered by AI Agent or user actions—for example, task cancellation or invalid input. |
+| **Queries** | Questions the AI Agent asks for more information. |
+| **Errors & Warnings** | Messages displayed during errors—for example, *End date cannot be before the start date.* |
+| **Questions** | General questions posed to the user that don't fit other categories. |
+| **Choices** | Yes/No prompts—for example, *Would you like to receive push notifications?* |
+| **Greeting** | Initial responses when the app starts or when a user returns after inactivity. |
+
+### Add and edit responses
+
+1. Select a **category tab** and hover over the target situation.
+2. Click **Add Response**.
+3. In the **Add Channel Overrides** dialog, select a **channel** (or **Any Channel** for all channels).
+4. In the **Response** editor, choose **Simple Mode** (plain text) or **Advanced Mode** (JavaScript).
+5. Click **Save**.
+
+## Manage interruptions
+
+Users rarely follow a linear conversation path—they may switch topics, ask unrelated questions, or provide a new intent mid-task. Manage Interruptions gives you granular control over how the AI Agent handles these situations.
+
+Go to **Automation AI > Conversation Intelligence > Conversation Management > Manage Interruptions**.
+
+### Interruptions hierarchy
+
+Settings at more specific levels override broader defaults.
+
+| Level | Precedence | Where to configure |
+|-------|------------|-------------------|
+| **Node** | Highest | Node **Instance** tab > **Advanced Controls** > **Interruptions Behavior** |
+| **Dialog Task** | Middle | Dialog Builder > **more options** icon > **Manage Interruptions** |
+| **App** | Lowest (default) | **Conversation Intelligence > Conversation Management > Manage Interruptions** |
+
+### Allow interruptions
+
+| Option | Behavior |
+|--------|----------|
+| **Hold the current task and resume after the new task completes** | Switches to the new intent immediately. Requires a Resume Option. |
+| **Discard the current task and switch to new** | Discards the current task and switches. Sends the user a notification message. |
+| **Switch to new task without notification and discard current** | Silently discards the current task and switches. No user notification. |
+| **Continue the current task and add new task to follow-up list** | Stays on the current task and adds the new intent to the `FollowupIntents` array. |
+
+### Resume options
+
+| Option | Behavior |
+|--------|----------|
+| **Get confirmation before resuming** | AI Agent asks the user (Yes/No) whether to resume the on-hold task. |
+| **Notify the user and resume** | Resumes the on-hold task automatically and notifies the user. |
+| **Resume without any message** | Directly resumes the on-hold task with no notification. |
+
+## Small talk
+
+Small Talk enables the AI Agent to engage users in casual conversation. Agents that respond to social inputs like *How are you?* create a positive impression and improve engagement.
+
+Go to **Automation AI > Use Cases > Small Talk**.
+
+<Note>Intents and FAQs take precedence over Small Talk. Small talk is language-specific—configure it separately for each enabled language.</Note>
+
+### Set up small talk
+
+<Steps>
+  <Step title="Add a group">
+    Go to **Automation AI > Use Cases > Small Talk**, click **New Group**, enter a Group Name, and click **Proceed**.
+  </Step>
+  <Step title="Add query-response pairs">
+    In the Small Talk editor, enter the **User Query** and **Bot Response**. Add alternate questions, alternate responses, or child queries for nested conversations.
+  </Step>
+  <Step title="Configure channel-specific responses (optional)">
+    Hover over a response and click the **Settings** (gear) icon. Add a default message or channel-specific response.
+  </Step>
+  <Step title="Train">
+    After making changes, click **Train** in the Small Talk editor.
+  </Step>
+</Steps>
+
+## Alert tasks
+
+Alert Tasks proactively deliver information to users by polling a service on a real-time or scheduled basis.
+
+Go to **Automation AI > Use Cases > Alert Tasks**.
+
+**Example use cases:** Time- or location-based promotional offers, scheduled delivery updates, inventory level changes, critical issue notifications, weather alerts.
+
+### Create an alert task
+
+1. Navigate to **Automation > Use Cases > Alert Tasks**.
+2. Click **Create Alert Task**.
+3. Configure the **General Settings**: Task Name, Display Name, Connection Type (Webhook, RSS, or Webservice), and Connection Mode (for Webservice: REST or SOAP).
+4. Configure **Authorization** if needed.
+5. Set up **API Requests** for the alert data source.
+6. Define **Bot Responses** to determine how alert results are displayed.
+7. Configure **Alert Settings** (schedule, filters, and advanced options).

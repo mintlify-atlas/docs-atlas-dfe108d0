@@ -1,0 +1,206 @@
+---
+title: "BotKit SDK"
+description: "Node.js library for intercepting messages, implementing live agent handoffs, and executing custom business logic."
+---
+
+The Kore.ai BotKit SDK is a Node.js library that sits between the platform and your server, giving you full control over every message, webhook event, and agent transfer in your bot's conversation flow.
+
+## How it works
+
+```
+User → Platform → BotKit (your server) → Platform → User
+```
+
+BotKit intercepts every message before it reaches the user, allowing you to:
+- Insert asynchronous messages while the platform processes a request
+- Implement custom live agent transfer logic
+- Execute business logic on webhook events
+- Modify or enrich responses before delivery
+
+## Installation
+
+<Steps>
+  <Step title="Download the SDK">
+    Clone or download the BotKit SDK from [Koredotcom/BotKit](https://github.com/Koredotcom/BotKit) on GitHub.
+  </Step>
+  <Step title="Install dependencies">
+    ```bash
+    npm install
+    ```
+  </Step>
+  <Step title="Configure the SDK">
+    Update `config.json` with your platform credentials:
+    ```json
+    {
+      "server": {
+        "host": "0.0.0.0",
+        "port": 8003
+      },
+      "app": {
+        "apiPrefix": "/api/v1.1"
+      },
+      "credentials": {
+        "clientId": "your-client-id",
+        "clientSecret": "your-client-secret"
+      },
+      "botInfo": {
+        "chatBot": "Your Bot Name",
+        "taskBotId": "st-xxxx-xxxx-xxxx-xxxx-xxxx"
+      }
+    }
+    ```
+  </Step>
+  <Step title="Start the BotKit server">
+    ```bash
+    node app.js
+    ```
+  </Step>
+  <Step title="Register BotKit URL on the platform">
+    Go to **App Settings** > **Dev Tools** > **BotKit SDK** and enter your BotKit server URL.
+  </Step>
+</Steps>
+
+## Event handlers
+
+BotKit intercepts platform events using named handlers:
+
+### onMessage
+
+Fires on every user or bot message:
+
+```javascript
+botKit.on('onMessage', function(requestId, payload, callback) {
+  console.log('Message received:', payload.message);
+  
+  // Modify the message or add custom logic
+  payload.message = payload.message + ' (processed by BotKit)';
+  
+  // Call callback to continue the flow
+  callback(requestId, payload);
+});
+```
+
+### onWebhook
+
+Fires when a Service Node webhook is invoked:
+
+```javascript
+botKit.on('onWebhook', function(requestId, payload, callback) {
+  // Execute custom API call or business logic
+  const result = await myBusinessLogic(payload);
+  
+  // Return data to the dialog flow
+  callback(requestId, {
+    response: {
+      statusCode: 200,
+      body: result
+    }
+  });
+});
+```
+
+### onAgentTransfer
+
+Fires when the bot initiates a live agent transfer:
+
+```javascript
+botKit.on('onAgentTransfer', function(requestId, payload, callback) {
+  // Connect to your live agent platform
+  const agentSession = await liveAgentSystem.createSession({
+    userId: payload.userId,
+    transcript: payload.conversationHistory,
+    queueId: payload.queueId
+  });
+  
+  callback(requestId, {
+    agentSessionId: agentSession.id,
+    agentInfo: agentSession.assignedAgent
+  });
+});
+```
+
+### onEvent
+
+Fires on system events (session start/end, task events):
+
+```javascript
+botKit.on('onEvent', function(requestId, payload, callback) {
+  if (payload.event === 'sessionClosed') {
+    // Log session end to your analytics
+    analytics.track('session_closed', {
+      userId: payload.userId,
+      sessionId: payload.sessionId
+    });
+  }
+  callback(requestId, payload);
+});
+```
+
+## SDK functions
+
+Use BotKit functions to send messages and control conversation state:
+
+### Sending a message to the user
+
+```javascript
+// Send a simple text message
+botKit.sendUserMessage(requestId, {
+  message: 'Please wait while I check your account...',
+  type: 'text'
+});
+
+// Send a template message
+botKit.sendUserMessage(requestId, {
+  type: 'template',
+  payload: {
+    template_type: 'button',
+    text: 'What would you like to do?',
+    buttons: [
+      { type: 'postback', title: 'Check Balance', payload: 'CHECK_BALANCE' },
+      { type: 'postback', title: 'Pay Bill', payload: 'PAY_BILL' }
+    ]
+  }
+});
+```
+
+### Managing conversation context
+
+```javascript
+// Update a context variable
+botKit.updateContext(requestId, {
+  contextVariables: [
+    { key: 'customerType', value: 'premium' }
+  ]
+});
+```
+
+## Deployment
+
+### Production requirements
+
+| Requirement | Recommendation |
+|-------------|----------------|
+| **Node.js version** | 16.x LTS or higher |
+| **Memory** | Minimum 512 MB RAM |
+| **Connections** | Persistent WebSocket connection to platform |
+| **SSL** | Required — BotKit must serve over HTTPS |
+| **Uptime** | High availability recommended (99.9%+) |
+
+### AWS deployment
+
+For production deployments on AWS:
+
+1. Use EC2 instances with an Application Load Balancer
+2. Configure an Auto Scaling Group for horizontal scaling
+3. Use ElastiCache (Redis) for session state management across instances
+4. Set health check endpoint to `/api/v1.1/healthz`
+
+### Environment variables
+
+```bash
+CLIENT_ID=your-client-id
+CLIENT_SECRET=your-client-secret
+BOT_ID=st-xxxx-xxxx-xxxx-xxxx-xxxx
+PORT=8003
+NODE_ENV=production
+```

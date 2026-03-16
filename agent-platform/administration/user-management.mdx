@@ -1,0 +1,137 @@
+---
+title: "User management"
+description: "Manage users, roles, and directory sync for your Agent Platform account from a single interface."
+---
+
+The User Management module gives administrators control over who can access Agent Platform and what they can do. It covers user invitations, bulk import, role assignments, Active Directory (AD) sync, and user profile configuration.
+
+<Note>Only users with the **Admin** role and required permissions can access User Management in the Settings Console.</Note>
+
+## Users dashboard
+
+Navigate to **Settings** → **User Management** → **Users** to see the dashboard.
+
+| Status | Description |
+|---|---|
+| **Active** | User has accepted the invitation and can access the platform |
+| **Inactive** | User was invited but has not yet accepted |
+| **Locked** | User exceeded 5 consecutive failed login attempts |
+
+## Add users
+
+| Method | Best for |
+|---|---|
+| **Email invitation** | Individuals or small groups |
+| **Bulk import** | Many users at once via a CSV or TXT file |
+| **Active Directory sync** | Syncing users from your organization's AD server |
+
+### Invite via email
+
+1. Go to **Settings** → **User Management** → **Users** → **Add New User** → **Invite**.
+2. Enter a valid email address.
+3. Select a role from the dropdown.
+4. To add more invitees, click **+ Add another member**.
+5. Click **Send invitation(s)**.
+
+<Note>
+- Invitations expire after **15 days**. The user's status shows as **Inactive** until they accept.
+- Email addresses must include a valid domain. Leading/trailing spaces are not allowed.
+- Duplicate email addresses in the same invitation batch are rejected.
+</Note>
+
+### Bulk import
+
+Use a `.csv` or `.txt` file to add multiple users at once.
+
+**File requirements:**
+
+| Requirement | Detail |
+|---|---|
+| Valid formats | `.csv`, `.txt` |
+| Required fields | Name, email ID, user status |
+| Accepted delimiters | Comma, pipe (`\|`), semicolon, tab |
+| First row | Must be the header row with field names |
+| Valid status values | `New`, `Update`, `Delete` |
+
+**Steps:**
+
+1. Go to **Settings** → **User Management** → **Users** → **Add New User** → **Import**.
+2. Click **Upload File** or drag and drop your file.
+3. Review the data preview, then click **Continue**.
+4. If validation errors appear, correct the highlighted rows and re-upload.
+5. Click **OK** when the import completes.
+
+<Note>Imported users are assigned the **Viewer** role by default. You can change this after import.</Note>
+
+## Manage users
+
+### Unlock a locked user
+
+1. On the Users dashboard, hover over a user with **Locked** status.
+2. Click **Unlock**, then confirm.
+
+### Change role
+
+To bulk-assign the same role to multiple users:
+1. Select the target users on the dashboard.
+2. In the bottom action bar, open the **Role** dropdown and select the new role.
+
+### Delete users
+
+<Warning>Deleting a user revokes their access and removes their data from your account. You cannot delete a user who owns active tools.</Warning>
+
+- **Single delete**: Hover over the user entry, click the **Delete** icon, and confirm.
+- **Bulk delete**: Select multiple users, click the **Delete** icon in the bottom action bar, then click **Remove**.
+
+## Active Directory sync
+
+Active Directory (AD) sync imports user data from your organization's directory and keeps it current automatically—no email invitations or manual file imports needed.
+
+To configure AD sync, go to **Settings** → **User Management** → **Settings** → **Configure Directory**.
+
+### Step 1: Set up the connection
+
+| Field | Description |
+|---|---|
+| **Host name** | Hostname or IP address of the AD server |
+| **Server port** | Network port the AD server uses |
+| **Base DN** | Location in the directory for users and groups |
+| **User ID** | Identity used to log in to AD |
+| **Password** | Password used to log in to AD |
+| **SSL** (optional) | Enable to secure communications over HTTPS |
+
+### Step 2: Import organization units
+
+| Option | Behavior |
+|---|---|
+| **Import all organization units** | Imports users from every OU |
+| **Do not import organization units** | Imports no users from OUs |
+| **Import only the following OUs** | Imports users from selected OUs only |
+
+### Step 3: User attributes and rules
+
+Map AD fields to user profile fields and define inclusion/exclusion rules.
+
+| Rule type | Purpose | How to configure |
+|---|---|---|
+| **Inclusion rules** | Define which users to sync | Enter an LDAP filter expression |
+| **Exclusion rules** | Define which users to exclude | Set the AD/LDAP field, match type, and value |
+
+### Step 4: Schedule auto sync
+
+1. Turn on the **Enable auto-sync** toggle.
+2. Set the sync frequency: Daily, Weekly, Monthly, or Custom.
+3. Set the sync start date and time.
+4. Click **Save**.
+
+## User settings
+
+### Default role for new workspace users
+
+Set a default role—Admin, Member, or Viewer—applied automatically to users added via invite, AD sync, or API. **Member** is the recommended default.
+
+### Email notifications
+
+Configure when users receive email notifications after being added to the account:
+- When invited by an administrator
+- When added or synchronized via AD sync

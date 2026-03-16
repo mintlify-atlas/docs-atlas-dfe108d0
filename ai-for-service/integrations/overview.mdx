@@ -1,0 +1,153 @@
+---
+title: "Automation AI integrations"
+description: "Connect your AI Agent with business applications, live agent systems, and external NLU engines."
+---
+
+The platform provides three categories of integrations to connect your AI Agent with business applications, live agent systems, and external NLU engines.
+
+## Actions (pre-built integrations)
+
+Pre-built integrations with popular business applications. Each integration includes a full conversation flow definition, a low-code API interface, pre-built response mapping, and dialog task templates.
+
+### Available integrations
+
+<CardGroup cols={3}>
+  <Card title="Asana" icon="list-check">
+    Create and manage tasks, projects, and assignments in Asana.
+  </Card>
+  <Card title="Azure OpenAI" icon="microchip-ai">
+    Access Azure-hosted OpenAI models for natural language tasks.
+  </Card>
+  <Card title="BambooHR" icon="users">
+    Query and manage HR data including employee records and time off.
+  </Card>
+  <Card title="Confluence" icon="book">
+    Search and retrieve knowledge from Confluence spaces and pages.
+  </Card>
+  <Card title="Freshdesk" icon="ticket">
+    Create, update, and retrieve support tickets in Freshdesk.
+  </Card>
+  <Card title="HubSpot" icon="chart-line">
+    Manage contacts, deals, and CRM data in HubSpot.
+  </Card>
+  <Card title="JIRA" icon="code-branch">
+    Create and manage JIRA issues, sprints, and projects.
+  </Card>
+  <Card title="Salesforce CRM" icon="cloud">
+    Manage leads, accounts, contacts, and cases in Salesforce.
+  </Card>
+  <Card title="ServiceNow" icon="circle-check">
+    Create and manage incidents, requests, and catalog items.
+  </Card>
+  <Card title="Zendesk" icon="headset">
+    Create, update, and manage Zendesk support tickets and users.
+  </Card>
+</CardGroup>
+
+### Setting up an action integration
+
+<Steps>
+  <Step title="Go to Integrations">
+    Navigate to **App Settings** > **Integrations** > **Actions**.
+  </Step>
+  <Step title="Select the integration">
+    Find and select the business application you want to integrate.
+  </Step>
+  <Step title="Authorize the connection">
+    Enter the required credentials (API key, OAuth tokens, or connection URL) and authorize.
+  </Step>
+  <Step title="Enable pre-built templates">
+    Choose which dialog task templates to enable. These become available as tasks in your AI Agent.
+  </Step>
+  <Step title="Test the integration">
+    Use the test console to run the pre-built templates and verify they work with your connected account.
+  </Step>
+</Steps>
+
+## Agent transfer
+
+Configure handoff integrations to transfer conversations to live agents seamlessly.
+
+### Supported live agent platforms
+
+| Platform | Type |
+|----------|------|
+| **Drift** | Chat |
+| **Genesys** | Chat and Voice |
+| **Intercom** | Chat |
+| **Salesforce** | Chat |
+| **ServiceNow** | Chat |
+| **Custom integration** | Any platform via webhook |
+
+### Configuring agent transfer
+
+<Steps>
+  <Step title="Open Agent Transfer settings">
+    Go to **App Settings** > **Integrations** > **Agent Transfer**.
+  </Step>
+  <Step title="Select your live agent platform">
+    Choose the platform your human agents use from the list.
+  </Step>
+  <Step title="Enter connection details">
+    Provide the required connection information: API endpoint, authentication credentials, and queue configuration.
+  </Step>
+  <Step title="Configure handoff behavior">
+    Set what data gets passed during handoff: conversation transcript, user profile, and context variables.
+  </Step>
+  <Step title="Add a transfer event">
+    In your dialog task, add an **Agent Transfer** node where the handoff should occur.
+  </Step>
+</Steps>
+
+### Custom agent transfer
+
+For platforms not listed above, use the custom webhook:
+
+```javascript
+// Agent transfer payload structure
+{
+  "event": "agent_transfer",
+  "conversationId": "{{context.session.sessionId}}",
+  "userId": "{{context.session.userId}}",
+  "transcript": "{{context.session.transcript}}",
+  "metadata": {
+    "queueId": "your-queue-id",
+    "priority": "normal"
+  }
+}
+```
+
+## External NLU
+
+Co-exist an external NLU engine alongside the platform's built-in NLP engines.
+
+### Supported external NLU engines
+
+| Engine | Description |
+|--------|-------------|
+| **Google Dialogflow** | Use Dialogflow ES or CX for intent detection |
+| **Custom NLU** | Connect any NLU engine via the external NLU adapter interface |
+
+### Configuring Dialogflow as external NLU
+
+<Steps>
+  <Step title="Create a service account">
+    In Google Cloud Console, create a service account with Dialogflow API access and download the JSON key.
+  </Step>
+  <Step title="Open External NLU settings">
+    Go to **App Settings** > **Integrations** > **External NLU**.
+  </Step>
+  <Step title="Configure Dialogflow">
+    Select **Dialogflow** and upload the service account JSON key file.
+  </Step>
+  <Step title="Set engine priority">
+    Configure whether Dialogflow or the platform's built-in NLU takes priority for intent detection.
+  </Step>
+  <Step title="Test the integration">
+    Send test utterances through the test console to verify Dialogflow returns expected intents.
+  </Step>
+</Steps>
+
+<Note>
+When using external NLU, the platform still handles dialog management. The external NLU only handles intent classification, not the full conversation flow.
+</Note>

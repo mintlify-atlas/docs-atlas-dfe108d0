@@ -1,0 +1,81 @@
+---
+title: "Agent AI playbook"
+description: "Give agents structured, step-by-step guidance for handling customer interactions."
+---
+
+Playbooks give contact center agents structured, step-by-step guidance for handling customer interactions. Supervisors create and manage playbooks to help agents maintain consistent quality.
+
+## Playbook types
+
+| Type | Description |
+|------|-------------|
+| **Primary** | Standard playbooks triggered for all assigned agents. Include Open and Close stages. Always visible on the Agent AI widget. |
+| **Dynamic** | Situation-specific playbooks triggered by a customer utterance or dialog execution. A lightbulb icon alerts the agent when a Dynamic Playbook matches. |
+
+## Create a playbook
+
+### Create a primary playbook
+
+1. Select **AgentAI** > **EXPERIENCE** > **Agent Playbook**.
+2. Select **+ New Playbook**.
+3. Fill in the **General Settings**:
+
+   | Field | Description |
+   |-------|-------------|
+   | **Playbook Name** | A name that reflects the playbook's purpose. |
+   | **Description** | A short description of what the playbook covers. |
+   | **Type** | Select **Primary**. |
+   | **Tags** | Labels for grouping and searching similar playbooks. |
+   | **Step Progression** | **Sequential** — steps must be completed in order. **Random** — agents can complete steps in any order. |
+   | **Channels** | Voice or Chat. |
+
+4. Select **Save**. The playbook is created with two default stages (Open and Close) and sample steps.
+
+### Create a dynamic playbook
+
+1. Follow steps 1–2 from creating a primary playbook.
+2. Select **Dynamic** in the **Type** field.
+3. Select the **Assignments** menu to define which agents see this playbook.
+4. Select the **Triggers** menu and choose a trigger type:
+
+   - **By Customer's Utterance** — enter an utterance and select from AI-generated similar options.
+   - **By Dialog Execution** — select a Dialog Task and choose when the playbook triggers (Initiated or Completed).
+
+5. Select **Save**.
+
+## Configure playbook steps
+
+### Create a step
+
+1. Open the playbook and select **+ Add Step**.
+2. Enter a **Step Title** and **Step Body**.
+3. Optionally enable **Enable send/copy button** (voice channel only).
+4. Select **Add Buttons** and choose **Yes/No** confirmation buttons.
+5. Select **Save**.
+
+### Step adherence
+
+Step adherence tracks whether an agent completed a step.
+
+**Configure automatic adherence:**
+
+1. Open the playbook and select a step.
+2. Select **Step Adherence** and choose:
+   - **By Utterance** — select agent or customer utterance and add matching utterances.
+   - **By Dialog Execution** — select a Dialog Task and choose when adherence is recorded (Initiated or Completed).
+3. Select **Apply**.
+
+## Assign a playbook
+
+1. Open the playbook and select the **Assign** button in General Settings.
+2. Choose:
+   - **Trigger for all Interactions** — visible to all agents for all interactions.
+   - **Trigger for Selected Agents** — visible only to selected agents or groups.
+3. Select **Save**.
+
+## Edit, delete, and manage playbooks
+
+- **Edit a playbook:** Select **Edit** on the playbook, then select **Settings**, make changes, and select **Update**.
+- **Delete a playbook:** Select **Delete** on the playbook and confirm.
+- **Edit a step:** Open the playbook, select **Edit**, choose the step, make changes, and select **Update**.
+- **Delete a step:** Open the playbook, select **Edit**, select **Delete** on the step, and confirm.

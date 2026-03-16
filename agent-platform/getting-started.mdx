@@ -1,0 +1,72 @@
+---
+title: "Get started with Agent Platform"
+description: "Set up your workspace, configure an LLM, and launch your first agentic app."
+---
+
+## Platform availability and access
+
+The Agent Platform is available on the US Cloud at [https://agent-platform.kore.ai](https://agent-platform.kore.ai). To request access for your customers, partners, or prospects, [contact Support](https://support.kore.ai).
+
+## Outbound IP addresses
+
+The platform sends requests from a fixed set of IP addresses. If your systems use IP allowlisting, add these IPs to your allowlist so platform traffic is permitted.
+
+Outbound IP addresses (SaaS instance: `https://agent-platform.kore.ai`):
+
+- `34.201.194.187`
+- `44.216.129.184`
+- `54.225.127.87`
+
+## Agentic app setup guide
+
+Set up your agentic app in four phases:
+
+<Steps>
+  <Step title="Phase 1: Foundation">
+    Get your workspace and core components ready.
+
+    | Step | Description |
+    |---|---|
+    | **1. Sign up** | Create an account to get a dedicated workspace. If you've used XO Platform, your existing workspaces appear automatically. |
+    | **2. Configure an LLM** | Choose and connect a large language model—the intelligence that powers your agents. Supported providers: OpenAI, Azure OpenAI, Anthropic, Gemini. [Learn more →](/agent-platform/models/external-models) |
+    | **3. Create an agentic app** | Start from scratch, import a pre-built app, or install one from the marketplace. [Learn more →](/agent-platform/agents/agentic-apps/create-an-app) |
+  </Step>
+
+  <Step title="Phase 2: Configuration">
+    Build out your app's agents, knowledge, and tools.
+
+    | Step | Description |
+    |---|---|
+    | **1. Set up agents** | Define each agent's purpose and assign the tools and resources it needs to complete tasks. [Learn more →](/agent-platform/agents/create-an-agent) |
+    | **2. Add knowledge** | Connect knowledge sources so agents can retrieve accurate, up-to-date answers. The platform uses RAG to search them. [Learn more →](/agent-platform/knowledge) |
+    | **3. Configure tools** | Tools let agents take action—fetching data, running logic, and triggering workflows. |
+    | **4. Configure events** | Events mark key moments in a conversation: welcome, agent handoff, end of session. |
+
+    ### Which tool type should you use?
+
+    | Tool type | Use when... |
+    |---|---|
+    | **Workflow tool** | You want a no-code visual builder for step-by-step processes. [Learn more →](/agent-platform/tools/workflow) |
+    | **Code tool** | You need custom logic using JavaScript or Python. [Learn more →](/agent-platform/tools/code) |
+    | **MCP tool** | You want a universal connector to external tools and services via the Model Context Protocol. [Learn more →](/agent-platform/tools/mcp) |
+  </Step>
+
+  <Step title="Phase 3: Quality assurance">
+    Validate safety, accuracy, and performance before going live.
+
+    | Step | Description |
+    |---|---|
+    | **1. Deploy guardrails** | Add input and output scanners to control what agents receive and send. This prevents unsafe, off-topic, or unexpected responses. [Learn more →](/agent-platform/guardrails) |
+    | **2. Test the app** | Use the built-in simulator to submit queries and review responses. Catch errors and edge cases before your users do. [Learn more →](/agent-platform/agents/agentic-apps/simulation-and-testing) |
+    | **3. Evaluate performance** | Run structured evaluations in Evaluation Studio to measure response quality and optimize agent behavior at scale. [Learn more →](/agent-platform/evaluation/agentic-evaluation) |
+  </Step>
+
+  <Step title="Phase 4: Deployment">
+    Go live and connect your app to your products.
+
+    | Step | Description |
+    |---|---|
+    | **1. Deploy the app** | Promote your tested app version to staging or production. Each deployment is structured and repeatable. [Learn more →](/agent-platform/deploy-apps) |
+    | **2. Integrate** | Connect your deployed app to your products and channels via the web widget or API. |
+  </Step>
+</Steps>

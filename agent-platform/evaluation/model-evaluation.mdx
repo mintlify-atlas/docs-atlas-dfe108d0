@@ -1,0 +1,134 @@
+---
+title: "Model evaluation"
+description: "Assess and optimize LLM performance systematically using datasets, automated evaluators, and visual insights."
+---
+
+Model Evaluation is a comprehensive tool for assessing LLM performance. It offers the flexibility to select from a variety of pre-built evaluators or create custom evaluators to measure model effectiveness.
+
+## User journey
+
+<Steps>
+  <Step title="Create a project">
+    Log in to the platform, go to Evaluation Studio, and create a project under Model Evaluation.
+  </Step>
+  <Step title="Create an evaluation">
+    Create an evaluation within your project to organize session data.
+  </Step>
+  <Step title="Import a dataset">
+    Upload a CSV dataset or import production data for evaluation.
+  </Step>
+  <Step title="Configure evaluators">
+    Choose Quality, Safety, or RAGAS evaluators and map prompt variables to dataset columns.
+  </Step>
+  <Step title="Run an evaluation">
+    Trigger the evaluation against your dataset and selected evaluators.
+  </Step>
+  <Step title="View results">
+    Review evaluator tiles in Evaluation Insights with color-coded visual indicators.
+  </Step>
+  <Step title="Export results">
+    Export the evaluation table as a CSV for offline analysis.
+  </Step>
+</Steps>
+
+## Projects
+
+Projects act as the core containers for organizing evaluations. Each project can store multiple evaluations, and each evaluation contains a distinct dataset.
+
+### Roles and permissions
+
+| Role | Capabilities |
+|---|---|
+| **Admin** | Full access to create, modify, and delete projects and evaluations. Can manage user permissions and invite new users. |
+| **Editor** | Can create and modify evaluations within a project, but cannot manage users or project-level settings. |
+| **Viewer** | Read-only access—can view all evaluations, scores, score explanations, and evaluator properties. |
+
+### Creating a new project
+
+1. Navigate to **Model Evaluation**.
+2. On the **Projects** tab, click **New Project**.
+3. Enter a name for the project (maximum 100 characters).
+4. Click **Create**.
+
+## Import datasets
+
+- **Import a dataset** — Upload datasets in CSV format containing input-output pairs or input-only data.
+- **Import production data** — Import data from real-time deployed models with filters for date range, source, and specific columns from model traces.
+
+### Additional dataset actions
+
+- **Run a prompt** — Generate outputs using a selected model and prompt.
+- **Run an API** — Fetch content from external APIs or deployed tools.
+- **Run Search AI** — Retrieve answers and context chunks via a Search AI integration (for RAG evaluation).
+
+## Configure evaluators
+
+### AI evaluator types
+
+#### Quality metrics
+
+| Metric | Description | Required dataset components |
+|---|---|---|
+| **Groundness** | Evaluates whether the output accurately reflects the input without introducing external information. | Input, Output |
+| **Query relevance** | Assesses the relevance of the output to the user query. | Input, Output, User Query |
+| **Ground truth relevance** | Compares the output to a provided ground truth. | Input, Output, Ground Truth |
+| **Coherence** | Evaluates logical consistency and natural flow. | Output |
+| **Fluency** | Assesses grammatical correctness and sentence quality. | Output |
+| **GPT similarity score** | Compares the model's response with a superior model's response. | Input, your model's response, Superior model's response |
+| **Paraphrasing** | Assesses whether the output conveys the same meaning using different phrasing. | Input, Output |
+| **Completeness** | Evaluates whether the output conveys the full context from the input. | Input, Output |
+
+#### Safety metrics
+
+| Metric | Description | Required dataset components |
+|---|---|---|
+| **Bias detection** | Analyzes the output for potential biases. | Output |
+| **Banned topics** | Scans for prohibited content related to specified sensitive topics. | Output |
+| **Toxicity** | Screens for violent, sexual, or otherwise inappropriate content. | Output |
+
+#### RAGAS evaluators
+
+RAGAS evaluators assess the performance of RAG pipelines.
+
+| Metric | Description | Required dataset components |
+|---|---|---|
+| **Context precision** | Measures the proportion of relevant chunks among all retrieved chunks. | Input, Response, Retrieved context |
+| **Context recall** | Evaluates whether the retrieved context is sufficient to address the user input. | Input, Response, Retrieved context, Reference answer |
+| **Context entity recall** | Evaluates common entities present in the retrieved context. | Retrieved context, Reference answer |
+| **Noise sensitivity** | Proportion of incorrect claims in the total number of retrieved claims. | Input, Response, Retrieved context, Reference answer |
+| **Faithfulness** | Measures how factually consistent a response is with the retrieved context. | Input, Response, Retrieved context |
+
+### Human evaluators
+
+- **Thumbs up/down** — Users provide a thumbs up (1) or thumbs down (0) reaction.
+- **Better output** — Users suggest an improved version of the model's output.
+- **Comments** — Users leave short positive or negative comments providing detailed feedback.
+
+## Run evaluations
+
+After setting up evaluators and mapping variables, click **Run** on the Evaluation page. Once complete, evaluator columns are populated with scores and evaluator tiles appear in the **Evaluation Insights** section.
+
+### Tracking evaluation progress
+
+Click the **progress ring icon** in the top corner to view real-time visibility into the status of running evaluations, including elapsed time, number of rows being processed, and completion status.
+
+## View results in Evaluation Insights
+
+Each evaluator tile shows a bar graph where color and bar length indicate pass/fail status relative to the configured threshold:
+
+- **Pass** — The output meets the evaluation criteria.
+- **Fail** — The output does not meet the evaluation criteria.
+
+**Scoring methods:**
+
+- **Quality evaluators** (Groundness, Coherence, Fluency) use continuous scoring on a numerical scale (for example, 1–5).
+- **Safety evaluators** (Bias Detection, Banned Topics) use boolean scoring (pass = 1, fail = 0).
+
+## Export evaluation results
+
+1. Go to **Evaluation Studio** and open the desired project.
+2. Select the evaluation you want to export.
+3. Click the **three-dot menu** at the top-right corner of the evaluation table.
+4. Select **Export**.
+
+The CSV file includes all column data, score values, and footer metrics (pass%, fail%, average, min, max).

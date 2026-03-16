@@ -1,0 +1,99 @@
+---
+title: "Index configuration"
+description: "Configure content extraction, transformation, workbench processing, and content browsing in Search AI."
+---
+
+The Index Configuration in Search AI encompasses the complete data processing pipeline that transforms raw content into searchable, high-quality chunks optimized for answer generation.
+
+The pipeline consists of three main phases:
+1. **Extraction** – Breaking down source content into manageable chunks
+2. **Transformation** – Enriching and refining extracted content through configurable processing stages
+3. **Indexing** – Storing processed chunks with vector embeddings for efficient retrieval
+
+## Content extraction
+
+Content extraction segments ingested data into smaller chunks to organize and efficiently retrieve relevant information.
+
+### Extraction strategies
+
+| Strategy | Best for |
+|----------|----------|
+| **Text Extraction** | General text content; token-based segmentation |
+| **Layout Aware Extraction** | Documents with tables, graphs, and charts |
+| **Advanced HTML Extraction** | HTML files including tables, images, and textual content |
+| **Markdown Extraction** | PDF files; transforms pages into structured Markdown |
+| **Image-Based Document Extraction** | Complex PDFs with forms, tables, or visually rich content |
+| **Custom Extraction** | Integration with third-party services for custom content processing |
+
+### Default extraction strategies
+
+| Content source | Content type | Extraction strategy |
+|---------------|--------------|---------------------|
+| WebPages | HTML | Advanced HTML Extraction |
+| Documents | pdf, doc, docx | Markdown Extraction |
+| Documents | pptx, txt | Text Extraction |
+| Connectors | pdf, doc, docx, html | Markdown Extraction |
+| Connectors | pptx, txt | Text Extraction |
+
+### Managing extraction strategies
+
+1. Navigate to **Index > Extract**
+2. Click **+Add Strategy**
+3. Configure the **Strategy Name**, **Define Source**, and **Extraction Model**
+
+**Multiple strategies:** When multiple strategies exist, they apply based on sequence order. Higher-priority strategies process content first.
+
+## Content transformation (Workbench)
+
+Content transformation refines extracted text into high-quality data. The Workbench is a tool for processing and enhancing ingested content through a series of configurable stages.
+
+### Transformation stages
+
+| Stage type | Purpose |
+|------------|--------|
+| **Field Mapping** | Add, update, or delete fields from input content |
+| **Custom Script** | Apply JavaScript transformations for specific business needs |
+| **Exclude Documents** | Filter out unnecessary content before indexing |
+| **API Stage** | Invoke external APIs to modify, enrich, or analyze content |
+| **LLM Stage** | Leverage external LLMs for content enrichment (summarization, context addition) |
+
+**Adding a stage:**
+1. Navigate to **Index > Enrich**
+2. Click **+New Stage**
+3. Select stage type and configure
+4. Click **Save**
+
+**Stage ordering:** Data processes through stages sequentially. Use drag-and-drop to reorder.
+
+### Workbench Simulator
+
+The Workbench includes a built-in simulator for testing stage behavior before deployment. Click **Simulate**, select stages to test, choose the number of documents, and view results in JSON format.
+
+<Tip>Use the Workbench Simulator frequently during configuration to catch errors early.</Tip>
+
+## Content Browser
+
+The Content Browser provides tools to observe, verify, and edit extracted chunks from source data.
+
+**Navigate to:** **Index > Browse**
+
+Each chunk displays:
+- Document Title, Chunk Title, Chunk Text
+- Chunk ID, Page Number, Source Title, Source URL
+- Extraction Strategy used
+
+**Editing chunks:**
+1. Click the **Details** icon on a chunk
+2. Modify title and/or text
+3. Click **Save**
+
+<Note>When documents are updated, all related chunks are deleted and recreated, losing manual edits.</Note>
+
+## Vector configuration
+
+Vector Configuration manages how extracted and transformed chunks are converted into vector embeddings for efficient semantic search and retrieval.
+
+**Key configuration options:**
+- **Embedding Model Selection:** Choose appropriate embedding models
+- **Image-based Embedding:** Enable for image-based document extraction
+- **Indexing Parameters:** Configure vector storage settings

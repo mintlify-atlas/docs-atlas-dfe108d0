@@ -1,0 +1,126 @@
+---
+title: "Role management"
+description: "Configure Role-based Access Control (RBAC) in AI for Process — understand role types, system and custom roles, access levels, and module-wise permissions."
+---
+
+Role Management in the Settings console implements Role-based Access Control (RBAC) for account, workflow, and agentic app features. When you invite or add a user, you assign a role that defines their module-level permissions and access.
+
+**Key points:**
+
+- **Master Admin**: Automatically assigned to the account creator. Has the highest access level.
+- **App Owner**: Automatically assigned to the agentic app creator.
+- **Default role for new users**: **Viewer**, which provides minimum required access. Change this anytime.
+- **System roles** have preset permissions that cannot be modified or deleted. Duplicate a system role to customize it as a custom role.
+- **Custom roles** let you tailor permissions and access for specific organizational needs.
+
+## Role types
+
+| Role type | Scope | Auto-assigned to | Managed by |
+|---|---|---|---|
+| **Account** | Users, integrations, and security permissions | Users invited to the account | Master Admin |
+| **Workflow** | Workflow configurations and deployments | Users invited to a workflow | tool admin |
+| **App** | Agentic app features, configurations, and deployments | Users invited to an agentic app | App Owner |
+
+## System-defined roles
+
+System-defined roles are built into the system at the account, workflow, and agentic app levels. Their permissions are preset and **cannot be modified or deleted**.
+
+**Account roles:**
+
+| Role | Description |
+|---|---|
+| **Master Admin** | Full control over workflow and model management, and all Settings console features. |
+| **Admin** | All permissions except model deletion, billing, and connectors. |
+| **Member** | Can create workflows, add external models, and modify specific integrations. |
+| **Viewer** | View-only access across the platform. |
+
+**Workflow roles:**
+
+| Role | Description |
+|---|---|
+| **tool admin** | Full control over workflow management, versioning, sharing, deployment, deletion, and API key creation. |
+| **tool manager** | All workflow permissions except deletion. |
+| **tool editor** | Can create versions, deploy, monitor, and export workflows. |
+| **tool viewer** | Can view node details and generate output only. |
+
+**App roles:**
+
+| Role | Description |
+|---|---|
+| **App Owner** | Full administrative access across all platform features. Cannot be removed. |
+| **App Admin** | Full access to most Agentic App features. Can modify all roles except App Owner's. |
+| **App Developer** | Full access to core development features. Limited admin access. |
+| **App Viewer** | View-only access to configurations, workflows, guardrails, and simulation. |
+| **App Tester** | View-only access to most features. Can observe and test agents and analytics. |
+
+## Custom roles
+
+Custom roles apply to **Account** and **Workflow** role types only. Admins can fully configure scope, permissions, and access levels.
+
+<Note>You cannot delete a custom role assigned to active users or included in a pending invitation. Unassign the role first, then delete it.</Note>
+
+## Access levels
+
+| Level | Description |
+|---|---|
+| **Full** | View, add, edit, and delete module data. |
+| **Custom** | View, add, and edit module data. Cannot delete. |
+| **View** | View only. No edit or delete. |
+| **No Access** | No access to the module's features. |
+
+## Role Management dashboard
+
+### Access the dashboard
+
+<Steps>
+  <Step title="Open Settings">
+    Click **Settings** in the top navigation bar.
+  </Step>
+  <Step title="Open Role Management">
+    In the **Users Management** section on the left menu, click **Role Management**.
+  </Step>
+</Steps>
+
+The dashboard shows summary counts (total roles, system roles, custom roles) and a role table listing all roles with their type, description, creator, and last updated date.
+
+### Manage system roles
+
+<Warning>System roles cannot be created, modified, or deleted. Duplicate them as custom roles to modify the copies.</Warning>
+
+To view role details, click the **Ellipses** icon for a system role and select **View**.
+
+To duplicate a system role, click the **Ellipses** icon and select **Duplicate**. The duplicate appears with the system role name followed by `_copy_`.
+
+### Add a custom role
+
+<Steps>
+  <Step title="Start">
+    Go to **Role Management** and click **Add New Role**.
+  </Step>
+  <Step title="Enter details">
+    In the **New Role** window, enter a unique **Role Name**, **Role Description**, and select the **Role Type**.
+  </Step>
+  <Step title="Configure permissions">
+    **If Account type**: Enable or select access levels for module-wise permissions. Set access levels (Full, Custom, View, No Access) for Models, Settings, Integrations, and User Management.
+
+    **If Workflow type**: Select Custom, View, or Full for **Access**. For Custom, individually enable or disable workflow permissions.
+  </Step>
+  <Step title="Create">
+    Click **Create**. The custom role appears on the Role Management dashboard.
+  </Step>
+</Steps>
+
+### Edit a custom role
+
+Click the **Ellipses** icon for the custom role, select **Edit**, modify the Role Name, Description, and/or access levels, then click **Update**.
+
+<Note>The Role Type cannot be changed after creation. Updating a custom role changes permissions for all assigned users.</Note>
+
+### Delete a custom role
+
+**Prerequisite:** Ensure the custom role is not assigned to any active users.
+
+1. Click the **Ellipses** icon for the custom role and select **Delete**.
+2. Click **Confirm**.
+
+If the role is still assigned to users, reassign an alternative role to those users first, then delete the custom role.

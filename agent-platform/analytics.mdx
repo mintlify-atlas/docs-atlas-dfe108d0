@@ -1,0 +1,133 @@
+---
+title: "Usage analytics"
+description: "Monitor performance and gain insights into your agentic app's usage, sessions, traces, and resource consumption."
+---
+
+The analytics dashboard provides real-time visibility into how your agentic app performs—tracking users, sessions, messages, and resource consumption across agents, tools, and models.
+
+## Key metrics
+
+| Metric | Description |
+|---|---|
+| **Users** | Unique active users in the period |
+| **Sessions** | Total conversation sessions |
+| **Messages** | Messages exchanged (user + agent) |
+| **Tokens** | Total token consumption |
+
+## Run analytics
+
+Track execution across your app's components.
+
+### Agent runs
+
+| Agent | Runs | Avg response | Tokens | Success |
+|---|---|---|---|---|
+| Support Agent | 1,234 | 2.3s | 450K | 98.5% |
+| Billing Agent | 567 | 1.8s | 180K | 99.1% |
+| Order Agent | 890 | 3.1s | 320K | 97.8% |
+
+### Tool runs
+
+| Tool type | Tool | Runs | Avg time | Success |
+|---|---|---|---|---|
+| Workflow | get_order | 890 | 450ms | 99.2% |
+| Code | validate_input | 1,200 | 120ms | 99.8% |
+| MCP | crm_lookup | 456 | 890ms | 96.5% |
+| Knowledge | faq_search | 2,100 | 340ms | 99.9% |
+
+### Model runs
+
+| Model | Invocations | Avg latency | Tokens | Cost |
+|---|---|---|---|---|
+| gpt-4o | 3,400 | 1.2s | 1.8M | $45.20 |
+| gpt-3.5 | 1,200 | 0.4s | 320K | $0.64 |
+
+## Traces
+
+Traces provide detailed visibility into individual request lifecycles.
+
+```
+Trace: req_abc123
+├── Start: 2024-01-15 14:30:22.123
+├── End: 2024-01-15 14:30:25.456
+├── Duration: 3.333s
+│
+├── Events
+│   ├── [14:30:22.123] Request received
+│   ├── [14:30:22.145] Agent selected: Support Agent
+│   ├── [14:30:22.200] Tool invoked: get_order_status
+│   ├── [14:30:22.650] Tool response received
+│   └── [14:30:25.456] Response sent
+│
+├── Spans
+│   ├── Agent Processing: 3.2s
+│   ├── Tool Execution: 450ms
+│   └── LLM Generation: 2.7s
+│
+└── Generations
+    └── Support Agent response
+        ├── Model: gpt-4o
+        ├── Input tokens: 1,234
+        ├── Output tokens: 256
+        └── Latency: 2.7s
+```
+
+**Trace benefits:**
+- Debug request flow issues
+- Identify bottlenecks
+- Understand agent behavior
+- Optimize performance
+
+## Sessions
+
+Sessions track continuous user interactions, grouping all traces from a single conversation.
+
+Each session shows: user ID, start time, duration, trace count, agents used, and total cost.
+
+## Generations
+
+Track individual LLM outputs within traces.
+
+| Field | Value |
+|---|---|
+| Model | gpt-4o |
+| Input tokens | 1,234 |
+| Output tokens | 256 |
+| Latency | 2.7s |
+| Cost | $0.032 |
+| Temperature | 0.7 |
+
+## Filtering
+
+| Filter | Options |
+|---|---|
+| **Time range** | Last hour, Last 24 hours, Last 7 days, Last 30 days, or Custom range |
+| **Environment** | Draft (development), Staging, or Production |
+| **Dimensions** | By agent, tool, model, or user segment |
+
+## Exporting data
+
+Download analytics for external analysis:
+
+- **CSV**: Spreadsheet-compatible
+- **JSON**: Programmatic analysis
+- **PDF**: Shareable reports
+
+## Audit logs
+
+Track all changes made across your account.
+
+**What's logged:**
+- User actions (create, update, delete)
+- Configuration changes
+- Deployments
+- Access events
+
+Each log entry includes event name, category, user name, date and time, and a detailed description.
+
+## Best practices
+
+- Monitor **success rate**, **latency**, **cost**, and **user satisfaction** as key metrics.
+- Set baselines for normal ranges to detect anomalies.
+- Review daily for health checks, weekly for trend analysis, and monthly for deep dives.
+- Use insights to drive improvements: slow agent? Optimize tools or prompts. High error rate? Review configurations.

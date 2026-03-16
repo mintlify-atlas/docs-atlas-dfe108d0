@@ -1,0 +1,128 @@
+---
+title: "System and advanced settings"
+description: "Control system-wide contact center behavior including co-browse, email handling, AI summarization, and real-time sentiment."
+---
+
+Settings lets administrators and supervisors control system-wide behavior — from agent session management and email handling to AI-powered summarization and real-time sentiment analysis.
+
+| Group | What it controls |
+|-------|------------------|
+| [System settings](#system-settings) | Core operational behavior: co-browse, notifications, email, queues, and agent status. |
+| [Advanced settings](#advanced-settings) | AI and integration features: WFM, summarization, translation, sentiment, and call handling. |
+
+## System settings
+
+### Co-browse
+
+Co-browse lets agents navigate the same web page simultaneously with a customer.
+
+1. Go to **Contact Center AI** > **CONFIGURATIONS** > **Settings** > **System Settings** > **Co-Browse**.
+2. Turn on **Enable Co-Browse**.
+3. Enter **Allowed Domains** (comma-separated).
+4. Enter **Mask Patterns** (regular expressions, semicolon-separated) for values to hide from agents.
+5. Enter **Mask CSS Classes** for known CSS classes to hide.
+6. Select **Save**.
+
+### Supervisor join/exit notification
+
+By default, customers receive a system message when a supervisor joins or exits a chat. Disable this to support silent supervision.
+
+| Setting state | Behavior |
+|---------------|---------|
+| **Enabled** (default) | Customers see "Supervisor Joined the Chat" and "Supervisor Exited the Chat" messages. |
+| **Disabled** | Customers receive no visual indication when a supervisor joins or exits. |
+
+### Automatic away status for agent inactivity
+
+When enabled, the system automatically sets an agent's status to `Away` if the configured inactivity timer is exceeded after a conversation becomes overdue.
+
+| Setting state | Behavior |
+|---------------|---------|
+| **Enabled** | Sets status to `Away` when inactivity timer is breached; blocks new interactions. |
+| **Disabled** | Agent status remains unchanged when the inactivity timer is breached. |
+
+### Obscure customer info in analytics
+
+Administrators can hide customer Email IDs and Phone Numbers in the Interactions dashboard, replacing them with an internal User ID.
+
+| Option | Effect |
+|--------|--------|
+| **Replace Customer Column with User ID on main page** | Displays User ID instead of Email ID or Phone Number. |
+| **Disable Userinfo tab in Details slider** | Hides the Userinfo tab from the Details slider. |
+| **Replace Customer Column with User ID in export file** | Displays User ID in the export file. |
+| **Show Customer and Agent Names in Transcript** | Adds a `NameOfUser` column to the transcript export. |
+
+### Email settings
+
+Email Settings control how agents handle email distribution fields, contact suggestions, send confirmations, work bins, and outbound email access.
+
+| Setting | Description |
+|---------|-------------|
+| **Allow Agents to Edit Distribution Fields** | Lets agents modify `To`, `CC`, and `BCC` fields when replying. |
+| **Inline Email ID Suggestions** | Displays contact suggestions as agents type. |
+| **Send Confirmation for Emails** | Shows a confirmation pop-up when agents select Send. |
+| **Email Work Bin** | Lets agents park email conversations and resume them later. |
+| **Allow Outbound Emails in All Agent Statuses** | Lets agents send outbound emails regardless of their current status. |
+
+### Active console configuration
+
+Prevents agents from running concurrent sessions across multiple tabs, devices, or browsers. Enabled by default.
+
+### Queue-level settings
+
+| Setting | Description |
+|---------|-------------|
+| **Queue-level Outbound Numbers/Emails** | Agents see only outbound contacts configured for their queue. |
+| **Redirect Queued Conversations to Out of Business Hours Flow** | Conversations waiting in queue are redirected when operating hours end. |
+| **Dynamic Queue Reprioritization** | Administrators can adjust queue priorities in real time. |
+
+## Advanced settings
+
+### Community WFM [Beta]
+
+Community WFM integrates natively with Contact Center AI to provide workforce management capabilities including forecasting, scheduling, attendance tracking, and reporting.
+
+**Features:**
+
+| Feature | Capabilities |
+|---------|--------------|
+| **Forecasting** | Skill-based omnichannel forecasting with time-of-day and day-of-week shrinkage. |
+| **Scheduling** | Fixed, floating, and rotating schedule optimization; intraday re-optimization. |
+| **ASAM** | Automated Schedule Attendance Monitor for tracking agent arrival. |
+| **Reporting** | Pre-built and custom reports: Contact Volume, Published Forecast, Schedule Adherence. |
+
+**To configure:** Go to **CONFIGURATIONS** > **Settings** > **Advanced Settings** > **Community WFM [Beta]**, then enter the **Base URL**, **Account ID**, and **API key**.
+
+### LLM-based conversation summary
+
+Integrates external Gen AI models to power conversation summarization.
+
+1. Go to **Advanced Settings** > **LLM based Conversation Summary**.
+2. Turn on the **LLM based Conversation Summary** toggle.
+3. Select a summarization method: **OOTB Kore Summarization** or **Using the model configured in the GenAI framework**.
+
+### Reject calls with a delayed first response
+
+When enabled, a call is connected only after the platform sends its first message. If no initial response is generated within 10 seconds, the call is rejected and returned to the source, preventing dead air.
+
+### Translation configurations
+
+Enable real-time translation so agents can engage customers in their preferred language.
+
+1. Go to **Advanced Settings** > **Translation Configurations**.
+2. Turn on the translation toggle and select a provider: **Google Translator**, **Microsoft Translator**, or **Custom**.
+3. Select **Save**.
+
+### Real-time sentiment analysis
+
+Displays a live sentiment indicator during active chat conversations, updating dynamically as the conversation progresses.
+
+To enable, go to **Advanced Settings** > **Real Time Sentiment Analysis** and turn on the toggle.
+
+<Note>You must configure a custom model and enable the appropriate prompt in GenAI Tools before enabling this feature.</Note>
+
+### Wrap-up code prediction
+
+Uses GenAI to automatically suggest disposition codes during conversation wrap-up, based on the conversation transcript and predefined disposition metadata.
+
+To enable, go to **Advanced Settings** > **Wrap-up Code Prediction** and turn on the toggle.

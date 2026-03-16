@@ -1,0 +1,84 @@
+---
+title: "Supported AI models"
+description: "Reference for all AI models supported by Agent Platform for agentic apps, voice, and background processing."
+---
+
+Agent Platform supports a wide range of AI models—platform-hosted, open-source, externally integrated, and third-party. Choose based on your use case: agentic workflows, real-time voice, or background processing.
+
+## Models for agentic apps and agents
+
+### External models
+
+Agentic apps support Agent and Supervisor orchestration with models from these providers:
+
+| Provider | Key models |
+|---|---|
+| **OpenAI** | gpt-4o, gpt-4o-mini, gpt-4, gpt-4-turbo, gpt-3.5-turbo, o1, o3, o4-mini, gpt-4.1, gpt-5, and many versioned variants |
+| **Azure OpenAI** | GPT-3.5-Turbo, GPT-4, GPT-4o, GPT-4o-Mini, GPT-4.1, O1, O3-Mini, GPT-5 and variants |
+| **Anthropic** | claude-3-5-sonnet, claude-3-haiku, claude-3-sonnet, claude-3-opus, claude-3-7-sonnet, claude-sonnet-4, claude-opus-4 and variants |
+| **Google** | gemini-2.5-flash, gemini-2.5-pro, gemini-2.0-flash, gemini-1.5-pro, gemini-1.5-flash and many variants |
+
+### Open-source models for agentic apps
+
+| Provider | Model variants |
+|---|---|
+| Meta-llama | meta-llama/Meta-Llama-3.1-8B-Instruct, Llama-3.2-1B-Instruct, Llama-3.2-3B-Instruct |
+| Mistralai | mistralai/Mistral-7B-Instruct-v0.3, Mistral-Nemo-Instruct-2407 |
+| Xiaomimimo | XiaomiMiMo/MiMo-VL-7B-RL |
+
+### Real-time voice models
+
+Real-time voice is available only with the following models:
+
+| Provider | Model variants |
+|---|---|
+| **OpenAI** | gpt-4o-realtime-preview, gpt-4o-mini-realtime-preview |
+| **Google Gemini** | gemini-live-2.5-flash-preview, gemini-2.0-flash-live-001 |
+| **Azure OpenAI** | GPT-Realtime, GPT-Realtime-Mini |
+
+### Custom model integration
+
+To use a custom third-party model in agentic apps, it must meet two requirements:
+
+**Tool calling support (mandatory)**: The model must natively support tool calling. Enable it explicitly during model configuration.
+
+**Compatible API structure**: The request and response structure must follow either:
+- **Anthropic** – Messages API
+- **OpenAI** – Chat Completions API
+
+## Platform-hosted open-source models
+
+The platform hosts 30+ curated open-source models, available as a service and optimizable before deployment.
+
+| Provider | Key models |
+|---|---|
+| DeepSeek | DeepSeek-R1-Distill-Llama-8B, DeepSeek-R1-Distill-Qwen-1.5B/7B/14B |
+| EleutherAI | gpt-j-6b, gpt-neo-1.3B/2.7B, gpt-neox-20b |
+| Facebook | opt-1.3b, opt-2.7b, opt-350m, opt-6.7b |
+| Google | flan-t5 (base/large/small/xl/xxl), gemma-2-27b/9b, gemma-3-12b, gemma-7b |
+| Meta-llama | Llama-2-7b/13b, Llama-3.2-1B/3B, Meta-Llama-3-8B, Meta-Llama-3.1-8B |
+| Microsoft | phi-1, phi-1_5, phi-2, Phi-3-mini/medium |
+| Mistralai | Mistral-7B-v0.1/v0.2/v0.3, Mixtral-8x7B, Mistral-Nemo |
+| Stable Diffusion | stable-diffusion-xl-base-1.0, stable-diffusion-2-1, stable-diffusion-v1-5 |
+| Tiiuae | falcon-7b, falcon-7b-instruct, falcon-40b, falcon-rw-1b |
+
+### Structured output support
+
+Platform-hosted models can produce structured JSON responses. Requires no optimization or vLLM only.
+
+<Note>CT2-optimized, fine-tuned, Hugging Face imported, and locally imported models do not support structured output.</Note>
+
+## External models for easy integration
+
+With easy integration, connect to external model providers without any infrastructure setup.
+
+| Provider | Key models |
+|---|---|
+| **Anthropic** | claude-3-5-sonnet, claude-3-haiku, claude-3-opus, claude-3-7-sonnet, claude-sonnet-4, claude-opus-4 and variants |
+| **Azure OpenAI** | GPT-4, GPT-3.5-Turbo, GPT-4o, GPT-4.1, O1, O3-Mini, GPT-5 and variants |
+| **Cohere** | command-light, command, command-nightly |
+| **Google** | gemini-2.5-pro, gemini-2.5-flash, gemini-2.0-flash, gemini-1.5-pro/flash and many variants |
+| **OpenAI** | gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo, o1, o3, o4-mini, gpt-4.1, gpt-5, dall-e-2/3, whisper-1, and many more |
+| **Amazon Bedrock** | Claude, Titan, Llama models via AWS |
+| **Vertex AI** | Gemini 2.5 Pro, Gemini 2.5 Flash and variants |
+| **Microsoft Foundry** | Custom deployments |

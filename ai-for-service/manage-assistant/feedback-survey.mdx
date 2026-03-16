@@ -1,0 +1,65 @@
+---
+title: "Feedback survey"
+description: "Design NPS, CSAT, and Like/Dislike feedback surveys that trigger at conversation end or custom points in a dialog flow."
+---
+
+You can design feedback surveys for products, services, and overall experiences using out-of-the-box templates for web and mobile channels. Configure an AI Agent to trigger surveys at a specific point in a conversation or at the end via the *end-of-conversation* event.
+
+**Supported survey types:** NPS, CSAT, and Like/Dislike.
+
+## Key capabilities
+
+- **Channel-agnostic:** Works across use cases and channels. Displays text by default; add channel-specific prompts for voice.
+- **Voice support:** Text messages auto-convert to voice using ASR and TTS engines.
+- **Follow-up questions:** Configure a follow-up for negative feedback to capture additional details.
+- **Acknowledgement messages:** Thank customers after survey completion.
+- **Analytics integration:** Responses appear in the Conversations History Dashboard.
+
+## Survey types
+
+| Type | Scale | Description |
+|------|-------|-------------|
+| **NPS (Net Promoter Score)** | 0–10 | Measures customer loyalty. Promoters: 9–10. Passives: 6–8. Detractors: 0–5. |
+| **CSAT (Customer Satisfaction)** | 1–5 | Measures satisfaction: 1 = Very Satisfied, 5 = Very Unsatisfied. |
+| **Like/Dislike** | 0–1 | The customer responds with a Like (score: 1) or Dislike (score: 0). |
+
+## Create a feedback survey
+
+<Steps>
+  <Step title="Navigate to Feedback Survey">
+    Go to **Automation AI > Virtual Assistant > Feedback Survey** and click **Add Feedback Survey** (or **New Survey** for subsequent surveys).
+  </Step>
+  <Step title="Enter survey details">
+    Enter a **Survey Name** and select the **Survey Type** (NPS, CSAT, or Like/Dislike). Click **Next**.
+  </Step>
+  <Step title="Design the survey">
+    Choose to create the survey with a new dialog (to capture analytics) or without a dialog (to build a custom flow independently).
+
+    Optionally configure a **Follow-up Question** triggered by negative feedback, and an **Acknowledgement Message** shown after completion.
+  </Step>
+  <Step title="Configure launch">
+    Choose when to trigger the survey:
+
+    - **Launch after End of Task** — Triggers automatically at the end of every conversation.
+    - **I will decide how to launch the Survey** — Manually launch via the associated dialog task.
+
+    Click **Create**.
+  </Step>
+</Steps>
+
+## Feedback data collection methods
+
+| Method | Description |
+|--------|-------------|
+| **Dialog** | Create a dialog to capture responses and generate analytics on the Feedback Analysis Dashboard. |
+| **Public API** | Push feedback data using the Public API. |
+| **Botkit** | Push feedback data via the Botkit SDK. |
+
+## Survey dialog flow
+
+After creation, the survey dialog task is available at **Build > Conversational Skills > Dialog Tasks**.
+
+The task flow uses **Entity**, **Message**, and **Service** nodes. You can customize it by modifying the dialog flow definition fields.
+
+- **Feedback Service** is a new Service Type under General Settings. Use it to submit feedback captured from custom flows.
+- Invoke the feedback survey as a sub-dialog from any point in a conversation.

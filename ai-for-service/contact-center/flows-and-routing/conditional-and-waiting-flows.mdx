@@ -1,0 +1,171 @@
+---
+title: "Conditional flows and waiting flows"
+description: "Customize what customers experience when waiting, outside business hours, or when no agents are available."
+---
+
+Contact Center AI lets you customize what customers experience when they wait for an agent, contact you outside business hours, or cannot reach an available agent. Use Conditional Flows to control routing behavior for specific scenarios, Waiting Flows to shape the in-queue experience, and the Debug window to troubleshoot flow execution.
+
+| Feature | Description |
+|---------|-------------|
+| [Conditional flows](#conditional-flows) | Configure voice and chat behavior for out-of-hours, no-agents-available, and click-to-call scenarios. |
+| [Waiting flows](#waiting-flows) | Set up messages, hold audio, callbacks, and voicemail for customers waiting in queue. |
+| [Debug and troubleshoot](#debug-and-troubleshoot) | Review flow execution logs, NLP analysis, and session variables. |
+
+## Conditional flows
+
+Conditional Flows let you define what happens during three common routing scenarios:
+
+| Scenario | Trigger |
+|----------|---------|
+| **Out of hours** | Customer contacts support outside configured hours of operation. |
+| **No agents available** | No online agents have the skills required for the conversation. |
+| **In queue transfer** | Conversation enters a queue before being assigned to an agent. |
+
+Contact Center AI provides default voice and chat flows for Out of Hours and No Agents Available. You can replace or customize these defaults.
+
+To access Conditional Flows, go to **Contact Center AI** > **Flows & Routing** > **Conditional Flows**.
+
+### Voice flows
+
+#### Out of operational hours
+
+Plays a voice message to callers who contact support outside business hours.
+
+- Select **Default Out of Operational Hours Voice Flow** to open the flow in the Flow Builder.
+- In the **End Flow** node's **General Settings**, edit the default message, change the language, or add messages using **+ Add Another**.
+
+#### No agents available
+
+Plays a message when online agents lack the skills required for the conversation.
+
+- Select **No Agents Available Voice Flow** to open the flow in the Flow Builder.
+- In the **End Flow** node's **General Settings**, edit the message, change the language, or add messages.
+
+**To create a custom conditional flow:**
+
+1. Create a conditional flow.
+2. Add an **End Flow** node.
+3. Configure a custom message to play in that scenario.
+
+#### Click-to-Call
+
+Click-to-Call lets website visitors start a voice call directly from the chat widget, providing a seamless escalation path from bot to live agent.
+
+Customers can initiate a call before interacting with the bot, during an active bot conversation, or during a live chat.
+
+<Note>The Click-to-Call flow appears in Conditional Flows only after it is enabled in Theme & Design for the web channel.</Note>
+
+**End-to-end flow:**
+
+1. The customer clicks the **Call** button in the chat widget.
+2. A confirmation pop-up appears. The customer selects **Confirm**.
+3. The system initiates a voice call to the contact center, passing context (chat transcript, user ID, session ID, page URL) to the agent.
+4. The call routes through the configured Click-to-Call flow.
+
+### Chat flows
+
+#### Out of operational hours
+
+Sets the auto-response message sent during non-business hours for automated and live chats.
+
+- **Messaging (automated chat):** Edit the message in the **General Settings** tab. Select the In Queue Flow to add the customer to an agent's waiting queue.
+- **Live chat:** Edit the message in the **General Settings** tab. The chat ends after the message is displayed.
+
+#### No agents available
+
+Sets the message sent when no agents with the required skills are available.
+
+Select **No Agents Available Chat Flow** to configure messages for Messaging, Live Chat, and error scenarios.
+
+#### In queue transfer flow
+
+Routes a conversation to the queue where agents have the required skills, triggered when the conversation enters a queue before agent assignment.
+
+**Steps to create an In Queue Transfer Flow:**
+
+<Steps>
+  <Step title="Create a new flow">
+    Select **New** and enter a **Conditional Flow Name** and **Description**.
+  </Step>
+  <Step title="Select the flow type">
+    Select **In Queue Transfer Flow** from the **Flow Type** dropdown.
+  </Step>
+  <Step title="Select channel and create">
+    Select the **Channel** (Voice or Chat) and select **Create & Continue to Flow Design**.
+  </Step>
+  <Step title="Configure the waiting experience">
+    In the **Waiting Experience** tab, select a flow from the **In Queue Flow** dropdown.
+  </Step>
+</Steps>
+
+### Manage conditional flows
+
+**Update a flow:** Select the **(⋮)** icon next to the flow and select **Update**.
+
+**Delete a flow:** Select the **(⋮)** icon, select **Delete**, and confirm.
+
+<Note>Deleted conditional flows cannot be restored. Default flows cannot be deleted.</Note>
+
+## Waiting flows
+
+Waiting Flows let you customize the experience for customers waiting in queue — for both voice and chat channels.
+
+You can configure:
+
+- Routing rules based on agent skills
+- Initial messages when a request enters a queue
+- Hold audio for calls
+- Periodic messages for calls and chats
+- Callback when wait time exceeds a limit
+- Voicemail when wait duration, queue position, or estimated wait time exceeds a threshold
+
+To access Waiting Flows, go to **Contact Center AI** > **Flows & Routing** > **Waiting Flows**.
+
+### Add a waiting experience
+
+<Steps>
+  <Step title="Go to Waiting Flows">
+    Navigate to **Flows & Routing** > **Waiting Flows** and select **+ New Waiting Experience**.
+  </Step>
+  <Step title="Configure the Configuration tab">
+    Enter a **Name** and **Description**, then define **Routing Rules** based on Skill Group and Skill.
+  </Step>
+  <Step title="Configure the Call Experience tab">
+    Set up **Initial Message**, **Agent Transfers**, **Hold Audio**, **Periodic Messages**, **Callback Option**, and **Voicemail** for voice interactions.
+
+    Periodic messages support these queue variables:
+
+    | Variable | Description |
+    |----------|-------------|
+    | `{{queue.waitTime}}` | Average wait time in minutes, refreshed every 15 minutes. |
+    | `{{queue.position}}` | Customer's current position in the queue. |
+  </Step>
+  <Step title="Configure the Chat Experience tab">
+    Set up **Initial Message**, **Agent Transfers**, and **Periodic Messages** for chat interactions.
+  </Step>
+  <Step title="Save">
+    Select **Save** at the bottom of the window.
+  </Step>
+</Steps>
+
+### Edit a waiting flow
+
+1. In the **Waiting Flows** list, select the **Edit** icon for the entry.
+2. Modify the configuration as needed and select **Save**.
+
+### Delete a waiting experience
+
+1. In the **Waiting Flows** list, select the **Edit** icon for the entry.
+2. Select the **Delete** icon and confirm.
+
+<Warning>Deleted Waiting Flows cannot be restored.</Warning>
+
+## Debug and troubleshoot
+
+The Debug window lets you inspect NLP details, execution logs, and session variables for a chat interaction. Select the **Debug** icon in the upper-right corner of the chat window to open it.
+
+| Tab | Description |
+|-----|-------------|
+| **Debug Log** | Step-by-step flow execution with timestamps, including Script, Service, and Webhook node logs. |
+| **NL Analysis** | Task loading details and recognition scores for each user utterance. |
+| **Session Context & Variables** | Lists context objects and session variables used during dialog execution. |

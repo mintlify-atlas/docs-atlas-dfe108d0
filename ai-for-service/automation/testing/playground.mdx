@@ -1,0 +1,48 @@
+---
+title: "Playground"
+description: "Test your AI Agent in real time before publishing using the built-in interactive chat and debug environment."
+---
+
+After you define your app and configure one or more tasks, test your settings before publishing. App owners and developers can chat with the app in real time to test recognition, performance, and flow as if it were a live session.
+
+## Access
+
+Go to **Automation AI > Evaluation > Playground**.
+
+Alternatively, select the **Test** icon in the top right corner of the platform.
+
+## Testing an app
+
+When you first open the Playground, select whether to proceed with **Voice** or **Chat**.
+
+The Debug Logs and Chat windows open side-by-side in the Playground display area.
+
+In the **Message** section, enter text to begin interacting and testing your app. DialogGPT processes the task, verifies authentication, prompts for required task fields, and executes the task after all required information is collected. Try different variations of user prompts.
+
+## Conversation status
+
+When a conversation is active and the developer is working in the Playground, conversation status can only be changed from within the Playground module.
+
+| Scenario | Behavior |
+|----------|----------|
+| **Developer is in Playground** | Status options in the top menu (Test / Stop / Resume) remain disabled. |
+| **Developer leaves Playground** | Session remains active. Debug Logs and chat windows stay in the background. Conversation status updates to **Resume**. |
+
+## Debug window
+
+The Debug window has two tabs:
+
+| Tab | Description |
+|-----|-------------|
+| **Debug Log** | Lists the processing or processed Dialog task components. |
+| **Session Context & Variables** | Shows both the context object and session variables used in dialog task processing. |
+
+### Debug log
+
+The Debug Log provides the sequential progression of a dialog task along with captured context and session variables. It's a chat-like interface, grouped by user inputs and app responses for easier conversation flow tracing.
+
+### Session context and variables
+
+The **Session Context & Variables** tab dynamically displays the populated `Context` object and session variables updated at each processed component in Dialog Builder.
+
+<Tip>Use the Debug Log to analyze DialogGPT decision-making. Every LLM call includes full request and response details in the debug output.</Tip>

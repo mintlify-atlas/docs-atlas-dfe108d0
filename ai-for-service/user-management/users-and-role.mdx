@@ -1,0 +1,97 @@
+---
+title: "Users and role management"
+description: "Manage users and roles to control access to Contact Center AI and permissions across the platform."
+---
+
+Manage users and roles to control who has access to Contact Center AI (CCAI) and what they can do. Users include App Owners, App Developers, App Testers, Supervisors, and Agents. Roles define each user's permissions across the platform.
+
+| Section | Description |
+|---------|-------------|
+| [Users](#users) | Add, edit, and manage users and groups. |
+| [Roles and permissions](#roles-and-permissions) | Understand default roles and configure permission sets. |
+| [Custom roles](#custom-roles) | Create and manage custom roles for your organization. |
+
+## Users
+
+To navigate to Users, go to **Manage** > **Users** > **Manage Users**.
+
+### Add a user
+
+1. Select **Invite Users**.
+2. In the **Invite User** window, fill in:
+   - **Email**, **First Name**, and **Last Name**.
+   - **Role** — App Developer, App Tester, Agent, or Supervisor.
+3. Under **General Settings**, optionally enable **Allow Contact Center Permissions** to configure:
+   - Agent Console as default landing page.
+   - Group, Custom ID, Agent Nick Name, and Desktop layout.
+4. Under **Chat & Voice**, enable **Chat** and **Voice** channels with capacity and language settings.
+5. Under **Queues & Skills**, assign queues and skills with proficiency levels.
+6. Select **Invite User**.
+
+### Edit a user
+
+1. Select the **Ellipsis** icon (⋮) for the user.
+2. Make changes in the **User Attributes** window.
+3. Select **Update Changes**.
+
+### Delete a user
+
+1. Select the **Ellipsis** icon (⋮) for the user and select **Delete**.
+2. Confirm when prompted.
+
+<Note>You cannot delete your own user account or the CCAI App Owner. After deletion, the user can no longer sign in.</Note>
+
+## Roles and permissions
+
+The XO Platform uses role-based access control. Go to **Manage** > **Users** > **Manage Users** > **Role Management** tab.
+
+### Default roles
+
+| Role | Access level |
+|------|-------------|
+| **App Owner** | Full access and control over the app. |
+| **App Developer** | Co-developer access. |
+| **App Tester** | Read-only access to the app definition. |
+| **Supervisor** | Operations management access. |
+| **Agent** | Access to the agent console and internal chat. |
+
+### Permission categories
+
+- **Automation** — tasks, natural language, knowledge graph, testing, bot settings.
+- **Flows & Routing** — waiting experience, hours of operation, queue settings, flow management.
+- **User Management** — agent status, agent settings, skill management, agent group management.
+- **Agent & Supervisor Experience** — agent desktop console and monitor console permissions.
+- **System** — channel management, billing, API, language & speech control.
+- **Other Modules** — answers, campaigns, AgentAI, Auto QA, Quality AI reporting.
+
+### App Owner exclusive permissions
+
+| Permission | Description |
+|------------|-------------|
+| **Create New User Role** | Only App Owners can access the Create New User Role menu. |
+| **Billing Module Access** | Only App Owners can access the Billing module. |
+| **Activation of Free Tokens** | Only App Owners can activate free tokens. |
+| **App Profile Modification** | Only App Owners can edit the App Profile. |
+| **Delete App** | Only App Owners can delete the app. |
+
+## Custom roles
+
+Create custom roles to define specific permission sets tailored to your organization's needs.
+
+### Add a role
+
+1. Select **+ New Role**.
+2. Enter a **Role Name**, **Description**, and configure **Permissions** using the available dropdown options.
+3. Select **Save**.
+
+### Edit a role
+
+1. Select the **Ellipsis** icon (⋮) for the role and select **Edit**.
+2. Make changes and select **Save**.
+
+### Delete a role
+
+1. Select the **Ellipsis** icon (⋮) for the role and select **Delete**.
+2. Select **Yes** to confirm.
+
+<Note>You cannot delete default roles (App Owner, App Developer, App Tester, Supervisor, Agent). Deleted roles cannot be restored.</Note>

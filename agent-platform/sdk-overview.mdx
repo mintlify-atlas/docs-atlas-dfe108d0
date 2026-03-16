@@ -1,0 +1,146 @@
+---
+title: "AgenticAI Core SDK"
+description: "A Python SDK for building and deploying multi-agent AI applications."
+---
+
+AgenticAI Core is a Python SDK for building and deploying multi-agent AI applications. You define agents, tools, models, and orchestration in Python (design-time) and execute them through a runtime that exposes an MCP server.
+
+Typical uses include customer-facing assistants, workflow automation, and domain-specific AI systems that require multiple specialized agents.
+
+## Architecture and core concepts
+
+### Design-time and runtime
+
+```
+Design-Time  ->  App + Agents + Tools + Models
+Runtime      ->  MCP Server -> Orchestrator -> Agents -> Tools
+```
+
+### Main building blocks
+
+| Component | Description |
+|---|---|
+| **App** | Top-level container that groups agents and defines orchestration. |
+| **Agents** | Perform domain-specific work and may reason (REACT) or proxy to external systems. |
+| **Tools** | Callable actions, typically Python functions registered with `@Tool.register`. |
+| **LLM models** | Define how agents reason. |
+| **Prompts** | Constrain agent behavior. |
+| **Memory stores** | Persist context. |
+| **Orchestration** | Controls routing between agents. |
+
+A request flows as:
+```
+Client -> MCP Server -> Orchestrator -> Agent -> (LLM <-> Tools) -> Response
+```
+
+## Installation and setup
+
+### Prerequisites
+
+Python 3.10+, pip, and Git. The SDK is provided through a private workspace repository. [Contact support](https://support.kore.ai).
+
+### Workspace setup
+
+```bash
+git clone <workspace-repository-url>
+cd workspace
+chmod +x .setup.sh
+./.setup.sh
+```
+
+The script creates a `.venv` virtual environment and installs `agenticai-core` and its dependencies.
+
+### Platform configuration
+
+```bash
+# .env/dev
+KORE_HOST=https://agent-platform.kore.ai
+APP_API_KEY=your_api_key
+TRACING_ENABLED=True
+```
+
+### Workspace structure
+
+```
+workspace/
+├── .venv/                    # Virtual environment
+├── .env/                     # Environment configurations
+│   ├── dev
+│   ├── staging
+│   └── prod
+├── lib/                      # Pre-installed libraries
+├── src/
+│   ├── tools/                # Your custom tools
+│   ├── orchestrator/         # Your custom orchestrators
+│   └── app.py                # Your application definition
+├── bin/                      # Generated archives
+├── examples/                 # Example applications
+├── run.py                    # CLI entry point
+└── .setup.sh                 # Setup script
+```
+
+## First application flow
+
+### Step 1: Define a tool
+
+```python
+from agenticai_core.designtime.models.tool import Tool
+
+@Tool.register(name="Get_Balance", description="Get account balance")
+async def get_balance(account_id: str):
+    return {"balance": 1000}
+```
+
+### Step 2: Define an agent and app
+
+```python
+from agenticai_core.designtime.models import App, Agent
+
+app = App(
+    name="Sample App",
+    agents=[Agent(name="DemoAgent")]
+)
+```
+
+### Step 3: Run locally
+
+```bash
+source .venv/bin/activate
+python run.py start -H localhost -P 8080
+```
+
+### Step 4: Package and deploy
+
+```bash
+python run.py package -o sample-app
+python run.py config -u dev
+python run.py deploy -f bin/sample-app/application.kar
+```
+
+## Development lifecycle
+
+```
+Clone -> Setup -> Develop tools -> Test Local -> Package -> Deploy -> Test E2E -> Monitor
+```
+
+## Best practices
+
+- Keep agents narrowly focused.
+- Design tools to do one thing well.
+- Test locally before every deployment.
+- Use `.venv` consistently to avoid oversized packages.
+- Save deployment identifiers returned by the platform for later testing.
+
+## Advanced topics
+
+| Topic | Summary |
+|---|---|
+| **SDK architecture** | Design-time configuration and runtime execution phases, MCP server details, memory store configuration. |
+| **CLI reference** | All `run.py` commands: `config`, `package`, `start`, `deploy`, `publish`, `status`, `undeploy`, `test`. |
+| **API reference** | Design-time builder classes (`App`, `Agent`, `Tool`, `LlmModel`, `MemoryStore`) and runtime service APIs. |
+| **Build applications** | End-to-end app assembly: defining `App`, configuring agents, registering tools, setting up memory stores. |
+| **Create agents** | Agent configuration in depth: autonomous vs proxy types, REACT pattern, roles, prompt design. |
+| **Work with tools** | Tool creation and usage: MCP tools, inline tools, tool library, memory operations inside tools. |
+| **Memory stores** | Design-time memory configuration (schema, namespaces, scope, retention), runtime CRUD operations. |
+| **Prompts and LLM config** | LLM model setup across providers, parameter tuning, structured prompt design. |
+| **Custom orchestration** | Implementing `AbstractOrchestrator`, routing strategies, stateful orchestration with memory. |

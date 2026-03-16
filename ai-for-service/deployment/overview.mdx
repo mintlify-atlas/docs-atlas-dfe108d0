@@ -1,0 +1,156 @@
+---
+title: "App deployment"
+description: "Manage the full lifecycle of releasing, managing, and migrating AI Agents through versioning, publishing, and import/export."
+---
+
+The Deploy section covers the full lifecycle of releasing, managing, and migrating AI Agents — from publishing changes for end users to versioning definitions and moving agents across environments.
+
+## App versioning
+
+Snapshot the agent definition at any stage. Restore, compare, or export versions as your development progresses.
+
+### Version types
+
+| Type | Description |
+|------|-------------|
+| **User-created versions** | Manually created snapshots at significant milestones. Up to 5 per agent. |
+| **Auto-created versions** | Automatically created at each publish. |
+
+### Creating a version
+
+<Steps>
+  <Step title="Open Deploy">
+    Go to **Deploy** > **App Versioning**.
+  </Step>
+  <Step title="Create a new version">
+    Click **Create Version** and enter a name and optional description for this snapshot.
+  </Step>
+  <Step title="Save">
+    Click **Save**. The version appears in the versions list with a timestamp.
+  </Step>
+</Steps>
+
+### Version actions
+
+From the versions listing, you can:
+- **Restore** — Roll back the agent to a previous version
+- **Export** — Download the version as a ZIP archive
+- **Delete** — Remove a user-created version
+- **Compare** — Diff two versions side-by-side
+
+### Comparing versions
+
+When you compare versions, the diff viewer highlights:
+- Dialog task additions, modifications, and deletions
+- Training data changes
+- Settings and configuration changes
+- Channel configuration changes
+
+### Restoring a version
+
+Restoration behavior per component:
+
+| Component | Restore behavior |
+|-----------|----------------|
+| Tasks and flows | Restored to the selected version |
+| Knowledge graph | Restored to the selected version |
+| Languages | Restored to the selected version |
+| Channels | Channel configuration is restored; channel connections remain active |
+| Published content | Requires re-publishing after restore |
+
+## App publishing
+
+Control what gets released and when. The publishing workflow routes agent updates through admin approval before they reach end users.
+
+### Agent states
+
+| State | Description |
+|-------|-------------|
+| **In Development** | Changes are in progress and not visible to end users |
+| **Published** | Changes are live and available to end users |
+
+### Publishing an agent
+
+<Steps>
+  <Step title="Open Deploy">
+    Go to **Deploy** > **Publish App**.
+  </Step>
+  <Step title="Select components">
+    Check the components you want to publish: dialog tasks, NL model, channels, settings, and more.
+  </Step>
+  <Step title="Add a publish comment">
+    Enter a comment describing the changes in this release.
+  </Step>
+  <Step title="Submit for approval">
+    Click **Publish**. If admin approval is required, the request is routed to an admin.
+  </Step>
+  <Step title="Approval">
+    An admin reviews and approves or rejects the publish request. You are notified either way.
+  </Step>
+</Steps>
+
+### Publishable components
+
+| Category | Components |
+|----------|-----------|
+| **Dialog flows** | Dialog tasks, sub-dialogs, alert tasks |
+| **NL model** | ML model, FAQ model, Traits, Entities |
+| **Channels** | All configured channel settings |
+| **Extensions** | Event handlers, web hooks, service accounts |
+| **Settings** | App profile, language settings, PII settings |
+
+### Publication approval
+
+To set up auto-approval:
+1. Go to **Deploy** > **Publish App**
+2. Select **Configure Approval**
+3. Enable **Auto Approve** or assign specific admin approvers
+
+## App import and export
+
+Move agent definitions between environments for migration, cloning, or backup.
+
+### Import types
+
+| Type | Description |
+|------|-------------|
+| **Full Import** | Replace the entire agent with the imported definition |
+| **Incremental Import** | Merge the imported definition with the existing agent |
+
+### Importing an agent
+
+<Steps>
+  <Step title="Open import">
+    Go to **Deploy** > **Import & Export** > **Import**.
+  </Step>
+  <Step title="Select import type">
+    Choose **Full Import** or **Incremental Import**.
+  </Step>
+  <Step title="Upload the file">
+    Upload the JSON or ZIP file exported from another environment.
+  </Step>
+  <Step title="Review and confirm">
+    Review the import summary showing which components will be added, updated, or replaced.
+  </Step>
+  <Step title="Complete import">
+    Click **Import**. Verify the agent works as expected after import.
+  </Step>
+</Steps>
+
+### Exporting an agent
+
+<Steps>
+  <Step title="Open export">
+    Go to **Deploy** > **Import & Export** > **Export**.
+  </Step>
+  <Step title="Select export mode">
+    - **Published mode** — Exports the last published version
+    - **Latest version** — Exports the current development state
+  </Step>
+  <Step title="Select components">
+    Choose which components to include in the export.
+  </Step>
+  <Step title="Download">
+    Click **Export** and download the ZIP file.
+  </Step>
+</Steps>

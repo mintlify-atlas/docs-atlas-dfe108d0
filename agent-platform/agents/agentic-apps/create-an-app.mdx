@@ -1,0 +1,114 @@
+---
+title: "Create an agentic app"
+description: "Group agents, tools, and knowledge bases into a deployable application."
+---
+
+An agentic app is the top-level container that groups agents, tools, and knowledge bases into a deployable application.
+
+## Prerequisites
+
+- Access to Agent Platform with appropriate permissions to create and manage apps.
+- An AI model with tool-calling support added to the platform. Supported providers: OpenAI, Gemini, Anthropic, Azure OpenAI. See [Add an external model](/agent-platform/models/external-models).
+
+## App development lifecycle
+
+<Steps>
+  <Step title="Create an app">
+    Set name, icon, description, and AI model.
+  </Step>
+  <Step title="Configure agents">
+    Define roles, instructions, tools, and knowledge sources.
+  </Step>
+  <Step title="Test">
+    Run diagnostics and simulate scenarios.
+  </Step>
+  <Step title="Deploy">
+    Publish the app for end users.
+  </Step>
+</Steps>
+
+## Step 1: Create an app
+
+1. Sign in to the [Agent Platform](https://agent-platform.kore.ai/auth/login) and go to **Autonomous Agents**.
+2. On the **Agentic Apps** page, click **+New App**.
+3. Fill in the app details:
+
+| Field | Description |
+|---|---|
+| **Name** | A name that reflects the app's core function. |
+| **Icon** | An icon to identify the app. |
+| **Description** | Describes the app's purpose and scope. Used to constrain the app to relevant queries and prevent responses based on pre-trained knowledge. |
+| **AI Model** | The model and connection the app will use. |
+
+```json
+{
+  "name": "Customer Support Assistant",
+  "description": "Handles billing inquiries, order tracking, and returns. Responds only to support-related queries.",
+  "ai_model": {
+    "provider": "anthropic",
+    "connection": "claude-sonnet-4-6"
+  }
+}
+```
+
+4. Click **Create App**.
+
+The app overview loads automatically, showing the selected LLM, orchestration pattern, linked agents, tools, and knowledge bases.
+
+## App profile settings
+
+Click the **Edit** icon on the app's overview page to access the **App Profile**.
+
+| Field | Description |
+|---|---|
+| **Name** | Display name for the app. |
+| **Description** | A brief summary outlining the app's purpose. |
+| **Context window limit** | Maximum number of messages retained in conversation context. Minimum: 25, Maximum: 200. |
+| **External agent** | Enable to allow communication with external agents through proxy agents within the app. |
+
+## App orchestrator settings
+
+The **App Orchestrator** page lets you select and configure the orchestration pattern for the app.
+
+| Pattern | Description |
+|---|---|
+| **Single agent** | A single agent independently handles requests. Ideal for apps with one primary capability. [Learn more](/agent-platform/orchestration/single-agent) |
+| **Supervisor** | A central controller analyzes requests, delegates tasks to specialized agents, and synthesizes responses. [Learn more](/agent-platform/orchestration/supervisor) |
+| **Adaptive network** | Agents collaborate in a distributed manner, intelligently routing tasks based on capabilities and context. [Learn more](/agent-platform/orchestration/adaptive-network) |
+
+### Common configuration fields
+
+| Field | Description |
+|---|---|
+| **Default AI model** | The AI model the app uses for all operations. |
+| **Voice-to-voice interactions** | Enable to allow users to interact via real-time voice conversations. |
+| **Behavioral instructions** | Guidelines for the agent's behavior, added to the orchestrator prompt and each agent's system prompt. |
+
+### Supervisor-specific configuration
+
+| Field | Description |
+|---|---|
+| **Orchestrator prompt** | Instructions for the supervisor, including decision-making guidelines. |
+| **Orchestration prompt for voice-to-voice** | Instructions for the supervisor specifically for voice interactions. |
+
+### Adaptive network-specific configuration
+
+| Field | Description |
+|---|---|
+| **Initial agent** | The agent that serves as the first point of contact for each task. |
+
+<Note>Adaptive network doesn't support realtime models.</Note>
+
+## Step 2: Configure agents
+
+Define agents with specific roles, instructions, tools, and knowledge sources. See [Create an agent](/agent-platform/agents/create-an-agent).
+
+## Step 3: Test
+
+Run [Diagnostics](/agent-platform/deploy/diagnostics) before testing. Diagnostics validates agents, tools, events, and configurations against production-readiness criteria.
+
+Then simulate scenarios to evaluate agent behavior and responses. See [Simulate and test the app](/agent-platform/agents/agentic-apps/simulation-and-testing).
+
+## Step 4: Deploy
+
+Publish the app for users. See [App deployment](/agent-platform/deploy-apps).

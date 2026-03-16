@@ -1,0 +1,160 @@
+---
+title: "Fine-tuned models"
+description: "Create, deploy, manage, and configure fine-tuned models in AI for Process. Covers the full lifecycle from training setup to API access and deployment management."
+---
+
+The Fine-Tuned Models section in Model Hub lets you create, customize, and manage models fine-tuned to your specific use cases. Fine-tune a platform-hosted model or import one from Hugging Face, then deploy it within AI for Process or externally via a generated API endpoint.
+
+## Model list
+
+The Fine-Tuned Models page lists all available models:
+
+| Field | Description |
+|---|---|
+| **Model Name** | Name of the fine-tuned model. |
+| **Base model** | The model used as the base for fine-tuning. |
+| **Active Deployments** | Number of deployments currently active. |
+| **Deployment Failed** | Number of deployments that failed. |
+| **Ready to Deploy** | Number of deployments ready to deploy. |
+| **Tags** | Labels associated with the model. |
+| **Added by** | User who created or imported the model. |
+| **Updated on** | Date of the last update. |
+
+Select a model to open its detail view with tabs for Overview, Deployments, and Configurations.
+
+## Create a fine-tuned model
+
+<Steps>
+  <Step title="Start fine-tuning">
+    Go to **Model Hub** and click the **Fine-tuned models** tab. Click **Start fine-tuning**.
+  </Step>
+  <Step title="Enter general details">
+    Enter a **Model name** and **Description**. Add tags to help search for the model. Click **Next**.
+  </Step>
+  <Step title="Select a base model">
+    Choose a hosted model from the dropdown, or select **Import from Hugging Face** and paste the model name. Click **Next**.
+  </Step>
+  <Step title="Configure fine-tuning">
+    Select a **Fine-tuning type**: Full fine-tune, LoRA, or QLoRA.
+
+    | Base model parameters | Supported types |
+    |---|---|
+    | < 1B | Full fine-tune, LoRA, QLoRA |
+    | ≥ 1B and < 5B | LoRA, QLoRA |
+    | ≥ 5B and ≤ 8B | QLoRA |
+
+    Enter the **Number of Epochs**, **Batch size**, and **Learning rate**. Click **Next**.
+  </Step>
+  <Step title="Add datasets">
+    Select or upload the **Training dataset** (JSONL, CSV, or JSON). For the **Evaluation dataset**, choose to use a portion of the training set, upload a separate dataset, or skip evaluation. Click **Next**.
+  </Step>
+  <Step title="Add a test dataset (optional)">
+    Select or upload a test dataset, then click **Next**.
+  </Step>
+  <Step title="Select hardware">
+    Select the required hardware from the dropdown and click **Next**.
+  </Step>
+  <Step title="Configure Weights & Biases (optional)">
+    Select your WandB connection for real-time fine-tuning monitoring. Click **Next**.
+  </Step>
+  <Step title="Review and start">
+    Verify all details and click **Start fine-tuning**. The model Overview page shows real-time progress.
+  </Step>
+</Steps>
+
+## Monitor fine-tuning progress
+
+The model **Overview** page shows real-time progress. Progress statuses include: Initializing, Training in progress, Testing in progress, Fine-tuning completed, Stopped, and Failed.
+
+The overview includes:
+
+- **General information**: Progress status, total time, and author details.
+- **Base model information**: The base model used and its source.
+- **Training information**: Training type, steps, training loss, validation loss, and training duration.
+- **Test data information**: Model performance on the test dataset using the BLEU score.
+- **Hardware information**: CPU and GPU utilization during fine-tuning.
+- **Training parameters**: Summary of configured parameters.
+
+<Note>If fine-tuning fails, view the reason and click **Re-trigger** to restart. If you stop the process mid-way, click **Re-trigger** to restart from the beginning.</Note>
+
+## Deploy a fine-tuned model
+
+<Steps>
+  <Step title="Open the model">
+    Go to **Models** > **Fine-tuned models**, click the model, and click **Deploy model**.
+  </Step>
+  <Step title="Enter deployment details">
+    Enter a **Deployment name** and **Description**. Add tags. Click **Next**.
+  </Step>
+  <Step title="Configure parameters">
+    Set Temperature, Maximum length, Top p, Top k, Stop sequences, Inference batch size, Min/Max replicas, and scale delays. Click **Next**.
+  </Step>
+  <Step title="Select hardware">
+    Choose hardware and click **Next**.
+  </Step>
+  <Step title="Review and deploy">
+    Verify all details, accept the terms and conditions, and click **Deploy**.
+  </Step>
+</Steps>
+
+Once deployed, an API endpoint is generated. You receive an email notification when it is ready.
+
+## View the API endpoint
+
+<Steps>
+  <Step title="Navigate to Model Endpoint">
+    Go to **Models** > **Fine-tuned models**, click the model, and click **Model Endpoint** in the left navigation.
+  </Step>
+  <Step title="Copy the endpoint">
+    Click the **Copy** icon to copy the API endpoint. The endpoint is available in cURL, Python, and Node.js formats.
+  </Step>
+</Steps>
+
+## Manage deployments
+
+Each model can have multiple deployments tracked independently. Click the **Deployments** tab to see all deployments.
+
+| Field | Description |
+|---|---|
+| **Deployment Name** | Name given during deployment. |
+| **Deployment ID** | System-generated ID (not editable). |
+| **Status** | Deploying, Optimizing, Failed, Ready to Deploy, or Deployed. |
+| **Deployed By** | User who performed the deployment. |
+| **Added On** | Date of deployment. |
+| **Actions** | Copy cURL, Manage API Keys, Re-trigger. |
+
+### Deployment history
+
+The deployment history table tracks the full lifecycle of the model. The system appends a version number to each redeployment (for example, "Flan T5" becomes "Flan T5\_v1"). The most recent deployment is marked with a green tick.
+
+## Generate an API key
+
+<Steps>
+  <Step title="Open API keys">
+    Go to **Models** > **Fine-tuned models**, click the model, and click **API keys** in the left navigation.
+  </Step>
+  <Step title="Generate">
+    Click **Create a new API key**, enter a name, and click **Generate key**.
+  </Step>
+  <Step title="Copy">
+    Click **Copy and close** to copy the key.
+  </Step>
+</Steps>
+
+API keys are scoped per deployment for secure access control.
+
+## Configure a fine-tuned model
+
+On the **Configurations** page, you can edit the model name, description, and tags, adjust the endpoint timeout, undeploy, or delete the model.
+
+**Model endpoint timeout**: Set between 30 and 180 seconds (default: 60 seconds).
+
+<Note>Timeout precedence: Workflow timeout > Node timeout > Model timeout.</Note>
+
+**Undeploy**: Click **Proceed to undeploy** on the Configurations page. Undeploying disconnects the model immediately from all active instances.
+
+**Delete**: You can delete an undeployed model. Click **Proceed to delete** to permanently remove it and all associated data.
+
+## Export a fine-tuned model
+
+Click the three-dots icon next to the model name on the Models page and select **Export model**. The exported zip file saves to your downloads folder.

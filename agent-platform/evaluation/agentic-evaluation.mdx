@@ -1,0 +1,146 @@
+---
+title: "Agentic evaluation"
+description: "Assess and improve end-to-end AI agent performance across sessions, traces, and individual decision points."
+---
+
+Agentic Evaluation is a comprehensive framework for systematically analyzing AI agent performance in real-world production scenarios. It enables structured evaluation of complete AI agent trajectories across entire sessions and individual decision points.
+
+## Key features
+
+- **Model trace analysis**: Import and evaluate app sessions and traces from deployed apps or simulated sessions.
+- **Simulation support**: Generate simulated sessions using Personas and Test Scenarios to validate agent behavior before go-live.
+- **Multi-level evaluation**: Assess AI behavior across sessions (goal achievement, tone) and traces (agent selection, tool usage).
+- **Evaluator library**: Apply predefined evaluators to assess the quality and effectiveness of agentic app behavior.
+- **Interactive analysis tools**: Use scorecards and trace visualizations to explore evaluation results.
+- **Actionable insights**: Identify failures, deviations, or redundant interactions to continuously improve your app.
+
+## User journey
+
+<Steps>
+  <Step title="Create a project">
+    Log in, go to **Evaluation Studio**, select **Agentic Evaluation**, and click **New Project**. Select the agentic app and environment.
+  </Step>
+  <Step title="Choose a data source">
+    Select **Simulated data** (create personas and test scenarios, then run simulations) or **Production data** (import sessions from deployed apps).
+  </Step>
+  <Step title="Create an evaluation">
+    Create an evaluation container for importing and analyzing session data.
+  </Step>
+  <Step title="Import data">
+    Import production sessions or simulated sessions into the evaluation.
+  </Step>
+  <Step title="Configure evaluators">
+    Select session-level and trace-level evaluators.
+  </Step>
+  <Step title="Run the evaluation">
+    Click **Run Evaluation** to apply evaluators to sessions and traces.
+  </Step>
+  <Step title="View and analyze results">
+    Drill into session and trace scores to identify optimization opportunities.
+  </Step>
+</Steps>
+
+## Simulations
+
+Simulations enable automated creation of test sessions so you can evaluate your agent before go-live.
+
+### Create personas
+
+Personas represent different types of users who interact with your agent.
+
+1. Go to **Evaluation Studio** → **Agentic Evaluation** → **Personas**.
+2. Click **Create Persona**.
+3. Enter a **Persona name** and **Description**.
+4. Optionally add attributes such as role, gender, language, emotion, and patience or urgency levels.
+5. Click **Save**.
+
+<Tip>Use the **Additional Information** field to configure specific behaviors for the persona.</Tip>
+
+### Create test scenarios
+
+Test scenarios define the context, user intent, and expected outcome for a simulated interaction.
+
+#### Write test scenarios
+
+1. Go to **Evaluation Studio** → **Agentic Evaluation** → **Test Scenarios**.
+2. Click **Write test scenario**.
+3. Enter:
+   - **Agentic capability**: The specific skill or function being tested.
+   - **Initial user query**: The user's opening message or intent.
+   - **Information provided to persona**: Context or background knowledge.
+   - **End condition**: A plain-text condition that signals when the simulation should stop.
+   - **Max turns**: The maximum number of turns before the conversation ends.
+4. Click **Save**.
+
+#### Generate test scenarios
+
+1. Click **Generate test scenarios**.
+2. Specify model, agentic capabilities to cover, number of scenarios per capability (maximum 15), and information provided to the persona.
+3. Click **Generate**.
+
+### Run simulations
+
+1. Go to **Evaluation Studio** → **Agentic Evaluation** → **Simulations**.
+2. Click **Create Simulation**.
+3. Specify name, model, agentic capabilities, personas, and test scenarios.
+4. Click **Run**.
+
+The system executes mock sessions for all generated test queries. Monitor progress in real time from the **Simulation Runs** panel.
+
+## Evaluators
+
+### Session evaluators
+
+Assess the overall quality of a full session.
+
+| Evaluator | Description |
+|---|---|
+| **Final goal check** | Determines whether the agent successfully achieved the intended outcome by the end of the session. |
+| **Message tonality** | Evaluates whether the conversation maintained an appropriate and consistent tone. |
+| **Topic adherence** | Assesses if the agent stayed within the defined knowledge boundaries and relevant topics. |
+
+### Trace evaluators
+
+Analyze decisions made within individual traces.
+
+| Evaluator | Description |
+|---|---|
+| **Agent call accuracy** | Evaluates whether the supervisor/orchestrator calls the correct agents based on the user's query. |
+| **Tool call accuracy** | Checks if the agent invokes the correct tools with the right parameters based on context and intent. |
+
+## Evaluation scores
+
+### Session evaluator scoring
+
+| Evaluator | Pass | Fail |
+|---|---|---|
+| **Final goal check** | The agent achieved the intended goal. | The agent did not fulfill the user's objective. |
+| **Message tonality** | The tone is professional, friendly, or appropriate. | The tone is inconsistent or inappropriate. |
+| **Topic adherence** | The agent stays within defined knowledge boundaries. | The agent goes off-topic or outside its defined scope. |
+
+### Trace evaluator scoring
+
+**Agent call accuracy:**
+- **Score 1 (good)** — The correct agent is selected.
+- **Score 0 (bad)** — The wrong agent is selected.
+
+**Tool call accuracy:**
+- **Score 1 (good)** — The right tool is called with the correct parameters.
+- **Score 0.5 (partial)** — The right tool is used, but parameters are incorrect.
+- **Score 0 (bad)** — The agent calls the wrong tool with incorrect or missing parameters.
+
+## Analyze evaluation results
+
+After running evaluations, explore results through an interactive interface:
+
+- **Summary scores at a glance** — Scan evaluator columns to compare scores across sessions.
+- **Drill-down views** — Click into any session or trace to view a step-by-step evaluation breakdown, scores at the Supervisor, Agent, and Tool levels, and explanations behind each score.
+
+### Trace view
+
+The trace tree displays the hierarchical structure of the agentic system:
+
+- **Root level (Trace root)**: Represents the entire trace and aggregates all evaluators.
+- **Supervisor level**: Contains evaluations assessing whether the supervisor called the correct agents.
+- **Agent level**: Represents actions and decisions made by an agent.
+- **Tool level**: Represents individual tool calls made by the agent.

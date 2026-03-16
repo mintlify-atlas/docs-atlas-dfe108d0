@@ -1,0 +1,149 @@
+---
+title: "User management"
+description: "Invite and manage users in your AI for Process account — invite individuals or import in bulk, sync from Active Directory, assign roles, and monitor status."
+---
+
+The **Users Management** module in the Settings console provides centralized workflows for inviting, importing, and managing users.
+
+<Warning>Only users with the Admin role or higher (with Users Management permissions) can access the Settings console.</Warning>
+
+## Users dashboard
+
+The dashboard displays user counts by status and detailed user information.
+
+| Status | Description |
+|---|---|
+| Active | Users with active accounts who can interact with AI for Process. |
+| Inactive | Invited users who have not yet accepted the invitation. |
+| Locked | Users who exceeded 5 failed login attempts and are locked out. |
+
+## Add users
+
+### Invite via email
+
+<Steps>
+  <Step title="Open User Management">
+    Click **Settings** in the top navigation. Click **Users Management** > **Users** > **Add New User**.
+  </Step>
+  <Step title="Enter invite details">
+    Click **Invite**. Enter a valid email address and select a role from the dropdown.
+  </Step>
+  <Step title="Add more invites (optional)">
+    Click **+ Add another member** to invite multiple users. Click the **Delete** icon to remove an invitation row.
+  </Step>
+  <Step title="Send invitations">
+    Click **Send invitation(s)**.
+  </Step>
+</Steps>
+
+<Note>
+- Invitations expire 15 days after being sent.
+- User status is **Inactive** until the invitation is accepted, then changes to **Active**.
+- Duplicate invitations are not allowed.
+</Note>
+
+### Bulk import
+
+The bulk import feature lets administrators add multiple users at once using `.txt` or `.csv` files.
+
+**File requirements:**
+
+- Valid file types: `.txt` or `.csv`.
+- Required fields: name, email ID, and status.
+- Each row must contain information for one user.
+- Accepted delimiters: comma (`,`), pipe (`|`), semicolon (`;`), and tab.
+- The first row must contain field names.
+- The **User Status** field determines the post-import action: New, Update, or Delete.
+
+<Steps>
+  <Step title="Start the import">
+    Click **Settings** in the top navigation. On the **Users** dashboard, click **Add New User** > **Import**.
+  </Step>
+  <Step title="Upload the file">
+    Click **Upload File** and select the file, or drag and drop it into the upload area. Download the sample `.csv` file for reference.
+  </Step>
+  <Step title="Preview and confirm">
+    Review the data preview and click **Continue**. When the import completes, click **Continue** again.
+  </Step>
+</Steps>
+
+<Note>Imported users are assigned the **Viewer** role by default. You can change this later.</Note>
+
+## Manage users
+
+### Search for a user
+
+1. Go to the **Users** dashboard.
+2. Click the **Search** text field and enter the user's name. Matching results appear automatically.
+
+### Unlock a locked user
+
+<Steps>
+  <Step title="Find the user">
+    Go to **Settings** > **Users Management** > **Users**. Hover over the user with **Locked** status.
+  </Step>
+  <Step title="Unlock">
+    Click **Unlock** and then **Confirm**. The status changes to **Active**.
+  </Step>
+</Steps>
+
+### Change user role
+
+To change an individual user's role, click the **Account Role** entry for the user and select the new role.
+
+**Bulk role change:** Select multiple users on the **Users** dashboard. Click the **Role** dropdown in the bottom pane and select the role.
+
+### Delete a user
+
+<Warning>Deleting a user revokes their access and removes their data. You cannot delete users who own active workflows — the user must remove all active workflows first.</Warning>
+
+- **Delete a single user**: Hover over the user entry and click the **Delete** icon.
+- **Bulk delete**: Select users and click the **Delete** icon at the bottom. Click **Remove** to confirm.
+
+<Note>Deleting a user is permanent.</Note>
+
+## Active Directory sync
+
+By configuring Active Directory (AD) import, you can sync your organizational user information into the Settings console from a single source of truth, eliminating the need for email invitations or manual imports.
+
+<Warning>An AD professional with the necessary technical expertise should handle the auto sync configuration process.</Warning>
+
+### Configuration steps
+
+<Steps>
+  <Step title="Set up the connection">
+    Go to **Settings** and click **Configure Directory** in the **Configure sync with directory** section. Provide the following:
+
+    | Field | Description |
+    |---|---|
+    | **Host Name** | The domain's hostname or IP address. |
+    | **Server Port** | The network port number used by the domain host. |
+    | **Base DN** | The server location for users and groups in the domain. |
+    | **User ID** | The identity used to log into the AD. |
+    | **Password** | The password used to log into the AD. |
+    | **SSL** (optional) | Enable to secure communications over HTTPS. |
+
+    Click **Next** to validate the credentials.
+  </Step>
+  <Step title="Import organization units">
+    Select which organization units to import user data from: all OUs, no OUs, or specific OUs. Click **Next**.
+  </Step>
+  <Step title="Specify user attributes and configure rules">
+    Map LDAP user attributes to profile fields. Optionally configure inclusion and exclusion rules for selective import. Click **Next**.
+  </Step>
+  <Step title="Schedule automatic AD sync (optional)">
+    Enable **auto-sync** and configure the sync frequency (Daily, Weekly, Monthly, or custom interval), start date, and time. Click **Save**.
+  </Step>
+</Steps>
+
+### After setup
+
+After configuring AD sync, the following options appear under **Configure sync with directory**:
+
+| Option | Description |
+|---|---|
+| **Sync now** | Performs an ad hoc AD sync immediately. |
+| **Sync History** | Displays the history of AD syncs with success and failure counts. |
+| **Manage directory sync** | Opens the configuration window to edit settings. |
+| **Reset** | Resets the AD sync configuration but retains the last sync data. |
+| **Sync Status** | Shows the date of last sync, total users and OUs synchronized, and any errors. |

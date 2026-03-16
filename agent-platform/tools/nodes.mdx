@@ -1,0 +1,316 @@
+---
+title: "Workflow nodes"
+description: "Build tool flows with specialized nodes for control, logic, AI, and integration."
+---
+
+Workflow tools are built by connecting nodes on a visual canvas. Each node type serves a specific purpose—processing data, making decisions, integrating with external systems, or pausing for human review.
+
+## Node types
+
+| Node | Category | Purpose |
+|---|---|---|
+| [**Start**](#start-node) | Control | Entry point; defines input parameters |
+| [**End**](#end-node) | Control | Exit point; returns output or error message |
+| [**API**](#api-node) | Integration | Make REST/SOAP API calls to external services |
+| [**Integration**](#integration-node) | Integration | Connect to third-party services without code |
+| [**Function**](#function-node) | Logic | Execute custom JavaScript or Python code |
+| [**Condition**](#condition-node) | Logic | Branch based on IF/ELSE IF/ELSE logic |
+| [**Loop**](#loop-node) | Logic | Iterate over arrays to process multiple items |
+| [**Text to Text**](#text-to-text-node) | AI | Transform text using LLMs |
+| [**Text to Image**](#text-to-image-node) | AI | Generate images from text prompts |
+| [**Audio to Text**](#audio-to-text-node) | AI | Transcribe audio to text (ASR) |
+| [**Image to Text**](#image-to-text-node) | AI | Extract text or insights from images (OCR) |
+| [**DocSearch**](#docsearch-node) | Data | RAG-powered retrieval from a Search AI app |
+| [**Human**](#human-node) | Control | Pause for human review or approval |
+
+## Start node
+
+Every flow begins with a Start node that defines input parameters and initiates execution.
+
+### Accessing inputs in downstream nodes
+
+| Language | Syntax |
+|---|---|
+| JavaScript | `{{context.steps.Start.variable-name}}` |
+| Python | `{{context["steps"]["Start"]["variable-name"]}}` |
+
+## End node
+
+Terminates the flow and returns output to the caller, or displays an error message on failure.
+
+At least one output variable is required for every End node.
+
+```javascript
+// Example value mapping
+{{context.steps.summarization.output}}
+```
+
+## API node
+
+Make HTTP requests to external services using REST or SOAP protocols.
+
+| Capability | Details |
+|---|---|
+| Protocols | REST and SOAP |
+| Methods | GET, POST, PUT, DELETE, PATCH |
+| Auth | Pre-authorized tokens or per-user runtime authorization |
+| Modes | Synchronous or asynchronous |
+| Body formats | JSON, XML, Form URL Encoded, Custom |
+
+### Configuration
+
+| Field | Description |
+|---|---|
+| **Node name** | Name for the node |
+| **Type** | REST or SOAP |
+| **Integration type** | Synchronous (waits for response, timeout: 5–180s) or Asynchronous (continues without waiting, timeout: 30–300s) |
+| **Request definition** | API endpoint URL or cURL, auth profile, headers, and body |
+
+### Accessing output
+
+```javascript
+{{context.steps.APINodeName.output.data}}
+{{context.steps.APINodeName.output.status}}
+```
+
+## Function node
+
+Execute custom JavaScript or Python code for data transformation and business logic.
+
+**Supported languages**: JavaScript (async with `await`), Python (synchronous)
+
+### Common use cases
+
+- Data transformation and format conversion
+- Custom validation and business rule logic
+- Mathematical calculations and statistical analysis
+- String manipulation and regex operations
+
+### Write code
+
+<CodeGroup>
+```javascript JavaScript example
+const order = context.steps.FetchOrder.output;
+const transformed = {
+  id: order.order_id,
+  total: order.items.reduce((sum, item) => sum + item.price, 0),
+  itemCount: order.items.length,
+  formattedDate: new Date(order.created_at).toLocaleDateString()
+};
+return transformed;
+```
+
+```python Python example
+order = context["steps"]["FetchOrder"]["output"]
+transformed = {
+    "id": order["order_id"],
+    "total": sum(item["price"] for item in order["items"]),
+    "item_count": len(order["items"]),
+    "status": order["status"].upper()
+}
+return transformed
+```
+</CodeGroup>
+
+### Agent memory access
+
+Use memory stores to retain and share data across steps or sessions.
+
+| Operation | Syntax |
+|---|---|
+| **Get** | `memory.get_content(memory_store_name=STORE_NAME, projections={"field": 1})` |
+| **Set** | `memory.set_content(memory_store_name=STORE_NAME, content={...})` |
+| **Delete** | `memory.delete_content(memory_store_name=STORE_NAME)` |
+
+## Integration node
+
+Connect to pre-configured third-party services without writing code.
+
+**Prerequisites**: Add at least one service provider connection via **Settings** → **Integrations** before configuring this node.
+
+### Configuration
+
+1. Click **Integration** → **+ New Integration** in the Assets panel.
+2. Select the service and connection name.
+3. Click **Add Action** and select one action (only one action per node).
+4. Fill in action parameters.
+5. Set **On Success** and **On Failure** paths.
+
+## Condition node
+
+Branch workflow execution based on logical conditions.
+
+**Condition types**: `IF`, `ELSE IF`, `ELSE`
+
+**Operators**: `==`, `!=`, `>`, `<`, `>=`, `<=`, `contains`, `startsWith`, `endsWith`
+
+**Logic combinators**: `AND` or `OR` for multi-criteria conditions
+
+```javascript
+// AND
+context.steps.Order.amount > 100 && context.steps.Order.status === "pending"
+
+// OR
+context.steps.User.tier === "premium" || context.steps.Order.amount > 500
+```
+
+<Note>A condition node can be called a maximum of 10 times in a tool flow.</Note>
+
+## Loop node
+
+Iterate over arrays to process multiple items, one at a time.
+
+### Error handling options
+
+| Strategy | Behavior |
+|---|---|
+| **Continue on error** (default) | Processes all items; output includes both successes and errors |
+| **Terminate execution** | Stops on first failure; follows the failure path |
+| **Remove failed results** | Like "Continue" but filters failures from the final output |
+
+### Inside the loop
+
+```javascript
+// Reference current iteration item
+{{currentItem}}
+
+// Current index (via loop context)
+{{context.loop.index}}
+```
+
+### Accessing output
+
+```javascript
+{{context.steps.LoopNodeName.output}}
+// Returns: [result1, result2, result3, ...]
+```
+
+## AI nodes
+
+Multimodal nodes that use LLMs for specialized tasks.
+
+| Node | Input | Output | Use cases |
+|---|---|---|---|
+| **Text to Text** | Text | Text | Summarization, translation, content generation |
+| **Text to Image** | Text | Image (PNG URL) | Marketing visuals, concept art, variant testing |
+| **Audio to Text** | Audio | Text | Transcription, voice processing, subtitles |
+| **Image to Text** | Image | Text | OCR, document digitization, image Q&A |
+
+### Text to Text node
+
+Transform input text into desired text output using LLMs.
+
+| Field | Description |
+|---|---|
+| **Node name** | Name for the node |
+| **Prompt options** | Write your own or choose from Prompt Hub with version selection |
+| **Select model** | Choose a configured LLM |
+| **Timeout** | 30–180 seconds (default: 60s) |
+| **Response JSON schema** | Optional; define structure for predictable output |
+| **Model configurations** | Temperature, Top-p, Top-k, Max Tokens |
+
+**Tool calling settings:**
+
+| Setting | Description |
+|---|---|
+| **Add tools** | Select up to 3 tools from your account |
+| **Exit node execution after** | Number of model calls before exiting to failure path |
+| **Tool choice** | Auto (model decides) or Required (always calls a tool) |
+| **Parallel tool calls** | True for simultaneous calls; False for sequential |
+
+### Text to Image node
+
+Generate images from descriptive text prompts.
+
+**Supported models**: Stable Diffusion (xl-base-1.0, 2-1, v1-5), OpenAI (DALL·E 2, DALL·E 3)
+
+| Field | Description |
+|---|---|
+| **Positive prompt** | Keywords for what to generate |
+| **Negative prompt** | Keywords for elements to exclude |
+| **Aspect ratio** | Width x Height in pixels (max 2048 x 2048) |
+| **Steps** | Refinement passes; 25–30 recommended |
+| **Batch count** | Number of image variants (max 5) |
+
+### Audio to Text node
+
+Convert spoken audio into written text using OpenAI Whisper-1.
+
+**Supported formats**: M4a, Mp3, Webm, Mp4, Mpga, Wav, Mpeg (max file size: 25 MB)
+
+| Field | Description |
+|---|---|
+| **Audio file** | Input variable with the audio file URL |
+| **Translation** | Toggle on to translate non-English audio to English |
+| **Timestamps** | Toggle on to include time markers in the transcript |
+
+### Image to Text node
+
+Extract text or generate insights from images using OCR and LLMs.
+
+**Supported models**: OpenAI (gpt-4o, gpt-4o-mini), Anthropic (Claude Sonnet Vision)
+
+**Supported formats**: PNG, JPEG, JPG (one image URL at a time)
+
+## DocSearch node
+
+Retrieve context-aware information from a connected Search AI app using RAG.
+
+### Setup prerequisites
+
+1. Set up a Search AI app with **Answer Generation** API scope enabled.
+2. Link Search AI in the platform via **Settings** → **Integrations** → **Search AI** → **Link an App**.
+
+### Configuration
+
+| Field | Description |
+|---|---|
+| **Query** | Static text or dynamic input variable |
+| **Search AI connection** | Select the linked connection configured in Settings |
+| **Meta filters** | Optional JSON rules to narrow results to specific files or sources |
+
+### Accessing output
+
+```javascript
+{{context.steps.DocSearch.response.response.answer}}
+```
+
+## Human node
+
+Pause workflow execution to collect human input, approval, or review before proceeding.
+
+### Configuration
+
+1. **Request destination**: Select *Custom Request* in Send & wait for response.
+2. **Request definition**: Define the API endpoint, auth profile, headers, and body.
+3. **Input fields**: Define fields the reviewer must fill in (Text, Number, Boolean, Date).
+4. **Reviewer note**: Set subject line, message body, and assignee email.
+5. **Timeout behavior**: Set a timeout duration or wait indefinitely.
+
+### Outcome paths
+
+| Outcome | Behavior |
+|---|---|
+| **On Success** | All mandatory fields received; workflow continues |
+| **On Timeout - Terminate** | No response within timeout; flow ends |
+| **On Timeout - Skip** | No response within timeout; continues with `null` output |
+| **On Failure** | Request delivery error; follows configured fallback |
+
+### Accessing reviewer responses
+
+```javascript
+// Full response payload
+{{context.steps.NodeName.output}}
+
+// Specific field
+{{context.steps.NodeName.output.Approval}}
+```
+
+## Debugging
+
+The Debug panel shows:
+
+- Execution status per node
+- Input/output values at each step
+- Error messages and timing metrics
+- Iteration details for loop nodes (click the loop icon to drill into individual runs)

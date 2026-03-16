@@ -1,0 +1,94 @@
+---
+title: "Agentic RAG and business rules"
+description: "Configure intelligent query processing with Agentic RAG and customize Search AI responses through business rules."
+---
+
+This guide covers intelligent query processing with Agentic RAG and customizing responses through Business Rules in Search AI.
+
+**Navigation:** Configuration menu in Search AI
+
+## Agentic RAG
+
+Agentic RAG enhances retrieval accuracy through LLM-powered agents that process queries intelligently before retrieval. Instead of a static pipeline, Agentic RAG operates as a coordinated reasoning system that can plan, adapt, validate, and refine steps in real time.
+
+### RAG agents
+
+| Agent | Purpose | Example |
+|-------|---------|--------|
+| **Query Type Detection** | Determines if user seeks a specific answer or search results list | Classifies query intent with confidence level |
+| **Query Transformation** | Identifies key terms, removes noise, prioritizes relevant documents | Extracts key terms from complex queries |
+| **Metadata Extractor** | Extracts sources and fields from query, maps to structured data, applies filters | Applies field-based filters from query context |
+
+### Supported models
+
+Currently, only **OpenAI** and **Azure OpenAI 4.0** models are supported for Agentic RAG.
+
+### Enabling Agentic RAG
+
+1. Navigate to **Configuration > Agentic RAG**
+2. Enable Agentic RAG (enables all agents by default)
+3. All agents use the configured model
+
+To change model/prompt settings or enable/disable specific agents, go to **Generative AI Tools > GenAI Features**.
+
+### Considerations
+
+| Factor | Impact |
+|--------|--------|
+| Response time | Multiple LLM calls may increase overall response time |
+| API usage | Enable agents only when utilizing search results via API |
+| Accuracy | Improves retrieval precision for complex queries |
+
+## Business rules
+
+Business Rules customize and personalize answers based on organizational requirements and policies.
+
+### Use cases
+
+- Personalized recommendations
+- Promotional offers
+- Content filtering
+- Access control
+- Language-based prioritization
+
+### How business rules work
+
+1. User query received
+2. Relevant chunks retrieved from Answer Index
+3. Business rules evaluate conditions
+4. Chunks filtered/modified based on rule outcomes
+5. Filtered chunks used for answer generation
+
+### Outcome actions
+
+| Action | Description | Factor range |
+|--------|-------------|-------------|
+| **Boost** | Prioritize chunks by boost factor | 1–5 (5 = maximum boost) |
+| **Lower** | De-prioritize results by lower factor | 1–5 |
+| **Hide** | Remove from search results | — |
+| **Filter** | Filter results per response criteria | — |
+
+### Example business rule
+
+**Scenario:** Restrict confidential information to managers in a specific department.
+
+| Component | Configuration |
+|-----------|---------------|
+| Condition | `userContext.dept` does not equal `[target_dept]` |
+| Action | Hide |
+| Response | Chunks where `chunkTitle` contains `Confidential` |
+
+### Important notes
+
+- Multiple conditions use logical **AND** (all must be satisfied)
+- Multiple outcomes use logical **AND** (all are applied)
+- Values are **case-sensitive** and use **entire word matching**
+
+### Managing business rules
+
+| Action | Steps |
+|--------|-------|
+| Add rule | Click **+Contextual Rule** button |
+| Activate/Deactivate | Use slider button in rules list |
+| Edit rule | Select rule from list, make changes, click **Save** |
+| Delete rule | Open rule details, click **Delete** button |

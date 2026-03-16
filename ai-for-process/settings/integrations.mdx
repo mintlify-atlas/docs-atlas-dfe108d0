@@ -1,0 +1,189 @@
+---
+title: "Integrations"
+description: "Connect AI for Process to 120+ third-party services using OAuth2, API, Bearer, or Basic Auth. Manage connections and integrate with Weights & Biases, Hugging Face, and AWS S3."
+---
+
+The **Integrations** feature connects your AI for Process account to third-party services. Once connected, use them from the workflow canvas with the Integration node.
+
+AI for Process supports 120+ integrations with the following authentication methods:
+
+- **API**: Authenticate using a token in headers or query parameters.
+- **OAuth2**: Uses the OAuth2 authorization framework for token-based access without sharing passwords.
+- **Bearer**: Uses a bearer token in the request header.
+- **Basic Auth**: Authenticates using a username and password. Supported for ServiceNow, Freshdesk, Snowflake, Amplitude, and Mixpanel.
+
+## Access integrations
+
+<Steps>
+  <Step title="Open Settings">
+    In AI for Process, click **Settings** in the top menu.
+  </Step>
+  <Step title="Open Integrations">
+    Click **Integrations** in the left menu.
+  </Step>
+</Steps>
+
+## Browse available integrations
+
+The **Integrations** page has two tabs:
+
+- **All Integrations**: Lists available integrations grouped by category. Once you configure a connection, it moves to the **Connected** tab.
+- **Connected**: Lists all configured connections.
+
+Use filters to find an integration:
+
+- **Search**: Enter the name (full or partial) in the **Search** field.
+- **Category**: Select categories (for example, AI and Machine Learning, Marketing, E-commerce) and click **Apply**.
+- **Authorization**: Select authorization types and click **Apply**.
+
+Toggle between **List view** (table with Connection Name, Description, Type) and **Tile view** (default, card layout).
+
+## Supported integrations
+
+AI for Process supports integrations with the following services (partial list):
+
+<AccordionGroup>
+
+<Accordion title="CRM and sales">
+Salesforce, HubSpot, Pipedrive, Zoho, Dynamics365, Kommo, Affinity
+</Accordion>
+
+<Accordion title="Project management">
+Jira, Asana, Linear, Trello, ClickUp, Monday, Notion, Shortcut
+</Accordion>
+
+<Accordion title="Communication">
+Slack, Discord, Microsoft Teams, Gmail, Outlook, Zoom, WhatsApp
+</Accordion>
+
+<Accordion title="Cloud storage">
+Google Drive, OneDrive, Dropbox, Box, AWS S3, SharePoint
+</Accordion>
+
+<Accordion title="Developer tools">
+GitHub, Bitbucket, Sentry, PagerDuty, PostHog
+</Accordion>
+
+<Accordion title="Marketing">
+Mailchimp, Brevo, Sendgrid, Klaviyo, Google Ads, Meta Ads
+</Accordion>
+
+<Accordion title="AI and data">
+Hugging Face, Weights & Biases, Composio, Perplexity AI, Tavily
+</Accordion>
+
+<Accordion title="E-commerce and payments">
+Shopify, Stripe, Flutterwave, QuickBooks
+</Accordion>
+
+<Accordion title="Customer support">
+Zendesk, Freshdesk, Intercom, Gorgias
+</Accordion>
+
+</AccordionGroup>
+
+For the full list of all 120+ integrations, browse the **All Integrations** tab in the Settings console.
+
+## Add a connection
+
+<Note>You can also add a connection directly from the **Integration node** on the workflow canvas.</Note>
+
+<Steps>
+  <Step title="Select an integration">
+    In the **All Integrations** tab, filter by category or authorization, then click the required integration. Or click the **Connected** tab and select an existing provider.
+  </Step>
+  <Step title="Configure the connection">
+    Click **Add Connection**. Enter a **Connection Name** and configure the **Authorization Details** based on the auth type:
+
+    - **OAuth2**: Select a configured Auth Profile under **Custom** to authenticate.
+    - **Bearer Token**: Enter the bearer token and any related credentials. Click **Test** to validate.
+    - **API**: Enter the API Key or Access Token. Click **Test** to validate.
+    - **Basic Auth**: Enter the required credentials. Click **Test** to validate.
+  </Step>
+  <Step title="Save">
+    Click **Save** after testing the connection successfully.
+  </Step>
+</Steps>
+
+## Manage connections
+
+In the **Connected** tab, you can view, edit, test, and manage all configured connections.
+
+| Field | Description |
+|---|---|
+| Connection Name | Unique name set during configuration. |
+| Added By | The admin or user who added the connection. |
+| Integration Type | API, OAuth2, Bearer, Basic Auth, etc. |
+| Added on | The date the connection was added. |
+| Action | Test the connection or enable/disable it. |
+
+**Edit a connection**: Click **Ellipses** > **Edit**. Modify the authorization details, click **Test**, and click **Save**.
+
+**Delete a connection**: Click **Ellipses** > **Delete**. Click **Delete** to confirm.
+
+<Warning>Deletion is irreversible and removes all associations of the connection from the platform.</Warning>
+
+**Test a connection**: Click the **Play** icon. The connection is validated in the background.
+
+**Enable or disable**: Use the toggle to enable (default) or disable the connection.
+
+## Integrate with Weights and Biases
+
+Connecting to Weights and Biases (WandB) links AI for Process to your WandB account so fine-tuning data is sent to the WandB console for analytics.
+
+<Steps>
+  <Step title="Open Integrations">
+    Go to **Settings** > **Integrations**. Click **Weights & Biases** from the integrations list.
+  </Step>
+  <Step title="Add connection">
+    Click **Add connection**. Enter a **Connection name** and your **API key**.
+  </Step>
+  <Step title="Test and confirm">
+    Click **Test** to verify the connection. Click **Confirm** if successful.
+  </Step>
+</Steps>
+
+<Note>Once the connection is set up, the connection name appears in the Weights and Biases section of the Create a Fine-Tuned Model wizard.</Note>
+
+## Integrate with Hugging Face
+
+Connecting to Hugging Face lets you use publicly available text generation models in AI for Process. For private models, provide your Hugging Face access token.
+
+<Steps>
+  <Step title="Open Integrations">
+    Go to **Settings** > **Integrations**. Click **Hugging Face** from the integrations list.
+  </Step>
+  <Step title="Add connection">
+    Click **Add connection**. Enter a **Connection name** and your **Access token**.
+  </Step>
+  <Step title="Test and confirm">
+    Click **Test** to verify the connection. Click **Confirm** if successful.
+  </Step>
+</Steps>
+
+<Note>If you delete a Hugging Face connection used for a model's deployment, the system prompts you to select a new connection on redeployment.</Note>
+
+## Integrate with AWS S3 Bucket
+
+Connecting to AWS S3 lets you import files from your S3 bucket and use them in AI for Process workflows.
+
+<Steps>
+  <Step title="Open Integrations">
+    Go to **Settings** > **Integrations**. Click **AWS S3 bucket** from the integrations list.
+  </Step>
+  <Step title="Add connection">
+    Click **Add connection**. Enter a **Connection name**, **Access key**, **Secret key**, and **Bucket name**.
+  </Step>
+  <Step title="Test and confirm">
+    Click **Test** to verify. Click **Confirm** if successful.
+  </Step>
+</Steps>
+
+### Use S3 files in the Workflow Builder
+
+Once the S3 connection is set up:
+
+1. Create an **Input variable** with type **Remote File**.
+2. Add an API node and point to the remote file using the **URL** field.
+
+The file content is available in the context object and can be accessed in any subsequent nodes.

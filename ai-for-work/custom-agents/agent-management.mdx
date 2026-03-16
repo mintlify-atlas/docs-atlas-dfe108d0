@@ -1,0 +1,306 @@
+---
+title: "Agent management"
+description: "Manage the complete lifecycle of a custom agent: creation, testing, version control, publishing, and advanced integration features."
+---
+
+This guide covers the complete lifecycle of a custom agent: from initial creation and testing, through version control and publishing, to ongoing management and advanced integration features.
+
+| Feature | Description |
+|---|---|
+| [Creating an agent](#creating-an-agent) | Set up a new custom agent from scratch or using the Marketplace. |
+| [Testing an agent](#testing-an-agent) | Validate and refine agent behavior in a controlled environment before deployment. |
+| [Version control](#version-control) | Manage draft and published agent versions to keep production stable while iterating. |
+| [Agent options](#agent-options) | Export, delete, share, and modify agents after publication. |
+| [Schedule trigger](#schedule-trigger) | Automate agent execution at predefined intervals without manual intervention. |
+| [Handling alert tasks](#handling-alert-tasks) | Pause and resume conversations using hold templates and correlation IDs. |
+| [Notify API](#notify-api) | Send interactive notifications with action buttons to users via API. |
+
+## Creating an agent
+
+The agent creation feature provides a streamlined interface for creating new agents. The system adapts its behavior based on workspace access and permissions.
+
+- Users with appropriate permissions see the **Create Agent** button in the Agents and Flows section.
+- The system hides the **Create Agent** button from users who lack Personal Workspace access and have no shared workspace access.
+
+### Agent creation process
+
+<Steps>
+  <Step title="Navigate to Agent and Flow">
+    Navigate to the Agent and Flow section and click **Manage**.
+  </Step>
+  <Step title="Select an agent type">
+    Click **Create Agent** to display a list of available agent types and select the desired type.
+  </Step>
+  <Step title="Choose a creation method">
+    Choose **Create from Scratch** or **Use Marketplace**.
+  </Step>
+</Steps>
+
+### Workspace routing
+
+| Scenario | Behavior |
+|---|---|
+| **Single workspace** | The system navigates directly to your Personal Workspace in a new tab with the selected agent type pre-selected. |
+| **Multiple workspaces** | A workspace selection modal appears, including *My Workspace* (Personal Workspace) as an option. |
+
+## Testing an agent
+
+The Agent Testing feature provides a controlled environment for testing and refining agents before deployment, ensuring optimal performance in production environments.
+
+### Accessing the testing panel
+
+The **Test** button becomes active after administrators complete the agent basic details step. Clicking it opens the Agent Testing Panel with a compose bar scoped strictly to the selected agent.
+
+### Testing capabilities
+
+- The panel provides default sample queries for one-click execution.
+- Enter custom queries manually.
+- Submit multiple queries per session to thoroughly evaluate agent performance.
+- **Clear Chat** resets the chat history and input field for a new session.
+
+### Agent improvement workflow
+
+Out-of-scope queries trigger an **Improve Purpose based on Query** button. This opens a modal displaying the current agent purpose alongside the problematic query. You can generate a revised purpose based on the query and save the updated configuration directly to the agent.
+
+<Note>
+  Agent responses with submission actions show disabled execution buttons in testing mode to prevent unintended actions.
+</Note>
+
+## Version control
+
+The Agent Version Control system allows you to safely develop and test agent configurations without affecting your live, published agents.
+
+### Two-version system
+
+Every agent maintains two distinct versions:
+
+| Version | Description |
+|---|---|
+| **Draft Version** | Contains your latest edits and modifications. |
+| **Published Version** | The live version accessible to end users. |
+
+### Making changes
+
+When you edit a published agent:
+
+1. Your changes are automatically saved to the **Draft Version**.
+2. The **Published Version** remains unchanged.
+3. An **Unpublished Changes** banner appears at the top of your screen with options to **Discard Changes** or **Publish**.
+
+### Publishing changes
+
+To deploy your draft modifications:
+
+1. Click **Publish** in the banner.
+2. You are redirected to the **Publish** screen.
+3. Review the **Include unpublished changes for publishing** checkbox:
+   - **Checked (Default)** — Publishes your draft version with all modifications.
+   - **Unchecked** — Only applies user list updates, keeping draft changes separate.
+
+## Agent options
+
+Agent options are enabled after publishing your agent.
+
+| Action | Description |
+|---|---|
+| **Export Agent** | Download agent configuration and associated data. |
+| **Delete Agent** | Permanently remove the application. |
+| **Share** | Grant workspace members access to collaborate on and manage the agent. |
+
+### Modifying an agent
+
+To edit an existing agent, navigate to the agent list page, click the three-dot icon next to the agent's name, and select **Edit**, **Publish/Unpublish**, or **Delete**.
+
+### Sharing an agent
+
+Click **Share** to access and manage agent sharing settings.
+
+**Default visibility**: All agents are visible to workspace collaborators. The creator has full edit access; others have view-only access.
+
+**Access levels:**
+
+| Level | Permissions |
+|---|---|
+| **Viewer** | Can view but not change configurations. |
+| **Editor** | Full control over settings and can add collaborators. |
+| **Remove Access** | Confirms the agent exists but prevents viewing or editing. |
+
+- Creators and editors can assign **Editor** or **Viewer** access at the individual or workspace level.
+- Only workspace members can be invited to collaborate.
+
+## Schedule trigger
+
+The Schedule Trigger feature enables automated execution of agentic flows at predefined intervals. The Schedule Trigger is optional and disabled by default.
+
+### Configuring a schedule trigger
+
+**Step 1 — Allow schedule trigger for agent**
+
+Toggle the **Allow Schedule Trigger for Agent** option to enable scheduling. When enabled, end users can see, set up, and activate schedules.
+
+**Step 2 — Set default schedule**
+
+Click **Default Schedule** to set the initial automation schedule.
+
+| Type | Description |
+|---|---|
+| **Once** | Runs a single time at a specified date and time. |
+| **Hourly** | Repeats every hour. |
+| **Daily** | Repeats each day at a set time. |
+| **Weekly** | Repeats on selected days of the week. |
+| **Monthly** | Repeats on a specified day each month. |
+| **Custom** | User-defined recurrence. |
+| **Cron** | Precise schedule using cron expression syntax. |
+
+Specify start and end dates and times, then select a timezone. You can choose a standard timezone or set it to **End User Specific** to base the trigger on each user's geolocation. If you enable the schedule trigger without specific configuration, the system defaults to a daily run at 8:00 AM.
+
+**Step 3 — Instructions to agent**
+
+Enter clear instructions describing what the agent should accomplish during its scheduled execution.
+
+**Step 4 — Configure behavior settings**
+
+| Setting | Mode | Behavior |
+|---|---|---|
+| **Notify on Start** | User-Triggered | Sends a notification when the agent is ready to begin. The agent waits for user confirmation before running. |
+| **Notify on Completion** | Auto-Triggered | Sends a notification once the agent has finished executing. The agent runs automatically and informs users of the results. |
+
+<Note>
+  Schedule Trigger configuration becomes available only when scheduling is enabled by an administrator. See [Scheduler Settings](/ai-for-work/assistant-configurations#scheduler-settings).
+</Note>
+
+## Handling alert tasks
+
+The Bot, Workflow, and Autonomous Agents module allows developers to integrate conversation hold and resume functionality within AI for Service Bots.
+
+### Core concepts
+
+**Conversation hold**: A temporary pause in the dialogue flow, typically initiated when waiting for an external alert or event. The system maintains conversation context throughout the pause using a `conversation_reference_id`.
+
+**Hold template**: A structured message displayed to users during a conversation pause. Contains a customizable title and description.
+
+### Triggering a conversation hold
+
+**Required parameters:**
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| type | string | Required | Action type (e.g., `"hold_conversation"`) |
+| title | string | Required | Title of the hold message |
+| description | string | Required | Description of the hold message |
+| conversation_reference_id | string | Required | The unique identifier for this specific conversation |
+
+**Example hold template:**
+
+```javascript
+let sessionId = context.<uniqConversationId>;
+let response = {
+  "type": "template",
+  "payload": {
+    "template_type": "hold_conversation",
+    "title": "Request is being processed...",
+    "description": "You will be notified as soon as it is ready!",
+    "conversation_reference_id": sessionId
+  }
+};
+response = JSON.stringify(response);
+print(response);
+```
+
+### Resuming a conversation
+
+**Required parameters:**
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| conversation_reference_id | string | Required | The unique identifier of the paused conversation |
+| text | string | Required | Response content to display upon resumption |
+
+**Example resume response:**
+
+```javascript
+let response = {
+  "conversation_reference_id": id,
+  "text": result
+};
+response = JSON.stringify(response);
+print(response);
+```
+
+<Note>
+  The `conversation_reference_id` is critical for ensuring seamless conversation flow during pauses and resumes.
+</Note>
+
+## Notify API
+
+The Notify API enables developers to send interactive notifications to users. These notifications can include customizable response options and action buttons.
+
+<Note>
+  Applicable only for Bot, Autonomous, and Workflow Agents.
+</Note>
+
+### Endpoint reference
+
+| Property | Value |
+|---|---|
+| **Method** | POST |
+| **Endpoint** | `https://{{host}}/api/public/agents/{agentId}/notify` |
+| **Content-Type** | `application/json` |
+| **Authorization** | `authorization: <authToken>` |
+| **API Scope** | Notification |
+
+| Parameter | Required | Description |
+|---|---|---|
+| host | Required | Environment URL, for example `https://work.example.ai` |
+| agentId | Required | The unique identifier of the agent |
+
+### Sample request
+
+```bash
+curl --location --request POST 'https://work.example.ai/api/1.1/public/agents/ag-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/notify' \
+--header 'authorization: <YOUR_AUTH_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "to": "john.doe@example.com",
+    "message": {
+        "title": "Agent Update",
+        "body": "Notification description"
+    },
+    "category": "agent",
+    "actions": [
+        {
+            "title": "LaptopRequest",
+            "type": "postback",
+            "utterance": "submit action 1",
+            "payload": {
+                "transactionId": "tx-qwe2cd11",
+                "sessionId": "s-hr3wx21rt",
+                "event": "laptopRequest"
+            }
+        }
+    ]
+}'
+```
+
+### Request body parameters
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| to | string | Required | Email address of the application user (single recipient) |
+| message | object | Required | Contains notification title and body text |
+| message.title | string | Required | Notification title |
+| message.body | string | Required | Notification message body |
+| category | string | Required | Category of the notification (e.g., `"agent"`) |
+| actions | array | Required | Array of interactive response buttons |
+| actions[].title | string | Required | Button label text |
+| actions[].type | string | Required | Action type (e.g., `"postback"`) |
+| actions[].utterance | string | Required | Text sent when the button is clicked |
+| actions[].payload | object | Required | Custom data passed with the action |
+
+### Sample response
+
+```json
+{
+    "notify": "success"
+}
+```

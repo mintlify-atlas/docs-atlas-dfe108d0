@@ -1,0 +1,132 @@
+---
+title: "Agent Flows"
+description: "Intelligent conversational workflows that combine Dialog Tasks with Agent Nodes for autonomous, goal-driven customer service experiences."
+---
+
+Agent Flows are intelligent conversational workflows that combine Dialog Tasks with Agent Nodes to deliver autonomous, goal-driven customer service experiences.
+
+DialogGPT orchestrates intent identification and routing, while Agent Nodes handle conversation execution within individual use cases. This enables AI Agents to autonomously plan, reason, and execute multi-step actions.
+
+## Key components
+
+| Component | Role |
+|-----------|------|
+| **Dialog Tasks** | Define the scope and structure of a use case (e.g., "Web Check-In Assistance") |
+| **Agent Nodes** | Provide agentic capabilities: natural language understanding, slot filling, confirmation handling, and tool invocation |
+| **Deterministic Nodes** | Entity, message, and service nodes for regulated or compliance-critical steps |
+
+The hybrid design lets you combine deterministic nodes for strict control with Agent Nodes for flexible, natural conversation handling.
+
+## Choosing an approach
+
+<Tabs>
+  <Tab title="Deterministic">
+    Use when:
+    - Regulatory compliance requires exact wording and predictable behavior
+    - Audit trails and full traceability are required
+    - Conversation follows a fixed, linear path
+
+    **Examples:** Account verification, payment processing, medical triage, loan applications
+  </Tab>
+  <Tab title="Agentic">
+    Use when:
+    - Natural, human-like interaction is the priority
+    - User inputs vary widely for the same intent
+    - Ease of maintenance matters
+    - You're building toward more autonomous experiences
+
+    **Examples:** Product recommendations, general inquiries, travel planning, content discovery
+  </Tab>
+  <Tab title="Hybrid">
+    Use when:
+    - Mixed requirements exist—some steps need strict control, others benefit from flexibility
+    - Transitioning gradually from deterministic to agentic
+
+    **Examples:**
+    - Banking: transactions are deterministic, general inquiries are agentic
+    - Healthcare: appointment booking is deterministic, health information is agentic
+  </Tab>
+</Tabs>
+
+## Creating Dialog Tasks
+
+Navigate to **Automation > Dialogs**, then click **Create Dialog**.
+
+<Note>For optimal performance, limit dialog tasks to 50 or fewer. Exceeding this may cause sluggish UI response and increased latency.</Note>
+
+Three creation methods are available:
+
+<AccordionGroup>
+  <Accordion title="From scratch">
+    1. Click **Start From Scratch**.
+    2. Enter an **Intent Name** (required) and **Intent Description** (recommended). Add up to 5 secondary descriptions to broaden semantic coverage.
+    3. Set availability: **Customer Use Case**, **Agent AI Use Case**, or both.
+    4. Configure **Intent Settings**: set the task as sub-intent only or hide it from help.
+    5. Click **Proceed**.
+  </Accordion>
+  <Accordion title="Generate with AI">
+    1. Click **Generate with AI**.
+    2. Enter an Intent Name and a meaningful Description, then click **Generate**.
+    3. Preview the generated flow. Click **Regenerate** with a revised description to refine.
+    4. Click **Proceed** when satisfied.
+
+    The platform auto-defines entities, prompts, error prompts, service tasks, and other parameters.
+  </Accordion>
+  <Accordion title="From Marketplace templates">
+    1. Click **Marketplace** and browse categories and integrations. Configured integrations are labeled **Installed**.
+    2. For **Dialog Action Templates**: select an integration, then click **Install** on the desired template.
+    3. For **Dialog Templates**: select a template, click **Install**, configure name and description, then click **Finish**.
+
+    <Note>Marketplace templates require the integration to be configured in your AI Agent first.</Note>
+  </Accordion>
+</AccordionGroup>
+
+## Session management
+
+Session variables persist data across tasks, dialogs, and users. Use them in JavaScript within dialog nodes.
+
+### Session variable types
+
+| Type | Scope | Description |
+|------|-------|-------------|
+| **EnterpriseContext** | All apps, all users, all sessions | Enterprise-wide key-value store |
+| **BotContext** | All users of a specific app | App-level shared variables |
+| **UserContext** | All apps for a user (read-only) | System-provided user data |
+| **UserSession** | All apps for a specific user | User-specific data shared across all apps |
+| **BotUserSession** | Specific app + specific user | Per-user, per-app data |
+
+### JavaScript API
+
+```javascript
+"EnterpriseContext" : {
+    "get"    : function(key){},
+    "put"    : function(key, value, ttl){},  // ttl in minutes
+    "delete" : function(key){}
+},
+"BotContext" : {
+    "get"    : function(key){},
+    "put"    : function(key, value, ttl){},
+    "delete" : function(key){}
+},
+"UserSession" : {
+    "get"    : function(key){},
+    "put"    : function(key, value, ttl){},
+    "delete" : function(key){}
+}
+```
+
+## Context object
+
+The `Context` object persists data throughout dialog execution and across all intents. The NLP engine populates intent, entities, and history automatically.
+
+<Note>The context object has a size limit of **1024 KB**. Conversations may be discarded if the limit is exceeded.</Note>
+
+| Key | Scope | Description |
+|-----|-------|-------------|
+| `intent` | Dialog | Recognized intent |
+| `entities` | Dialog | Key-value pairs of user-provided entity values |
+| `currentLanguage` | Global | Current conversation language |
+| `history` | Global | Array of node execution records |
+| `onHoldTasks` | Dialog | Read-only array of tasks on hold |
+| `message_tone` | Global | Tone emotions and scores for the current node |
+| `dialog_tone` | Global | Average tone emotions and scores for the full dialog session |

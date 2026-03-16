@@ -1,0 +1,161 @@
+---
+title: "App settings"
+description: "Configure and manage your AI Agent application from its profile and language support to developer tools and advanced settings."
+---
+
+Configure and manage all aspects of your AI Agent application — from its profile and language support to developer tools, variables, and advanced settings.
+
+## App profile
+
+Configure your app's name, description, icon, target audience, language defaults, subdomain, and custom HTTP error messages.
+
+Go to **App Settings** > **General Settings** > **App Profile** to update:
+- App name and description
+- App icon
+- Target audience (User, Employee, or both)
+- Default language
+- Subdomain URL
+
+## Language management
+
+Build and manage multilingual AI Agents with support for multiple languages, translation services, and language-specific NLU models.
+
+<Steps>
+  <Step title="Add a language">
+    Go to **App Settings** > **Language Management** and select **Add Language**.
+  </Step>
+  <Step title="Configure translation">
+    Select a translation service: Microsoft Translator, Google Translation, or a custom engine.
+  </Step>
+  <Step title="Train the NLU model">
+    After adding a language, train the NLU model with language-specific utterances under **Natural Language** > **Training**.
+  </Step>
+</Steps>
+
+### Supported capabilities by language
+
+| Capability | English | Spanish | French | German | Japanese |
+|------------|---------|---------|--------|--------|---------|
+| NLU / Intent detection | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Auto-translation | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Spell correction | ✓ | ✓ | — | — | — |
+| Sentiment analysis | ✓ | ✓ | — | — | — |
+
+## Dev tools
+
+Access developer tools for building, securing, and integrating your AI Agent.
+
+### App functions
+
+Create reusable JavaScript utility functions that can be called from dialog tasks and API integrations:
+
+1. Go to **App Settings** > **Dev Tools** > **App Functions**
+2. Select **+ Add Function** and write your JavaScript function
+3. Reference the function in any dialog task using `KoreUtil.functions.<functionName>()`
+
+### Authorization profiles
+
+Configure authentication for external API calls:
+
+<Tabs>
+  <Tab title="Basic Auth">
+    Configure username/password authentication for APIs that use HTTP Basic Auth.
+    1. Go to **App Settings** > **Dev Tools** > **Authorization Profiles**
+    2. Select **+ New Profile** > **Basic Auth**
+    3. Enter the username and password fields
+  </Tab>
+  <Tab title="OAuth v2">
+    Set up OAuth 2.0 authorization code or client credentials flow.
+    1. Go to **App Settings** > **Dev Tools** > **Authorization Profiles**
+    2. Select **+ New Profile** > **OAuth v2**
+    3. Enter the authorization URL, token URL, client ID, and client secret
+  </Tab>
+  <Tab title="API Key">
+    Configure simple API key authentication.
+    1. Go to **App Settings** > **Dev Tools** > **Authorization Profiles**
+    2. Select **+ New Profile** > **API Key**
+    3. Enter the header name and key value
+  </Tab>
+</Tabs>
+
+### Web/Mobile SDK
+
+Set up and integrate the Kore.ai Web SDK to embed your AI Agent in web or mobile apps. Go to **App Settings** > **Dev Tools** > **Web/Mobile SDK** to generate SDK credentials.
+
+See [Web SDK](/ai-for-service/sdk/web-sdk) for integration instructions.
+
+## Variables
+
+Define environment and content variables to manage configuration values and reuse them across your app.
+
+### Environment variables
+
+Store deployment-specific configuration (URLs, API keys, feature flags) that changes between environments:
+
+1. Go to **App Settings** > **Variables** > **Environment Variables**
+2. Select **+ Add Variable**, enter the name and value
+3. Reference in dialog tasks as `env.variableName`
+
+### Content variables
+
+Store localized strings, templates, or dynamic content:
+
+1. Go to **App Settings** > **Variables** > **Content Variables**
+2. Add key-value pairs for reusable content
+3. Reference as `content.variableName`
+
+## Advanced settings
+
+<AccordionGroup>
+  <Accordion title="PII data masking">
+    Redact, replace, or mask personally identifiable information in conversations and logs.
+    
+    Go to **App Settings** > **Advanced Settings** > **PII Settings** to configure:
+    - Enable/disable PII redaction
+    - Select PII entity types to mask (email, phone, SSN, credit card, etc.)
+    - Choose masking strategy: redact, replace with label, or hash
+  </Accordion>
+  <Accordion title="Session management">
+    Configure conversation session duration and closure behavior.
+    
+    Go to **App Settings** > **Advanced Settings** > **Manage Sessions** to set:
+    - Session timeout (default: 15 minutes of inactivity)
+    - On-timeout behavior: end session or continue
+    - Max session duration
+  </Accordion>
+  <Accordion title="URL management">
+    Set expiry and access limits for attachment and chat history URLs.
+    
+    Go to **App Settings** > **Advanced Settings** > **Manage URLs** to configure:
+    - Attachment URL expiry (1–48 hours)
+    - Chat history URL validity period
+  </Accordion>
+  <Accordion title="System settings">
+    Configure call recording, data retention, and other system options.
+    
+    Go to **App Settings** > **Advanced Settings** > **System Settings** to manage:
+    - Call recording enable/disable
+    - Data retention policy (30, 60, 90, or 180 days)
+    - Debug mode
+  </Accordion>
+</AccordionGroup>
+
+## Change logs
+
+View, filter, and export a record of all changes made to your app across Automation AI, Search AI, Agent AI, and more.
+
+Go to **App Settings** > **Change Logs** to:
+- Filter by date range, component, or user
+- Export change logs as CSV
+- See detailed diff for each change
+
+## Deleting an app
+
+<Warning>
+Deleting an app is permanent. For published apps, there is a 30-day recovery window. For unpublished apps, deletion is immediate.
+</Warning>
+
+To delete an app:
+1. Go to **App Settings** > **General Settings**
+2. Scroll to the bottom and select **Delete App**
+3. Export a backup before confirming deletion

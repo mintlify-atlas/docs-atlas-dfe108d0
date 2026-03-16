@@ -1,0 +1,128 @@
+---
+title: "Settings console"
+description: "Reference guide to the AI for Process Settings console. Covers workspaces, user management, integrations, custom scripts, guardrails, monitoring, and security controls."
+---
+
+The **Settings** console is a centralized management interface for administrators to configure, monitor, and manage AI for Process system configurations.
+
+<Note>Only users with the **Admin** role and the required permissions can access the Settings console.</Note>
+
+## Access the Settings console
+
+<Steps>
+  <Step title="Log in">
+    Log in to AI for Process.
+  </Step>
+  <Step title="Open Settings">
+    In the top menu, click **Settings**. The system redirects to the **Users** page under **Users Management**.
+  </Step>
+</Steps>
+
+## User management levels
+
+The Settings console provides administrators control over user management at two levels:
+
+- **Account level**: Manage users, roles, and permissions throughout the entire AI for Process account. Includes inviting users, AD synchronization, and access controls for workflows, models, integrations, and security.
+- **Workflow level**: Manage user access for individual workflow deployments. Each workflow's owner can invite users, customize permissions, and manage tasks specific to that workflow.
+
+## Modules and features
+
+<AccordionGroup>
+
+<Accordion title="Workspace">
+
+A workspace is a logical grouping of workflows and configurations, typically organized by teams or projects. A default workspace is created when a new account is set up.
+
+**Key points:**
+- Every workflow is tied to a specific workspace and cannot be moved or accessed across workspaces. Use import/export to move workflows between workspaces.
+- All configurations — AI Model configurations, settings, auth profiles, and permissions — are maintained separately per workspace.
+
+**Switch workspaces:** Click the workspace name in the top right corner to open a dropdown of accessible workspaces. When you switch, workflows, permissions, settings, models, prompts, inbox, and data refresh to reflect the new workspace.
+
+The workspace switcher also lets you set a default workspace, search and browse workspaces, request access to workspaces you don't have access to, and view your role in each workspace.
+
+</Accordion>
+
+<Accordion title="Users management">
+
+Helps add, remove, and manage admin, member, and viewer users, roles, and permissions.
+
+**Users:**
+- View a summarized count of total, active, inactive, and locked users.
+- Invite users via email or bulk import from `.txt` or `.csv` files.
+- Set user roles: Master Admin, Admin, Member, Viewer, or custom roles.
+- Change access permissions or delete users.
+
+**Role Management:**
+- View, assign, and reassign system or custom roles.
+- Create custom roles with tailored permissions and access levels.
+- System roles cannot be edited or deleted; duplicate them to create editable custom roles.
+
+**Settings:**
+- **Active Directory**: Configure sync with your organization's AD to import user information. Set up auto-sync schedules (daily, weekly, monthly).
+- **User Settings**: Configure user profile field visibility and joining request handling.
+- **Email Notifications**: Configure when users receive email notifications.
+
+</Accordion>
+
+<Accordion title="Integrations">
+
+Manage 120+ pre-built integrations for third-party services in one place.
+
+- Create and configure secure connections across multiple categories: marketing, AI, sales, and more.
+- Pre-authorize connections using the required auth method.
+- Use configured connections in the Integration node to access third-party services while building workflows.
+
+</Accordion>
+
+<Accordion title="Manage custom scripts">
+
+Import custom scripts with reusable functions invocable from anywhere in the platform.
+
+- Import a custom script by configuring general details, uploading the script file, and specifying runtime and resource allocation settings.
+- Deploy, redeploy, undeploy, export, or delete scripts.
+- Create and manage API keys for secure access to the script's API endpoint.
+- Monitor deployment history and version changes.
+
+</Accordion>
+
+<Accordion title="Manage guardrails">
+
+Deploy models to make them available as anomaly scanners in all workflows.
+
+| Scanner | Description |
+|---|---|
+| **Anonymize** | Prevents exposure of sensitive information using redaction, pseudonymization, and generalization. |
+| **Ban Topics** | Restricts sensitive or controversial topics to maintain content moderation and compliance. |
+| **Prompt Injection** | Guards against attacks where malicious input manipulates the AI model's behavior. |
+| **Toxicity** | Detects and manages toxic, offensive, or abusive language. |
+| **Bias Detection** | Evaluates AI outputs for systematic prejudices and neutralizes biased responses. |
+| **Relevance** | Ensures outputs are accurate to the input context and satisfy the user's intent. |
+
+</Accordion>
+
+<Accordion title="Monitoring">
+
+**Audit Logs** — Track real-time account and workflow-level event logs. Filter by date, category, event type, or user. Export as CSV.
+
+**Workflows Analytics Dashboard** — Get insights into successful and failed workflow runs, average response time, and node execution data.
+
+**Model Analytics Dashboard** — Review performance indicators for open-source, fine-tuned, and external models. Analyze credit consumption, request success/failure rates, and latency.
+
+**Model Traces** — Review run-level performance for each model execution. Analyze inputs, outputs, response times, and sources.
+
+**Custom Scripts** — Monitor run and log-level data for custom scripts. Apply time-based and column filters. View input/output code editors for debugging.
+
+</Accordion>
+
+<Accordion title="Security and control">
+
+**Single Sign-On** — Centralize authentication for enterprise account users. Configure SSO for SAML (Okta, OneLogin), WS-Federation (Windows Azure), or OpenID Connect (Google). Exclude specific users from the SSO requirement.
+
+**Authorization Profiles** — Configure OAuth2 authorization profiles for reuse across integrations and endpoints. Supports OAuth V2 and OAuth V2 Client Credentials.
+
+**API Scopes** — Create API-scoped apps and assign API keys with specific endpoint permissions. Restrict access to authorized users only.
+
+</Accordion>
+
+</AccordionGroup>

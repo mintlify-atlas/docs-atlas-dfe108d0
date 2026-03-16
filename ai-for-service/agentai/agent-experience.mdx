@@ -1,0 +1,132 @@
+---
+title: "Agent experience"
+description: "The Agent AI widget gives agents real-time AI assistance from a single panel during customer interactions."
+---
+
+The Agent AI widget gives agents real-time AI assistance during customer interactions. It surfaces dialog tasks, playbooks, coaching prompts, sentiment data, transcriptions, and summaries from a single panel.
+
+| Section | Description |
+|---------|-------------|
+| [Widget features](#agent-ai-widget-features) | Overview of all capabilities available in the Agent AI widget. |
+| [Widget tabs](#widget-tabs) | Layout of the five tabs — Search, My AI Agent (Bot), Assist, Transcript, and More. |
+| [Agentic Copilot](#agentic-copilot) | Automates end-to-end conversations while keeping agents in supervisory control. |
+| [Automation controls](#automation-controls) | Override inputs, terminate tasks, analyze sentiment, and run automations. |
+| [V2 vs V3 differences](#v2-vs-v3-differences) | UI and feature comparison between Agent AI widget versions. |
+
+## Agent AI widget features
+
+| Feature | Description |
+|---------|-------------|
+| **Dialog Tasks** | Pre-configured use cases that trigger when customer intent matches. |
+| **Playbooks** | Structured step-by-step guidance for handling customer interactions. |
+| **Real-time agent coaching** | On-screen hints triggered by agent utterances and speech patterns. |
+| **Real-time sentiment analysis** | Time-based graph showing customer emotional tone. |
+| **Transcription** | Live text transcription of voice calls. |
+| **Auto summarization** | Automatic conversation summaries. |
+| **Generate Summary** | On-demand summary generation (up to 2 times per conversation). |
+| **PII Redaction** | Removes personally identifiable information from the agent view. |
+| **Next Best Action** | Suggests and runs Dialog Tasks for faster query resolution. |
+| **Multi-language Support** | Agents can switch languages in real time. |
+| **Agentic Copilot** | Runs conversations autonomously with agent supervision. |
+
+## Widget tabs
+
+The widget has five tabs: **Search**, **My AI Agent (Bot)**, **Assist**, **Transcript** (voice only), and **More**.
+
+### Search tab
+
+Shows all configured Dialog Tasks and supports searching for Dialog Tasks, FAQs, Generative AI answers, web pages, and files. Content updates automatically based on the conversation.
+
+| Button | Action |
+|--------|--------|
+| **Run** | Runs a configured Dialog Task immediately. |
+| **Run with Agent's Input** | Runs a Dialog Task with agent-provided inputs in the My AI Agent tab. |
+
+### My AI Agent (Bot) tab
+
+Lets agents run automations independently using their own inputs. Use this when automation fails mid-conversation or when you need to run parallel queries without affecting the customer interaction.
+
+### Assist tab
+
+The primary agent workspace. Monitors the conversation automatically and surfaces Dialog Tasks, FAQs, Knowledge AI results, Playbooks, Agentic Copilot messages, and coaching prompts.
+
+**Assist tab controls:**
+
+| Control | Description |
+|---------|-------------|
+| **Running Playbook stages** | Shows total and adhered stages. |
+| **Send / Copy** | Send the message as-is or copy it to customize before sending. |
+| **Generate Summary** | Generates an on-demand conversation summary. |
+| **Restart** | Restarts the Dialog Task from the beginning. |
+| **Terminate** | Stops the running Dialog Task. |
+
+### Transcript tab
+
+Available for voice calls only. Displays a real-time text transcription of the agent-customer conversation.
+
+### More tab
+
+Lets agents submit overall feedback on the widget by selecting up to five positive or negative options with optional comments.
+
+## Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Proactive Mode** | Toggles the widget's listening mode on or off. |
+| **Auto-Scroll Content** | Controls auto-scroll in the Assist, My AI Agent, and Transcript tabs. |
+| **Help & Support** | Links to documentation, FAQs, and Kore Academy courses. |
+| **Language** | Select a display language for the widget. |
+
+## Agentic Copilot
+
+Agentic Copilot automates end-to-end customer conversations through the Agent AI widget while keeping agents fully in control.
+
+### Key benefits
+
+| Benefit | Description |
+|---------|-------------|
+| **Scalable efficiency** | Automates routine interactions so agents can manage multiple conversations. |
+| **Human supervision** | Agents can pause, cancel, override, or edit any automated message before it is sent. |
+| **Proactive engagement** | Agent AI initiates and responds to conversations based on context. |
+| **Contextual intelligence** | Uses real-time data and workflow logic to generate accurate replies. |
+| **Robust fail-safes** | Auto-send disables automatically if a response fails. |
+
+### Configure an Agentic Copilot app
+
+1. Go to **Agent AI** > **Configurations** > **Linked Services** > **Agentic Configuration**.
+2. Select **+ Add Agentic Copilot App**.
+3. Fill in the **App Name**, **Domain URL**, **Environment**, **App ID**, and **API Key**.
+4. Select **Test Connection & Save**.
+
+### Enable Agentic Copilot in the widget
+
+1. Go to **Agent AI** > **Configurations** > **Widget Settings**.
+2. Expand **Agent AI Channel Specific Settings** and select a channel.
+3. Enable the **Agentic Copilot** toggle and configure:
+   - **Language** for Agentic responses.
+   - **Select Agentic App** to choose the configured app.
+   - **Allow auto send Message** and **Set message delay before auto send**.
+
+## Automation controls
+
+### Override app inputs
+
+When automation fails to understand a customer's input, select **Override Input** below the automation step. Enter the correct value in the **Type to continue** box.
+
+### Terminate an automation
+
+1. On the **Assist** or **My AI Agent (Bot)** tab, select **Terminate** next to the automation step.
+2. Select **Yes, Terminate** to confirm.
+
+### Run automation with agent input
+
+1. In the **Search** tab, select the ellipsis next to a Dialog Task.
+2. Select **Run with agent's input**. The automation starts in the **My AI Agent (Bot)** tab as a parallel session.
+
+## V2 vs V3 differences
+
+| Area | V2 | V3 |
+|------|----|----|----|
+| **Tab placement** | Top | Bottom |
+| **Settings tab** | Not available | Includes Proactive mode, Auto-Scroll, Documentation/FAQ links, Language selection. |
+| **Playbook list** | Primary playbooks only | Primary and Dynamic playbooks. |

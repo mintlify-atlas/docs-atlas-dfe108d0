@@ -1,0 +1,88 @@
+---
+title: "Testing and debugging"
+description: "Validate your Search AI configuration through testing and debugging tools to ensure optimal answer quality before deployment."
+---
+
+This guide covers validating your Search AI configuration through testing and debugging tools to ensure optimal answer quality before deployment.
+
+**Navigation:** Configuration > Testing and Debugging
+
+## Testing answers
+
+<Steps>
+  <Step title="Access testing">
+    Navigate to **Configuration > Answer Generation** or **Configuration > Testing and Debugging**, then click **Test Answers**.
+  </Step>
+  <Step title="Enter a query">
+    Enter a query to simulate user input.
+  </Step>
+  <Step title="Review the answer">
+    Review the generated answer for quality and accuracy.
+  </Step>
+  <Step title="Open debug view">
+    Use the debug option to understand how the answer was generated.
+  </Step>
+  <Step title="Refine configuration">
+    Adjust settings based on findings and retest.
+  </Step>
+</Steps>
+
+## Debug information
+
+| Component | Description |
+|-----------|-------------|
+| Qualified Chunks | Chunks selected and used to generate the answer |
+| Retrieval Details | How chunks were identified and ranked |
+| LLM Request/Response | Full prompt sent and response received (for generative answers) |
+| Processing Time | Time taken by each component |
+
+### Agentic RAG debugging
+
+When Agentic RAG is enabled, an additional **Retrieval** tab appears showing:
+
+| Information | Description |
+|-------------|-------------|
+| Agent Sequence | Order in which agents were invoked |
+| Agent Input | Data sent to LLM by each agent |
+| Agent Output | Results returned from each agent |
+| LLM Timing | Time taken per LLM call |
+
+## Answer insights
+
+The Answer Insights feature provides analytics for query-response interactions.
+
+Navigate to **Analytics > Search AI > Answer Insights**
+
+| Feature | Description |
+|---------|-------------|
+| Query Grouping | View all answers for grouped queries |
+| Search Logs | Filter logs by answer and channel |
+| Detailed View | Query overview, debug info, LLM details |
+| Performance Tracking | Monitor answer quality over time |
+
+## Debugging checklist
+
+### Common issues and solutions
+
+| Issue | Possible cause | Solution |
+|-------|----------------|----------|
+| No results returned | Content not indexed | Verify content sources and extraction settings |
+| Poor relevance | Threshold too high/low | Adjust similarity score threshold |
+| Missing information | Chunks too small | Increase chunk size or token budgets |
+| Incomplete answers | Insufficient context | Increase Top K chunks or token budget |
+| Business rules not applying | Condition mismatch | Test with debug to verify rule triggers |
+| Slow responses | Too many LLM calls | Review Agentic RAG agent usage |
+
+## Best practices
+
+**Testing strategy:**
+1. Test incrementally — validate each configuration change before moving to the next
+2. Use varied queries — test different query types, lengths, and phrasings
+3. Include edge cases — test ambiguous queries and boundary conditions
+4. Compare results — document before/after when making changes
+
+**Ongoing monitoring:**
+1. Track Answer Insights regularly
+2. Monitor feedback — enable user feedback and review ratings
+3. Iterate configuration — continuously refine based on data
+4. Document changes — keep records of configuration modifications

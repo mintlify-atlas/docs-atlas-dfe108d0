@@ -1,0 +1,198 @@
+---
+title: "Triggers and access"
+description: "Start workflows automatically using event or schedule triggers, define input and output variables, and configure API keys and endpoints for external access."
+---
+
+Workflows in AI for Process can start automatically in response to external events, on a time-based schedule, or through direct API calls from external systems. The Start node is the control point for all of this — it defines how the workflow is initiated, what data enters the workflow, and what results are returned.
+
+## Trigger types
+
+The Start node supports two automation methods: event-based triggers and schedule-based triggers. You can use either or both on the same workflow.
+
+### Event-based triggers
+
+Event triggers start the workflow automatically when a specific event occurs in a connected third-party application — for example, when a Jira issue is created, a Salesforce record is updated, or a Slack message is received.
+
+**Prerequisites:**
+
+- Add the integration app to your workspace.
+- Set up a connection and authentication profile for the integration.
+
+**Configure an event trigger:**
+
+<Steps>
+  <Step title="Open the Start node">
+    In your workflow, click the **Start** node to open its configuration panel.
+  </Step>
+  <Step title="Add a trigger">
+    Click **Add Trigger** and select the integration app.
+  </Step>
+  <Step title="Configure the trigger">
+    Enable the trigger, select a connection, choose the trigger event, and configure its parameters.
+  </Step>
+  <Step title="Save and test">
+    Save and test the workflow.
+  </Step>
+</Steps>
+
+<Note>Triggers must be active and enabled. If a trigger becomes inactive, redeploy the workflow and retest the authorization profile in **Settings** > **Security & Control** > **Authorization profiles**.</Note>
+
+<Accordion title="Supported third-party services">
+
+| Service provider | Triggers available |
+|---|---|
+| Asana | 1 |
+| Canvas | 6 |
+| Coda | 4 |
+| Discord | 1 |
+| Fireflies | 1 |
+| Gmail | 2 |
+| GitHub | 6 |
+| Google Calendar | 7 |
+| Google Docs | 3 |
+| Google Drive | 7 |
+| Google Sheets | 2 |
+| Google Slides | 1 |
+| Google Super | 16 |
+| HubSpot | 2 |
+| Jira | 3 |
+| Linear | 3 |
+| Mailchimp | 4 |
+| Notion | 5 |
+| OneDrive | 8 |
+| Outlook | 5 |
+| Pipedrive | 3 |
+| Salesforce | 7 |
+| Slack | 9 |
+| Slackbot | 9 |
+| Spotify | 3 |
+| Stripe | 7 |
+| TimelinesAI | 1 |
+| Todoist | 1 |
+| Trello | 5 |
+| YouTube | 4 |
+| Zendesk | 2 |
+
+</Accordion>
+
+### Schedule-based triggers
+
+Schedule-based triggers start the workflow at a predetermined time or interval. The scheduler supports custom time zones for global operations.
+
+**Configure a schedule:**
+
+<Steps>
+  <Step title="Enable the scheduler">
+    In the **Start** node configuration panel, click the **Schedule** icon and enable the scheduler.
+  </Step>
+  <Step title="Set the frequency">
+    Choose a frequency:
+
+    | Frequency | Description |
+    |---|---|
+    | Daily | Runs every day. |
+    | Weekly | Runs every 7 days on a selected day of the week. |
+    | Monthly | Runs on a specific date each month. |
+    | Once | Runs at a selected date and time. |
+    | Cron | Runs based on a custom cron expression. |
+    | Custom | Repeats every N days or weeks. |
+  </Step>
+  <Step title="Set start date, time, and time zone">
+    Configure the start date, start time, and time zone. Save and test the workflow.
+  </Step>
+</Steps>
+
+## Trigger payloads and attachments
+
+When an event trigger fires, the event data is passed into the workflow as variables accessible to all downstream nodes.
+
+- Downstream nodes reference trigger values using: `{{context.steps.Start.inputVariable}}`
+- Attachments from triggers are provided as temporary URLs, valid for 24 hours. Only one attachment is supported per trigger event.
+
+**Best practices:**
+
+- Use clearly defined events to avoid unnecessary workflow runs.
+- Validate payload field names before referencing them in conditions or expressions.
+- Regularly verify integration connections to keep triggers active.
+- Monitor trigger activity from **Monitoring > Triggers** in the left navigation of a deployed workflow.
+
+## Workflow input and output variables
+
+Input and output variables define the data contract for a workflow. Input variables provide data at runtime; output variables capture the results the workflow returns.
+
+- Input variables are available immediately after the Start node: `{{context.steps.Start.inputVariableName}}`
+- Output variables can be set in any node, typically in the End node: `{{context.steps.NodeName.output}}`
+
+### Add input variables
+
+<Steps>
+  <Step title="Open Manage I/O">
+    On the workflow canvas, click **Manage I/O**, or click the **Start** node. The **Manage Input & Output** dialog opens.
+  </Step>
+  <Step title="Add a variable">
+    On the **Input** tab, click **+ Add input variable**. Enter a name and select a type. Optionally enable the **Mandatory** toggle.
+  </Step>
+  <Step title="Save">
+    Click **Save**.
+  </Step>
+</Steps>
+
+### Add output variables
+
+<Steps>
+  <Step title="Open Manage I/O">
+    Click **Manage I/O** on the canvas.
+  </Step>
+  <Step title="Add a variable">
+    On the **Output** tab, click **+ Add output variable**. Enter a name and select a type (String, Number, JSON, or Boolean).
+  </Step>
+  <Step title="Save">
+    Click **Save**.
+  </Step>
+</Steps>
+
+## API keys and workflow access
+
+When you deploy a workflow, the platform generates a dedicated API endpoint. External systems call this endpoint to invoke the workflow. API keys control who can access the endpoint.
+
+### Create an API key
+
+<Steps>
+  <Step title="Navigate to API keys">
+    Select your workflow and click **API keys** in the left sidebar.
+  </Step>
+  <Step title="Generate the key">
+    Click **Create a new API key**, enter a name, and click **Generate key**.
+  </Step>
+  <Step title="Copy the key">
+    Click **Copy and close** to save the key to your clipboard.
+  </Step>
+</Steps>
+
+<Warning>AI for Process doesn't display the API key after you close this dialog. Copy the key and keep it secure. Don't expose it in client-side code or share it with unauthorized users.</Warning>
+
+### Workflow endpoints
+
+After deployment, the platform generates sync and async poll endpoints automatically. An async push endpoint requires additional configuration.
+
+| Endpoint type | Behavior |
+|---|---|
+| Synchronous | The client waits for the workflow to complete and returns the response immediately. |
+| Async poll | The workflow processes independently. The client periodically polls to retrieve the response. |
+| Async push | The workflow pushes the response to a client-specified callback URL when processing is complete. Requires a callback URL and access token. |
+
+**To enable an async push endpoint:**
+
+<Steps>
+  <Step title="Open async push settings">
+    On the **Workflow endpoint** page, click the **Async push** tab and click **Enable / Settings**.
+  </Step>
+  <Step title="Configure">
+    Turn on **Enable async**, enter the callback URL and access token, and set the timeout (60–600 seconds, or no timeout).
+  </Step>
+  <Step title="Save">
+    Click **Save**. The async push endpoint is created.
+  </Step>
+</Steps>
+
+<Note>Timeout precedence: Workflow timeout > Node timeout > Model timeout. If you change the sync/async mode after deployment, you must redeploy the workflow for the change to take effect.</Note>

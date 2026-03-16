@@ -1,0 +1,186 @@
+---
+title: "Monitor and debug workflows"
+description: "Observe workflow execution, inspect run results, and diagnose failures using the Workflow Monitor, debug logs, and audit tools."
+---
+
+The **Workflow Monitor** gives you a time-based, run-level view of every execution of a deployed workflow. Use it to track performance, inspect inputs and outputs, diagnose failures, and review run history.
+
+<Note>Monitoring is only available for workflows deployed to production. Workflows in design or debug phases are not tracked in the Workflow Monitor.</Note>
+
+## Workflow Monitor
+
+The Workflow Monitor provides two analytics views:
+
+- **All runs**: Shows all workflow run instances, including runs triggered by events, schedules, or API calls.
+- **Model runs**: Shows individual AI node executions within each workflow run.
+
+Both tabs display summary metrics:
+
+| Metric | Description |
+|---|---|
+| **Total runs / requests** | Total number of workflow runs or AI node calls in the selected period. |
+| **Response time (P90)** | The response time below which 90% of runs fall. |
+| **Response time (P99)** | The response time below which 99% of runs fall. |
+| **Failure rate** | Percentage of runs that ended in failure. |
+
+### Access the Workflow Monitor
+
+<Steps>
+  <Step title="Open the workflow">
+    On the **Workflows** page, click the workflow. The workflow must be in **Deployed** status.
+  </Step>
+  <Step title="Navigate to Workflow runs">
+    In the left navigation pane, click **Workflow runs**.
+  </Step>
+  <Step title="Select a tab">
+    Click **All runs** or **Model runs**. Click any row to open the detailed run panel on the right.
+  </Step>
+</Steps>
+
+### All Runs tab
+
+Each row represents one workflow execution and shows:
+
+- **Run ID** — Unique identifier.
+- **Status** — In Progress, Waiting, Success, or Failed.
+- **Response time** — Total time from request to output.
+- **Nodes executed** — Number of nodes that ran.
+- **Start time / End time** — When the run began and ended.
+- **Type** — Event-based, Schedule-based, or API-based.
+- **Source** — The service or schedule that initiated the run.
+
+### Model Runs tab
+
+The **Model runs** tab tracks each AI node call separately. Each entry shows:
+
+- **Request ID** — Unique identifier for the AI node call.
+- **Status** — In Progress, Waiting, Success, or Failed.
+- **Node name** — The name of the AI node.
+- **Model name** — The AI model used.
+- **Connection / Deployment name** — The connection linked to the model.
+- **Response time** — Time taken for the AI node to complete.
+
+## Viewing execution results
+
+Clicking any row opens a detailed run panel showing:
+
+- **Run ID / Request ID** — Unique identifier.
+- **Response time** — Total execution time.
+- **Debug icon** — Opens the debug log.
+- **Input section** — The inputs passed to the workflow.
+- **Flow log** — Node-by-node execution log.
+- **Output section** — The final output (available for successful runs).
+
+## Search and filter runs
+
+**Text search**: Use the search box in the top-right corner.
+
+**Time-based search**: Click the calendar button and select a predefined range (last day, week, month, year) or set custom dates.
+
+**Custom filters**:
+1. Click the filter icon.
+2. Click **+ Add filter**.
+3. Select a **Column**, **Operator**, and **Value**.
+4. Click **Apply**.
+
+Combine multiple filters using AND/OR operators.
+
+## Trigger history
+
+The **Triggers** page shows all configured triggers for a deployed workflow and their recent activity. Go to **Monitoring** > **Triggers** in the left navigation pane.
+
+- **Event-based triggers**: Shows provider, trigger name, description, setup time, and last run.
+- **Schedule-based triggers**: Shows frequency, setup time, start and end time, time zone, last run, and next scheduled run.
+
+If a trigger is inactive: redeploy the workflow and retest the auth profile in **Settings > Security & Control > Authorization profiles**.
+
+## Debug workflow runs
+
+### Run and inspect a workflow
+
+<Steps>
+  <Step title="Start the run">
+    On the workflow canvas, click the **Run flow** icon. The Run dialog opens with Input, Flow log, and Output sections.
+  </Step>
+  <Step title="Open the debug log">
+    Click the **Debug** icon. The log populates in real time.
+  </Step>
+  <Step title="Review the result">
+    - **Success**: Copy the output using the copy icon.
+    - **Failure**: An error message appears and the output shows in JSON format.
+  </Step>
+</Steps>
+
+### Debug log details
+
+| Detail | Description |
+|---|---|
+| Flow input values | Values passed when the run was triggered. |
+| Node-level information | Success or failure status for each node. |
+| Tool calling details (AI nodes) | Logs of any workflows called during execution. |
+| Node metrics | Initiated on, Executed on, Total time taken, Tokens (AI nodes only). |
+
+### Time metrics for API and AI nodes
+
+**API nodes — synchronous**:
+
+| Metric | Description |
+|---|---|
+| Node processing time | Time taken by the node to complete. |
+| API response time | Time spent waiting for a response from the external API. |
+
+**API nodes — asynchronous**:
+
+| Metric | Description |
+|---|---|
+| Node paused at | Timestamp when the node paused waiting for the async response. |
+| Node resumed at | Timestamp when the node resumed after receiving the response. |
+| Total wait time | Duration between pause and resume. |
+
+**AI nodes**:
+
+| Metric | Description |
+|---|---|
+| Node processing time | Time taken by the node to complete. |
+| LLM response time | Time taken for the connected AI model to return a response. |
+
+## Troubleshoot failures
+
+### Workflow run errors
+
+In the **All runs** tab, click a failed run to view error details. Each entry includes the HTTP status code, an error message, and resolution suggestions.
+
+| Category | Description |
+|---|---|
+| Authorization | API key authorization failed. |
+| Data Validation | Input field or API call data did not pass validation. |
+| Content Filter | An AI node violated a guardrail threshold. |
+| Internal Server Error | A technical issue on the platform server. |
+| Network | A connectivity issue caused the request to fail or time out. |
+
+**Common error scenarios:**
+
+| Error scenario | HTTP status |
+|---|---|
+| Mandatory input field is missing | 400 Bad Request |
+| Incorrect data type for an input field | 400 Bad Request |
+| Request payload exceeds size limit | 413 Payload Too Large |
+| Server-side failure | 500 Internal Server Error |
+| Request timeout | 408 Request Timeout |
+| Guardrail threshold exceeded | 403 Forbidden |
+
+### Loop Node issues
+
+| Issue | Likely cause | Fix |
+|---|---|---|
+| Loop input is missing or empty | Input list is undefined or resolves to null. | Set the Loop Input Source to a valid array. Verify in the debug log. |
+| Child nodes not executing | Nodes are placed outside the loop container. | Drag the nodes into the loop container. |
+| Loop stops when one item fails | Error handling is set to stop on failure. | Change to **Continue on error** to skip failed iterations. |
+| Output variable conflicts | Output field name is reused elsewhere. | Use a unique name for the output field. |
+
+### Trigger issues
+
+| Issue | Fix |
+|---|---|
+| Output variable is undefined | Open the Start node and define all required output variables. Save and re-run. |
+| Trigger is inactive or has an authentication error | Redeploy the workflow and retest the auth profile. Verify the trigger is active before running. |

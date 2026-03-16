@@ -1,0 +1,156 @@
+---
+title: "koreUtil libraries"
+description: "Pre-written JavaScript utility functions for common tasks such as date manipulation, XML parsing, and cryptographic hashing."
+---
+
+**koreUtil libraries** provide pre-written JavaScript functions which make common or complex tasks easy to implement. You can use them in script nodes, message nodes, confirmation nodes, entity nodes, standard responses, answers to FAQs, event handlers, and more.
+
+## List of koreUtil libraries
+
+| Library | Description |
+|---|---|
+| [koreUtil.rrule](#koreutilrrule) | Creates and interprets recurring calendar rules in human-readable format. |
+| [koreUtil.moment](#koreutilmoment) | Validates, manipulates, and formats dates. |
+| [koreUtil.intl](#koreutilintl) | Provides locale-sensitive string comparison, number formatting, and date/time formatting. |
+| [koreUtil.momenttz](#koreutilmomentz) | Formats dates in any timezone and converts dates between timezones. |
+| [koreUtil.xml2js](#koreutilxml2js) | Parses XML to JSON and converts JSON back to XML. |
+| [koreUtil.hash](#koreutilhash) | Supports SHA cryptographic hashing in JavaScript. |
+| [koreUtil._](#koreutil_) | Provides utility functions for common programming tasks such as array manipulation and object filtering. |
+| [koreUtil.getCurrentOptions](#koreutilgetcurrentoptions) | Retrieves the current template for language selection standard response options and authorization URLs. |
+| [koreUtil.getAmbiguousIntents](#koreutilgetambiguousintents) | Returns the list of ambiguous intents when the Ambiguity Intents Identified event is triggered. |
+| [koreUtil.getSessionId](#koreutilgetsessionid) | Retrieves the current conversation session ID. |
+| [koreUtil.closeConversationSession](#koreutilcloseconversationsession) | Force-closes any active conversation session from any JavaScript-enabled component. |
+| [koreUtil.autoTranslate](#koreutilauttotranslate) | Automatically translates AI Agent responses to the user's language or a specified language. |
+| [koreUtil.getFormDefinition](#koreutilgetformdefinition) | Retrieves the form definition including form meta, components, and messages. |
+
+## koreUtil.rrule
+
+Creates and interprets recurring calendar rules.
+
+```javascript
+context.rule = new koreUtil.rrule({
+  freq: koreUtil.rrule.WEEKLY,
+  interval: 5,
+  byweekday: [koreUtil.rrule.MO, koreUtil.rrule.FR],
+  dtstart: new Date(2012, 1, 1, 10, 30),
+  until: new Date(2012, 12, 31)
+});
+context.between = context.rule.between(new Date(2012, 7, 1), new Date(2012, 8, 1));
+context.readableFormat = context.rule.toText();
+// Output: "every 5 weeks on Monday, Friday until January 31, 2013"
+```
+
+## koreUtil.moment
+
+Validates, manipulates, and formats dates.
+
+```javascript
+context.german = koreUtil.moment().locale('de').format('LLLL');
+// Output: "Montag, 18. November 2019 01:43"
+```
+
+## koreUtil.intl
+
+Locale-sensitive string comparison, number formatting, and date/time formatting.
+
+```javascript
+context.formattedNumberUK = koreUtil.intl.NumberFormat('en-GB').format(123456.789);
+// Output: "123,456.789"
+
+var date = new Date(Date.UTC(2012, 11, 20, 3, 0, 0));
+context.USdate = koreUtil.intl.DateTimeFormat('en-US').format(date);
+// Output: "12/20/2012"
+```
+
+## koreUtil.momenttz
+
+Formats dates in any timezone and converts between timezones.
+
+```javascript
+context.newyork = koreUtil.momenttz(koreUtil.moment('2014-06-01T12:00:00Z'), 'America/New_York').format('ha z');
+// Output: "5am PDT"
+```
+
+## koreUtil.xml2js
+
+Parses XML to JSON and converts JSON back to XML.
+
+```javascript
+var obj = {name: "John", Surname: "Doe", age: 23};
+var builder = new koreUtil.xml2js.Builder();
+context.xml = builder.buildObject(obj);
+```
+
+## koreUtil.hash
+
+Supports SHA cryptographic hashing in JavaScript.
+
+```javascript
+context.hashString = koreUtil.hash('sha256').update('42').digest('hex');
+// Output: "73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049"
+```
+
+## koreUtil._
+
+Utility functions for common programming tasks.
+
+```javascript
+context.chunkArray = koreUtil._.chunk(['a', 'b', 'c', 'd'], 2);
+// Output: [["a","b"],["c","d"]]
+```
+
+## koreUtil.getCurrentOptions
+
+Retrieves the current template for language selection standard response options and authorization URLs.
+
+```javascript
+var info = koreUtil.getCurrentOptions();
+// Returns: { list_of_languages: [...] } or { authorizationURL: "..." }
+```
+
+## koreUtil.getAmbiguousIntents
+
+Returns the list of ambiguous intents with details when the Ambiguity Intents Identified event is triggered.
+
+```javascript
+// Used in event handlers; returns intents array with mlScore, rrScore, and identifyingEngines
+```
+
+## koreUtil.getSessionId
+
+Retrieves the current conversation session ID.
+
+```javascript
+var sessionId = koreUtil.getSessionId();
+```
+
+## koreUtil.closeConversationSession
+
+Force-closes any active conversation session.
+
+```javascript
+koreUtil.closeConversationSession();
+```
+
+## koreUtil.autoTranslate
+
+Automatically translates AI Agent responses to the user's language or a specified language.
+
+<Note>To use this function, you must have an access key from your translation service provider (Google Translator, Microsoft Translator, etc.).</Note>
+
+```javascript
+// Translate part of a sentence:
+{{koreUtil.autoTranslate('Welcome! I am a virtual assistant powered by ')}} General Insurance
+
+// Translate to a specific language:
+var message = koreUtil.autoTranslate("This is a sample message", "de");
+print(message);
+```
+
+## koreUtil.getFormDefinition
+
+Retrieves the form definition, including form meta, components, and messages.
+
+```javascript
+let formDef = koreUtil.getFormDefinition();
+```

@@ -1,0 +1,73 @@
+---
+title: "Advanced configuration and developer toolkit"
+description: "Fine-tune retrieval settings and access developer utilities for evaluation, extraction, and custom connector development."
+---
+
+The Dev Tools section in Search AI provides advanced configuration options and developer utilities to optimize search performance, extend functionality, and integrate custom solutions.
+
+**Navigation:** Dev Tools menu in Search AI
+
+## Advanced configuration
+
+Advanced Configurations allow you to fine-tune retrieval and answer optimization settings.
+
+**Accessing:** Navigate to **Dev Tools > Advanced Configurations**, search for the configuration to modify, and select or provide the appropriate values.
+
+| Configuration | Description | Use case |
+|--------------|-------------|----------|
+| Re-Rank Chunks | Select the reranking feature and Re-Ranker model | Improve result relevance by reordering chunks based on semantic similarity |
+| Re-Rank Chunk Fields | Select fields used to rerank chunks | Customize which chunk attributes influence reranking |
+| Maximum Re-Rank Chunks | Set maximum chunks sent for reranking | Balance performance vs. quality |
+| Enable Exact KNN Matching | Enable Exact K-Nearest Neighbors matching | Improve precision for vector similarity searches |
+| Single-Use URLs for Uploaded Documents | Enable secure, temporary access to uploaded documents | Enhance security for sensitive document access |
+
+### Re-ranking
+
+Re-ranking improves search quality by applying a secondary model to reorder initially retrieved chunks based on deeper semantic analysis.
+
+### KNN matching
+
+Exact KNN (K-Nearest Neighbors) matching provides more precise vector similarity searches compared to approximate methods. Higher precision, but may increase query latency for large datasets.
+
+## Toolkit — developer utilities
+
+The Toolkit provides SDKs and utilities for content processing, data extraction, performance evaluation, and custom connector development.
+
+### Evaluation tools
+
+| Tool | Purpose | Key features |
+|------|---------|-------------|
+| **RAG Evaluator** | Evaluate RAG system performance | Measures search quality using RAGAS and CEQA frameworks; API integration; flexible results storage |
+
+### Integration tools
+
+| Tool | Purpose | Key features |
+|------|---------|-------------|
+| **Custom Connector SDK** | Build custom data source integrations | Standardized data ingestion; metadata integrity; optimized for enterprise RAG applications |
+
+### Extraction utilities
+
+| Tool | Purpose |
+|------|--------|
+| **HTML to Structured Data Extractor** | Extract content from HTML sources, preserving heading-content relationships |
+| **Adobe Extraction Utility** | Extract content from PDFs, preserving original layout and structure |
+| **Azure Extraction Utility** | Extract from Azure-hosted documents using Azure AI Document Intelligence |
+| **Google Document AI** | Batch process documents from cloud storage |
+| **Salesforce Custom Extraction Utility** | Extract from Salesforce Knowledge Base, retaining hierarchy |
+
+### Model optimization
+
+| Tool | Purpose |
+|------|--------|
+| **Fine-Tune Embedding Utility** | Fine-tune embedding models using domain-specific documents |
+
+### When to use each tool
+
+| Scenario | Recommended tool |
+|----------|----------------|
+| Measure answer quality | RAG Evaluator |
+| Connect custom data source | Custom Connector SDK |
+| Ingest HTML documentation | HTML to Structured Data Extractor |
+| Process PDF documents | Adobe or Azure Extraction Utility |
+| Batch process cloud documents | Google Document AI |
+| Improve domain-specific search | Fine-Tune Embedding Utility |

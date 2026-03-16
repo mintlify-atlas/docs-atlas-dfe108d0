@@ -1,0 +1,304 @@
+---
+title: "Assistant configurations"
+description: "Control communication, security, pipeline behavior, and resource management across your AI deployment from the Admin Hub."
+---
+
+Assistant Configurations in the **Admin Hub** give administrators control over communication, security, pipeline behavior, and resource management across the AI deployment.
+
+| Configuration | Purpose |
+|---------------|----------|
+| [Announcements](#announcements) | Publish banner messages to users |
+| [Email templates](#email-templates) | Customize invitation emails for users and admins |
+| [Guardrails](#guardrails) | Enforce PII detection and content restrictions |
+| [MCP Server](#mcp-server) | Manage Model Context Protocol servers and agent tools |
+| [Orchestration settings](#orchestration-settings) | Configure the AI query processing pipeline |
+| [Rate limits](#rate-limits) | Control query point consumption per user category |
+| [Scheduler settings](#scheduler-settings) | Manage automated agent execution permissions |
+| [Attachment settings](#attachment-settings) | Control file attachment uploads and processing |
+
+## Announcements
+
+**Navigation**: Account Hub → Assistant Configurations → Announcements
+
+The Announcements feature lets administrators create, manage, and publish organizational messages as banners at the top of the user interface.
+
+### Create an announcement
+
+<Steps>
+  <Step title="Click Create Announcement">
+    Click **Create Announcement**.
+  </Step>
+  <Step title="Complete the required fields">
+    | Field | Details |
+    |-------|----------|
+    | **Name** | Up to 80 characters |
+    | **Description** | Up to 800 characters; supports bold, italic, underline, hyperlinks, colors, bullets, and numbered lists |
+    | **Announcement Type** | Banner (currently the only option) |
+    | **Publish To** | Everyone in the account, or specific agents/users |
+  </Step>
+</Steps>
+
+### Actions
+
+| Action | Description |
+|--------|-------------|
+| **Preview** | View the banner before publishing |
+| **Publish** | Make the announcement visible (requires Name and Description) |
+| **Unpublish** | Remove a published announcement from view |
+| **Delete** | Permanently remove any announcement, published or not |
+
+### End-user experience
+
+- Announcements appear as banners at the top of the screen.
+- Multiple announcements rotate every **10 seconds**.
+- Each banner includes a **Dismiss** button. Dismissing hides the banner for the current session; it reappears after a page refresh or after one hour.
+
+<Note>
+  You must publish again to push changes to users. The system prompts you to publish or discard modifications.
+</Note>
+
+## Email templates
+
+**Navigation**: Account Hub → Assistant Configurations → Email Templates
+
+Email templates let you customize the invitation emails sent when users are added to the account, a workspace, or specific applications.
+
+### Template categories
+
+**Admin templates:**
+
+| Template | Sent when |
+|----------|----------|
+| **Admin Invitation** | A user is added as an Admin |
+| **Custom Admin Invitation** | A user is assigned a custom admin role |
+| **Workspace Invitation** | A user is invited to a specific workspace |
+
+**Application templates**: Each provisioned application has a **Member Invitation** template sent when a user is added as a member.
+
+### Customize a template
+
+1. Use the toggle to **enable or disable** the template.
+2. Click the template to open the editor.
+3. Edit the **subject line** and **email body**.
+4. **Preview** the email to verify appearance.
+5. Add links to relevant resources for easy access.
+
+## Guardrails
+
+**Navigation**: Account Hub → Assistant Configurations → Guardrails
+
+Guardrails is a multi-layered security and compliance framework that automatically scans AI inputs and outputs to protect sensitive data and enforce content policies.
+
+### Interface layout
+
+The Guardrails interface has three sections: **PII Settings**, **Ban Topics**, and **Testing Suite**.
+
+### PII settings
+
+Pre-configured rules detect common PII types:
+
+| Rule | Detects |
+|------|--------|
+| **Email Address** | Email patterns across various formats |
+| **Universal Phone Numbers** | Domestic and international phone formats |
+| **Social Security Numbers** | SSN patterns with format validation |
+| **Credit Card Numbers** | Major credit card number formats |
+
+**Custom rule fields:**
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Unique identifier for the rule |
+| **Description** | What the rule detects |
+| **Regex** | Pattern used to match sensitive data |
+| **Action** | How redacted data appears to non-authorized users |
+
+**Action types:**
+
+| Action | Behavior |
+|--------|----------|
+| **Redaction** | Removes sensitive data from text |
+| **Static Replacement** | Substitutes with predefined safe text |
+| **Masking** | Replaces with placeholder characters (e.g., `****` or `XXX`) |
+
+### Ban topics
+
+Ban Topics prevents AI models from engaging with prohibited subjects by dynamically modifying input prompts in real time.
+
+| Feature | Description |
+|---------|-------------|
+| **Template System** | Pre-defined restriction sets based on common industry standards |
+| **Custom Prompts** | Create detailed, context-specific content restrictions |
+| **Enable/Disable** | Toggle built-in or custom restrictions individually |
+
+### Testing suite
+
+Validate guardrail configurations in an isolated environment before deploying:
+
+- Run full or targeted validation of PII rules and banned topics.
+- Use manual, AI-driven, or batch test inputs, including boundary condition testing.
+- Analyze results by rule, impact status, processing duration, and output.
+- Preview data sanitization visually.
+
+## MCP server
+
+**Navigation**: Account Hub → Assistant Configurations → MCP Server
+
+The MCP Server feature lets administrators manage Model Context Protocol (MCP) servers, which expose agents as tools for task execution and workflow management.
+
+### Default MCP server
+
+The platform includes a pre-configured **Default MCP Server** available immediately, with no additional setup required. It includes all pre-built agents as tools and integrated enterprise knowledge sources.
+
+### View server details
+
+Each MCP Server has a unique URL used to connect external applications.
+
+1. Navigate to the **MCP Server** page.
+2. Select **Default MCP Server**.
+3. Copy the server URL from the dialog.
+
+| Feature | Description |
+|---------|-------------|
+| **Pre-built Agent Integration** | Access all platform agents as tools through a single server |
+| **Enterprise Knowledge Sources** | Use organizational knowledge bases within agent workflows |
+| **URL-based Access** | Connect external systems using the server URL |
+
+## Orchestration settings
+
+**Navigation**: Account Hub → Assistant Configurations → Orchestration Settings
+
+Orchestration Settings is a pipeline management framework that lets administrators activate, configure, and manage individual components of the AI query processing workflow.
+
+### Pipeline components
+
+| Component | Function |
+|-----------|----------|
+| **Guardrail Enforcement** | Applies safety and compliance checks to AI responses |
+| **Small Talk Handling** | Enables casual, conversational responses for a natural user experience |
+| **Intelligent Agent Routing** | Routes queries to the most appropriate agent based on intent |
+| **Enterprise Knowledge Lookup** | Searches configured internal knowledge bases for accurate responses |
+| **Fallback to AI Knowledge** | Uses LLM-derived knowledge when primary sources are unavailable |
+
+**Guardrail Enforcement**: Automatically applies security policies from your [Guardrails](#guardrails) configuration. Controlled exclusively through the Guardrails interface.
+
+**Small Talk Handling**: Toggle on or off based on organizational preferences.
+
+**Intelligent Agent Routing**: Uses predefined routing algorithms. Routing logic is locked to ensure consistent performance.
+
+**Enterprise Knowledge Lookup**:
+
+| State | Behavior |
+|-------|----------|
+| **Configured and Enabled** | Knowledge base is queried automatically for all pipeline requests |
+| **Configured but Disabled** | Knowledge base is accessible only through the compose bar's agent selector |
+| **Not Configured** | Component remains inactive until Enterprise Knowledge is set up |
+
+**Fallback to AI Knowledge**:
+
+| Option | Description |
+|--------|-------------|
+| **Toggle** | Enable or disable based on operational requirements |
+| **LLM Model** | Select from available language models |
+| **Web Search** | Optional integration; available for supported models only |
+| **Custom Prompt** | Editable prompt for tailored AI response behavior |
+
+## Rate limits
+
+**Navigation**: Account Hub → Assistant Configurations → Rate Limits
+
+Rate limits control how many query points users consume over a configurable time window, helping manage system resources and usage.
+
+### Point consumption
+
+| Query type | Points | Examples |
+|------------|--------|----------|
+| **Simple** | 1 point | Small talk, context-free queries, GPT responses without knowledge |
+| **Advanced** | 3 points | GPT with knowledge, context-aware queries, follow-up queries |
+
+### User categories
+
+| Category | Description |
+|----------|-------------|
+| **Moderate Users** | Default for all account users |
+| **Power Users** | Added to a separate list; subject to different rate limits |
+
+Admins can add users to, remove users from, or clear the entire Power User list.
+
+### Time windows
+
+Select the duration over which points are tracked: 1 hour, 3 hours, 6 hours, or 12 hours.
+
+View point consumption per query in the **Logs** tab of the dashboard.
+
+<Note>
+  All queries — including small talk and interrupted queries — consume points. Points are not counted if an error occurs while answering a query.
+</Note>
+
+## Scheduler settings
+
+**Navigation**: Account Hub → Assistant Configurations → Scheduler Settings
+
+Scheduler Settings lets administrators configure account-wide controls for automated agent execution, including availability, usage limits, and workspace permissions.
+
+### Enable scheduler
+
+| State | Effect |
+|-------|--------|
+| **On** | Users can create and manage schedulers for their agents |
+| **Off** | Scheduling is disabled for all users |
+
+### Scheduling limit per user
+
+Set the maximum number of active schedulers each user can create simultaneously: No Limit, 5, 10, 20, or 30 schedulers.
+
+### Workspace owner permissions
+
+When enabled, workspace owners can:
+
+- Add schedulers during the agent creation workflow.
+- Publish agents with pre-configured schedules.
+- Set schedulers to run automatically for all end users.
+
+End users receive agents with active schedulers but retain control to disable any scheduler they don't need.
+
+For agent-level scheduler configuration, see [Schedule trigger](/ai-for-work/custom-agents/agent-management#schedule-trigger).
+
+## Attachment settings
+
+**Navigation**: Account Hub → Assistant Configurations → Attachment Settings
+
+Attachment Settings let administrators control whether end users can upload file attachments in the compose bar and configure how the platform processes those attachments.
+
+### Enable uploading attachments in compose bar
+
+| State | Effect |
+|-------|--------|
+| **On** | End users see the attachment option in the compose bar and can upload files alongside their queries |
+| **Off** | The platform hides the attachment option from the compose bar for all end users |
+
+<Note>
+  You can enable attachment uploads only if at least one LLM model is configured in the platform.
+</Note>
+
+### LLM model selection
+
+When you enable attachment uploads, the platform displays an **LLM model selection** dropdown. The platform selects the default LLM model automatically; you can change it at any time.
+
+### Allow attachments larger than model context
+
+| State | Behavior |
+|-------|----------|
+| **Off** | The platform restricts uploaded files to the selected model's context size limit |
+| **On** | The platform accepts files larger than the model's context size and processes them using RAG |
+
+When enabled, select one of the following RAG processing options:
+
+| Option | Description |
+|--------|-------------|
+| **Platform Built-in RAG** | Uses the platform's built-in RAG capability. Displays a **Select Embedding Model** dropdown; the Kore embedding model is selected by default. |
+| **LLM-Provided RAG** | Uses the selected LLM's native RAG or file-handling capabilities. Available only if the chosen LLM supports the required APIs. |
+
+<Warning>
+  Switching between RAG options or changing the embedding model removes all currently uploaded files across the account. The platform prompts you to confirm before applying the change.
+</Warning>

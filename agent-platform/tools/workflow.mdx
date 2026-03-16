@@ -1,0 +1,159 @@
+---
+title: "Workflow tools"
+description: "Build tools visually with a no-code drag-and-drop interface."
+---
+
+Workflow tools enable process automation through a visual flow builder. They let you automate multi-step processes, combine AI features with deterministic business logic, integrate with external systems, and reuse tools across multiple agentic apps—no complex coding required.
+
+Every flow consists of an input node that receives data and an output node that returns results. Other systems access these results through a deployable API endpoint.
+
+## When to use
+
+Workflow tools are ideal when:
+
+- Business logic is **well-defined and consistent**
+- You need **visual traceability** for debugging
+- Non-developers need to build or maintain tools
+- Processes involve **multiple sequential steps**
+- You want **built-in monitoring** and audit logs
+
+| Use case | Why workflow works |
+|---|---|
+| Order status lookup | Clear input → API call → formatted output |
+| Weather retrieval | Simple API integration with response mapping |
+| Database queries | Structured data fetch with transformation |
+| Notification sending | Multi-channel delivery with conditions |
+
+## Create a tool
+
+<Steps>
+  <Step title="Create a new tool">
+    Log in and click **Tools** from the list of modules. On the **Tools** page, click **Create a new tool**. Enter a name and description, then click **Create**.
+  </Step>
+  <Step title="Build the flow">
+    The Tool Flow builder opens automatically. Design your flow by connecting nodes on the visual canvas.
+  </Step>
+  <Step title="Test the flow">
+    Click the **Run flow** icon. Provide sample input values in the Run dialog. Use the **Debug** icon to monitor execution and review output.
+  </Step>
+  <Step title="Deploy">
+    Click **Deploy** to generate API endpoints.
+  </Step>
+</Steps>
+
+<Tip>You can also install a pre-configured template from the Tools Library marketplace and customize the flow for your use case.</Tip>
+
+## Tool templates
+
+The **Tools Library Marketplace** offers more than 50 prebuilt tool templates across categories including CRM, Customer Support, Finance, Marketing, Operations, Retail, Sales, and more.
+
+### Template types
+
+- **Pre-built templates** — Ready-to-deploy flows with pre-configured integrations.
+- **Customizable templates** — Node-based flows you can tailor to your business needs.
+
+### Install a template
+
+1. Click **Tools** from the list of modules.
+2. On the **All Tools** or **My Tools** tab, click **Tool Templates**.
+3. Use filters to select Categories and Tasks.
+4. Click a template to view its information window.
+5. Click **Install** to import the template.
+
+## Node types
+
+| Node | Category | Purpose |
+|---|---|---|
+| **Start** | Control | Entry point; defines input parameters |
+| **End** | Control | Exit point; returns output |
+| **API** | Integration | Make HTTP requests to external services |
+| **Integration** | Integration | Connect to pre-built connectors |
+| **Function** | Logic | Execute custom JavaScript or Python code |
+| **Condition** | Logic | Branch based on IF/ELSE IF/ELSE logic |
+| **Loop** | Logic | Iterate over arrays |
+| **Text to Text** | AI | Transform text using LLMs |
+| **Text to Image** | AI | Generate images from text prompts |
+| **Audio to Text** | AI | Transcribe audio |
+| **Image to Text** | AI | Extract text or insights from images |
+| **DocSearch** | Data | RAG-powered retrieval from Search AI |
+| **Human** | Control | Pause for human review or approval |
+
+See [Workflow nodes](/agent-platform/tools/nodes) for detailed configuration for each node type.
+
+## Managing input and output
+
+Tool flows use input and output variables as context objects throughout execution.
+
+- **Input variables** — Provide initial data to the flow. Access using `context.steps.Start.inputVariable`
+- **Output variables** — Store and return derived values. Set in the End node using `{{context.steps.AInode.output}}`
+
+### Add input variables
+
+1. Click **Manage I/O** at the top of the canvas, or click the **Start** node.
+2. On the **Input** tab, click **+ Add input variable**.
+3. Provide a **Name (key)** and select a **Type** (Text, Number, Boolean, Remote file, List of values, or JSON).
+4. Enable the **Mandatory** toggle if required.
+5. Click **Save**.
+
+## Connecting nodes
+
+- **Sequential**: Each node runs after the previous one finishes. Drag a line from source to destination.
+- **Parallel**: Multiple branches run at the same time from the same parent node. Maximum 10 outgoing connections from a single node.
+
+## Execution modes
+
+### Synchronous
+
+Default mode—the request waits for completion before returning a response. Timeout: configurable, range 60–300 seconds (default: 180 seconds).
+
+### Asynchronous
+
+For long-running workflows. Supports:
+- **Push endpoints** — Actively send response data to the client via webhook.
+- **Poll endpoints** — The client periodically checks to retrieve response data.
+
+## Deploy a tool
+
+1. Log in and click **Tools** from the list of modules.
+2. Select the tool you want to deploy.
+3. Click **Tool endpoint** in the left menu.
+4. Click **Deploy**. The Sync and Async poll endpoints are generated.
+
+<Note>Before deploying the tool, fix any errors or warnings in the Tool Flow.</Note>
+
+## Environment variables
+
+Store reusable values and sensitive configurations referenced by nodes in the tool flow.
+
+1. Click **Configurations** → **Manage environment variables**.
+2. Click **Add variable**.
+3. Provide the variable name, value, and optionally mark it as secure.
+4. Reference in nodes using `{{env.VARIABLE_NAME}}`.
+
+## Flow versions
+
+Save versions of your flows, restore older versions, and delete versions as needed.
+
+1. Click the down arrow on the canvas header.
+2. Click the **+ icon** to save the current version.
+3. Enter a version name and description, then click **Save**.
+
+## Export a tool
+
+Export specific tool versions as self-contained packages for backup or sharing.
+
+The exported `.zip` file contains:
+
+| File | Contents |
+|---|---|
+| `flow_definition.json` | Canvas definitions, node definitions, AI node configurations |
+| `app_definition.json` | General tool version information and guardrails |
+| `env_variables.json` | Environment variables set for the tool |
+
+## Best practices
+
+- Keep workflows focused—one workflow = one capability.
+- Use meaningful node names (for example, `Validate Email Input` instead of `Function Node 1`).
+- Always include error paths and meaningful error messages.
+- Test edge cases: invalid inputs, API failures, empty responses, timeout scenarios.
+- Ensure every logical branch concludes at an End node.

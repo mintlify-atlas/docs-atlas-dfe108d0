@@ -1,0 +1,131 @@
+---
+title: "Data tables and views"
+description: "Store, query, and manage structured data directly on the platform without relying on external databases."
+---
+
+Data Tables and Views let you store, query, and manage structured data directly on the platform. Use Data Tables to persist custom data for your AI Agents and apps, and Table Views to create virtual datasets by joining one or more tables.
+
+## Data tables
+
+A Data Table stores structured data in rows and columns. Tables can be shared with AI Agents, apps, and process assistants.
+
+### Create a data table
+
+1. Go to **Data > Data Tables** and select **Create Data Table** or **New Table**.
+2. Enter the following details:
+
+   | Field | Description |
+   |-------|-------------|
+   | **Name** | Name for the data table. |
+   | **Description** | Purpose of the table. |
+   | **Columns** | Columns to include. |
+   | **Indexes** | Indexes for faster search. |
+   | **Bot Assignments** | AI Agents that can access this table. |
+   | **App Assignments** | Apps that can access this table. |
+
+3. Select **Create**.
+
+### Columns
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Column name. |
+| **Type** | Data type: `string`, `date`, or `number`. |
+| **Required** | Marks the column as mandatory. |
+| **Encrypted** | Secures the data in this column. |
+| **Reference Column** | Foreign key constraint linking to another table's column. |
+| **Max Length** | Maximum character length for the column value. |
+| **Default Value** | Value used when none is provided. |
+
+System columns added automatically to every table:
+
+| Column | Description |
+|--------|-------------|
+| `sys_Id` | Unique identifier for each row. |
+| `Created_On` | Timestamp when the row was created. |
+| `Updated_By` | User ID of the last editor. |
+
+### Indexes
+
+| Field | Description |
+|-------|-------------|
+| **Index Name** | Label for the index. |
+| **Is Unique** | Enforces unique values in the index. |
+| **Column & Sort Order** | Columns in the index and their sort direction. |
+
+### Import and export
+
+**Export:** Hover over the table, select the ellipsis icon, and select **Export Definition**.
+
+**Import:** Select the down arrow next to **New Table** and choose **Import Table Definition**.
+
+## Table views
+
+A Table View creates a virtual dataset by querying one or more Data Tables. It supports filters, grouping, sorting, and joins.
+
+### Create a table view
+
+1. Go to **Data > Table Views** and select **Create Table View** or **New View**.
+2. Enter the view **Name**, **Description**, and **Assignment**.
+3. Choose **Single Table** or **Multiple Tables**.
+4. Configure view settings:
+
+   | Setting | Description |
+   |---------|-------------|
+   | **Table** | Select the source table(s). |
+   | **Columns** | Select columns to include; supports aggregation functions. |
+   | **Filter Criteria** | Filter results using column name, operator, and value. |
+   | **Group By** | Group identical data using `<table_name>.<column_name>`. |
+   | **Sort By** | Order results using `<table_name>.<column_name> asc/desc`. |
+
+5. For **Multiple Tables**, configure join rules:
+
+   | Join setting | Description |
+   |-------------|-------------|
+   | **Table** | Table to join. |
+   | **Join Type** | `Inner`, `Right Outer`, or `Left Outer`. |
+   | **Join Columns** | Columns used for the join. |
+
+## App definition
+
+Create an app to securely access Data Tables and Table Views through public APIs.
+
+1. Enter an **App Name**.
+2. Optionally enforce **JTI/JWE** as required by your security policy.
+
+## Data as a service
+
+Use a **Service Node** in a Dialog Task to read and write data in tables and views from within your AI Agent.
+
+### Service node operations
+
+| Action | Description |
+|--------|-------------|
+| **Add Data** | Insert rows into a table. Provide a value for each column. |
+| **Get Data** | Retrieve rows using filter criteria, limit, and offset. |
+| **Update Data** | Modify existing rows by specifying column values and filter criteria. |
+| **Delete Data** | Delete rows by specifying filter criteria. |
+
+Access returned data using: `{{context.<service_node_name>.response.body.queryResult[<index>].<column_name>}}`
+
+## Guidelines and best practices
+
+Data Tables are designed for low-volume, conversation-relevant data.
+
+### Recommended limits
+
+| Scope | Limit |
+|-------|-------|
+| Rows per table | 10,000. |
+| Columns per table | 20. |
+| Row size | 100 KB. |
+| Table size | 100 MB. |
+| Total data per workspace | 500 MB. |
+
+### Best practices
+
+- Store only data that directly supports AI Agent conversations.
+- Use clear, consistent naming conventions.
+- Do not store JSON objects in Data Tables.
+- Regularly remove outdated rows.
+- Back up important data regularly.

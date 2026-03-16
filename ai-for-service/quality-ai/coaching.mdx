@@ -1,0 +1,92 @@
+---
+title: "Coaching assignments and monitor"
+description: "Create targeted coaching assignments for agents, track progress, and measure coaching effectiveness over time."
+---
+
+The Coaching section in Quality AI helps supervisors create targeted coaching assignments for agents, track agent progress, and measure the effectiveness of coaching over time.
+
+| Component | Who uses it | Purpose |
+|-----------|-------------|---------|
+| **Coaching assignments** (supervisor) | Supervisor | Create and assign coaching tasks based on evaluated interactions. |
+| **Coaching assignments** (agent) | Agent | Review assignments and work through marked interactions. |
+| **Coaching monitor** | Supervisor | Track progress and measure improvement across all agents. |
+
+## Create coaching assignments
+
+Navigate to **Quality AI** > **ANALYZE** > **Dashboard** > **Agent Leaderboard** > **Overview**.
+
+<Steps>
+  <Step title="Open the evaluation tab">
+    Select the **Evaluation** tab and select **Add Coaching Assignment**.
+  </Step>
+  <Step title="Select an agent interaction">
+    Select an agent interaction to assign coaching for, then select **View** from the ellipsis menu.
+  </Step>
+  <Step title="Add a coaching assignment">
+    Select **Add Coaching Assignment** and enter:
+    - **Name** — for the coaching assignment.
+    - **Coaching Area** — agent attributes to focus on.
+  </Step>
+  <Step title="Review auto-populated interactions">
+    The **Interactions Marked for Coaching** section auto-populates from your evaluation tab selection.
+  </Step>
+  <Step title="Add best responses (optional)">
+    Under **Best Responses**, add reference interactions from other agents using saved bookmarks.
+  </Step>
+  <Step title="Write feedback and action plan">
+    In **Feedback**, write your assessment. In **Action Plan**, describe concrete steps for improvement.
+  </Step>
+  <Step title="Set follow-up date and create">
+    Set a **Follow-up Date** and select **Create**.
+  </Step>
+</Steps>
+
+## Agent view of coaching assignments
+
+Agents access their assignments from the agent dashboard. Navigate to **Quality AI** > **ANALYZE** > **Coaching Assignments**.
+
+**Status values:**
+
+| Status | Meaning |
+|--------|---------|
+| **Start Now** | No interactions reviewed yet. |
+| **In Progress** | At least one interaction reviewed. |
+| **Completed** | All interactions and best responses reviewed. |
+
+Select any assignment to open its interaction details pane, showing:
+
+- **Interactions Marked for Coaching** with Kore Evaluation Score, Supervisor Audit Score, and Sentiment Score.
+- **Best Response Examples** from similar interactions handled successfully by other agents.
+- **Feedback** and **Action Plan** from the supervisor.
+
+## Coaching monitor
+
+The Coaching Monitor gives supervisors a consolidated view of all assigned coaching sessions.
+
+Navigate to **Quality AI** > **Coach** > **Coaching Monitor**.
+
+| Column | Description |
+|--------|-------------|
+| **Name** | Agent who received the coaching assignment. |
+| **Assigned Date** | Date the coaching session was assigned. |
+| **Follow-Up Date** | Date of the next scheduled review. |
+| **Agent Attributes** | All attributes assigned for coaching. |
+| **Agent Score Card** | Agent's current default scorecard score. |
+| **Kore Evaluation Score** | Auto QA score based on the evaluation form. |
+| **Compare** | Toggle to show score trends from the assigned date to today. |
+
+### Filter coaching sessions
+
+Select the **Filter** icon to narrow results by:
+
+| Filter | Default |
+|--------|---------|
+| **Assigned Date** | Last 7 days. |
+| **Follow Up Date** | Current date. |
+| **Attributes** | All. |
+| **Agent Group** | All. |
+| **Agents** | All. |
+
+### Agent progress
+
+Select an agent's record to view individual coaching progress, comparing scores at the time of assignment versus current scores, with a Spike/Dip indicator showing improvement or decline.

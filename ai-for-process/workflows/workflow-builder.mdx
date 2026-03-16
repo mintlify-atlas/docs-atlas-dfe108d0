@@ -1,0 +1,220 @@
+---
+title: "Workflow builder"
+description: "A visual no-code canvas for designing AI-powered workflows by placing and connecting nodes, then testing and deploying them as API endpoints."
+---
+
+The **Workflow Builder** is a visual, no-code canvas for designing AI-powered workflows. Place nodes on the canvas, connect them to define execution order, and test your flow directly from the builder before deploying it as an API endpoint.
+
+To open Workflow Builder:
+
+1. On the **Workflows** page, select the workflow you want to build or edit.
+2. Click **Go to Flow**. The flow canvas opens.
+
+## Canvas overview
+
+| Area | Description |
+|---|---|
+| **Canvas** | The main workspace where you place and connect nodes. |
+| **Assets panel (left)** | Contains all available node types. Drag a node from here onto the canvas to add it. |
+| **Configuration panel** | Opens when you click a node. Use it to configure node settings and manage connections. |
+| **Toolbar (top right)** | Provides access to flow versions, run controls, and canvas layout options. |
+
+Every new workflow starts with a **Start node** placed on the canvas automatically. The Start node is the required entry point — all other nodes must connect to it, directly or indirectly.
+
+## Manage input and output
+
+Workflows use input and output variables to pass data into and out of the flow. Both are accessible as context objects throughout execution.
+
+- **Input variables**: Provide initial data to the workflow. Available immediately after the Start node.
+- **Output variables**: Store the values returned by the workflow.
+
+Access variables using context object syntax:
+
+- Input variable: `context.steps.Start.<variableName>`
+- Output variable: `{{context.steps.<NodeName>.output}}`
+
+### Add input variables
+
+<Steps>
+  <Step title="Open Manage I/O">
+    Click **Manage I/O** at the top of the canvas, or click the **Start** node. The **Manage Input & Output** dialog opens.
+  </Step>
+  <Step title="Add a variable">
+    On the **Input** tab, click **+ Add input variable**. Enter a **Name (key)** and select a **Type**:
+
+    | Type | Additional options |
+    |---|---|
+    | **Text**, **Number**, **Boolean** | Optional default value. |
+    | **Remote file** | File URL timeout (5 minutes to 7 days; default 5 minutes). |
+    | **List of values (Enum)** | Click **Add Values +** to define allowed values. The system validates input against these values. |
+    | **JSON** | Use the JSON editor to define the schema. Invalid JSON causes execution to fail. |
+  </Step>
+  <Step title="Save">
+    Click **Save**.
+  </Step>
+</Steps>
+
+### Add output variables
+
+<Steps>
+  <Step title="Open Manage I/O">
+    Click **Manage I/O** at the top of the canvas.
+  </Step>
+  <Step title="Add a variable">
+    On the **Output** tab, click **+ Add output variable**. Enter a **Name (key)** and select a **Type**: String, Number, JSON, or Boolean.
+  </Step>
+  <Step title="Save">
+    Click **Save**.
+  </Step>
+</Steps>
+
+<Note>
+You can also add an output variable directly in the End node using the **Add a Key** option.
+
+If a type mismatch occurs between the defined output variable type and the actual value, the endpoint still succeeds but includes a warning in the response.
+</Note>
+
+### JSON schema format
+
+Use this format when defining a JSON input variable schema:
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "<property_name_1>": {
+      "type": "<data_type>",
+      "description": "<description_of_the_property>"
+    },
+    "<property_name_2>": {
+      "type": "<data_type>",
+      "format": "<optional_format>",
+      "enum": ["<value1>", "<value2>"],
+      "description": "<description_of_the_property>"
+    }
+  },
+  "required": ["<required_property_1>"]
+}
+```
+
+Guidelines: set `type: "object"` at the root, define `type` and `description` for each property, use a `required` array for mandatory fields, and use `enum` to restrict a property to fixed values.
+
+## Add nodes
+
+You can add nodes to the canvas in three ways:
+
+1. **Drag from the Assets panel**: Scroll the left panel, find the node type, and drag it onto the canvas.
+2. **Use the blue plus (+) icon on a node**: Hover over any node to reveal the + icon. Click it to add a new node directly connected to the current one.
+3. **Use the bottom panel**: Browse node types in the bottom panel and drag them onto the canvas.
+
+## Connect nodes
+
+Connections between nodes define execution order. Workflow Builder supports two execution patterns:
+
+| Pattern | When to use | How it behaves |
+|---|---|---|
+| **Sequential** | Tasks depend on the output of the previous step. | Nodes run one after another. |
+| **Parallel** | Tasks are independent and can run at the same time. | Multiple branches from a single node run simultaneously. Up to 10 outgoing branches per node. |
+
+### Create a sequential connection
+
+**Option 1 — Drag to connect**: Hover over the blue `+` icon or grey connector dot on the source node, then drag to the destination node.
+
+**Option 2 — Use the Connections panel**: Click a node to open its Configuration panel. Go to the **Connections** tab. Under **On Success** or **On Failure**, select a node from the dropdown.
+
+### Create a parallel connection
+
+- Hover over a node and click the blue + icon. Select **Add new** or **Add existing** to add multiple nodes as parallel branches.
+- Or drag a line from the source node to an additional node, then repeat to create more branches.
+
+### Parallel design patterns
+
+| Pattern | Description | Use when |
+|---|---|---|
+| **Simple parallel** | One node branches into multiple independent child nodes. | Tasks run simultaneously with no dependencies. |
+| **Nested parallel** | A parallel branch contains its own parallel sub-branches. | Multi-level logic where each level performs independent work. |
+| **Conditional + parallel** | Condition nodes trigger different parallel branches. | Different groups of tasks run depending on a condition. |
+
+**Connection limits**: A single node supports up to 10 outgoing connections. Backward connections (looping to a previous node) are not supported.
+
+## Rename, rearrange, and delete nodes
+
+- **Rename**: Right-click the node and select **Rename**. Enter the new name in the Configuration panel.
+- **Rearrange**: Click and drag a node to any position. Connected lines adjust automatically. For automatic layout, right-click the canvas and select **Auto arrange**.
+- **Delete**: Right-click the node and select **Delete**. Deleting also removes all connections from that node.
+
+## Test a workflow
+
+<Steps>
+  <Step title="Open the run dialog">
+    Click the **Run flow** icon in the top-right corner of the canvas.
+  </Step>
+  <Step title="Inspect the debug log">
+    Click the **Debug** icon to open the debug log, which shows execution progress in real time.
+  </Step>
+  <Step title="Review the result">
+    - **Successful flow**: Execution time and output appear. Use the **Copy** icon to copy the output.
+    - **Failed flow**: An error message appears and the output is empty.
+  </Step>
+</Steps>
+
+<Note>You can stop the flow at any point and restart it by clicking **Run flow** again.</Note>
+
+### Debug log details
+
+| Detail | Description |
+|---|---|
+| **Flow input values** | The input variable values provided at the start of the run. |
+| **Node status** | Success or failure for each node, with links to details. |
+| **Node metrics** | Initiated On, Executed On, Total Time Taken, and Tokens (AI nodes only). |
+| **Tool call logs** | Inputs, outputs, and errors for any AI node tool calls (AI nodes only). |
+
+For parallel flows, each branch appears as an indented block labeled A, B, C. Expand or collapse each branch to show or hide its details.
+
+## Structured response parsing
+
+When an AI node returns a structured JSON response, the platform automatically parses it and stores each key in the node's context object. No manual parsing is required.
+
+<Steps>
+  <Step title="Define the response schema">
+    In the AI node, attach a response JSON schema to define the expected output structure (for example: `scientificname`, `year`, `scientist`).
+  </Step>
+  <Step title="Run the flow">
+    When the flow runs, the platform parses the JSON and stores each key in the node's context entry.
+  </Step>
+  <Step title="Access keys in later nodes">
+    Reference stored keys using context syntax: `{{context.steps.AI0001.output.scientificname}}`.
+  </Step>
+</Steps>
+
+## Manage flow versions
+
+### Save a version
+
+<Steps>
+  <Step title="Open Flow versions">
+    Click the **down arrow** on the canvas header. The **Flow versions** dialog opens.
+  </Step>
+  <Step title="Create a version">
+    Click the **+** icon, enter a **Version name** and **Description**, then click **Save**.
+  </Step>
+</Steps>
+
+The saved version becomes the current version. Changes are auto-saved to the current version.
+
+### Restore or delete a version
+
+In the **Flow versions** dialog, click the three-dots icon next to any version name:
+
+- **Restore**: The selected version becomes the current version and moves to the top of the list.
+- **Delete**: Permanently removes the version. Deployed versions can be restored but cannot be deleted.
+
+## Common issues
+
+| Issue | Cause | Resolution |
+|---|---|---|
+| Can't add a new connection | Node already has 10 outgoing connections | Delete an existing connection to add more. |
+| "No available nodes" in the dropdown | All valid nodes are already connected | Create a new node or unlink an existing one. |
+| Flow doesn't execute | Broken or incomplete connections | Check for stray nodes or missing End nodes. |
+| Error when connecting to a previous node | Backward loops are not supported | Connect to a valid forward step. |

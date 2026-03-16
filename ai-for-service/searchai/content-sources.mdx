@@ -1,0 +1,114 @@
+---
+title: "Content sources"
+description: "Ingest data from websites, documents, and third-party connectors to build a unified knowledge base for Search AI."
+---
+
+Content Sources enable Search AI to ingest data from websites, documents, and third-party applications, creating a unified knowledge base for generating accurate answers. When content is ingested, Search AI automatically initiates training to create the answer index using configured extraction strategies.
+
+## Websites
+
+Crawl and index web pages from any public or authenticated website. Navigate to **Content > Websites** to manage web sources.
+
+### Adding a web crawler
+
+Click **+Web Crawl** and configure:
+
+| Field | Description |
+|-------|-------------|
+| **Source Title** | Unique name for the web source |
+| **Crawl Source** | URL, Upload Sitemap (CSV), or Upload URL (CSV) |
+| **Crawl Depth** | Levels to traverse (1–10, default: 5) |
+| **Max URL Limit** | Maximum URLs to crawl (1–10,000, default: 10) |
+
+### Advanced crawl options
+
+| Option | Purpose |
+|--------|--------|
+| **Use Cookies** | Crawl pages requiring cookie acceptance |
+| **JavaScript Rendered** | Capture dynamically rendered content |
+| **Crawl Beyond Sitemap** | Include URLs not listed in the sitemap |
+| **Respect robots.txt** | Honor crawler directives |
+| **Automatic Cleaning** | Remove headers, footers, and head tags before ingestion |
+
+### URL filtering
+
+Control which pages are crawled:
+- **Crawl everything** — All discovered URLs
+- **Crawl everything except** — Block URLs matching specified conditions
+- **Crawl only specific URLs** — Allow only URLs matching specified conditions
+
+### Authentication
+
+Search AI supports two methods for protected websites:
+
+- **Basic HTTP Authentication:** Username/email and password, with optional authorization fields.
+- **Form-based Authentication:** Form fields with key, type, and value; session maintained after initial authentication.
+
+## Documents
+
+Upload and index files directly to Search AI. Navigate to **Content > Documents**.
+
+**Supported formats:** PDF, DOCX, PPT, TXT (scanned PDFs and password-protected files not supported)
+
+**Upload limits:**
+
+| Limit | Default value |
+|-------|---------------|
+| File size | 15 MB maximum per file |
+| Batch upload | 40 files at once |
+| Directory upload | 20 files maximum |
+
+## Connectors
+
+Pre-built integrations for 60+ third-party applications. Navigate to **Content > Connectors**.
+
+### Connector setup workflow
+
+1. **Authentication** — Provide OAuth credentials, API keys, or tokens
+2. **Ingestion** — Select content types and apply filters
+3. **Field Mapping** — Align source fields with Search AI schema (optional)
+4. **Permissions** — Configure RACL settings
+
+### Sync operations
+
+| Type | Description |
+|------|-------------|
+| **Manual sync** | Click **Sync Now** on Configuration tab |
+| **Scheduled sync** | Set automatic intervals (files >15 MB are skipped) |
+| **Permission sync** | Separate scheduler for RACL updates |
+
+## Supported connectors
+
+Search AI provides out-of-the-box support for 60+ connectors including:
+
+| Connector | Content supported |
+|-----------|-------------------|
+| Confluence Cloud/Server | Knowledge Articles |
+| SharePoint | .aspx, .doc, .docx, .ppt, .html, .txt, .pdf |
+| ServiceNow | Incidents, Service Catalog, Knowledge Articles |
+| Google Drive | .doc, .docx, .ppt, .pdf, .txt, .html |
+| Jira | Issues, Filters, Dashboards |
+| Salesforce | Knowledge Articles |
+| Zendesk | Knowledge Articles, Tickets |
+| GitHub | Issues, README, Pull Requests |
+| Slack | Messages |
+| HubSpot | Tickets, Deals, Companies, Contacts |
+
+For a complete list of supported connectors and RACL support, see the full connectors reference.
+
+## Role-based access control (RACL)
+
+RACL ensures users only see content they're authorized to access by synchronizing permissions from source applications.
+
+### Configuring RACL
+
+Go to the **Permissions** page of the connector and select:
+
+| Option | Behavior |
+|--------|----------|
+| **Same users as in source** | Syncs permissions from source application (Restricted Access) |
+| **Everyone (Public Access)** | Content accessible to all Search AI users |
+
+**RACL limitations:**
+- Supported for connector content only (not websites or uploaded documents)
+- Switching from Restricted to Public Access automatically disables RACL

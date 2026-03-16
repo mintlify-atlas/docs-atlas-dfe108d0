@@ -1,0 +1,240 @@
+---
+title: "Core concepts"
+description: "Understand the building blocks of the Agent Platform."
+---
+
+## Agentic apps
+
+An **agentic app** is an autonomous system that uses AI agents to understand user intent, reason about tasks, and take actions to deliver outcomes.
+
+Unlike traditional chatbots that follow predefined scripts, agentic apps:
+
+- **Reason dynamically** about how to approach tasks
+- **Select tools** based on context and user needs
+- **Coordinate multiple agents** for complex workflows
+- **Maintain state** across conversations
+
+<Tabs>
+  <Tab title="Traditional bot">
+    ```
+    User Input
+         ↓
+    Match Intent
+         ↓
+    Execute Script
+         ↓
+    Return Response
+    ```
+  </Tab>
+  <Tab title="Agentic app">
+    ```
+    User Input
+         ↓
+    Understand Intent
+         ↓
+    Reason & Plan
+         ↓
+    Select Agent(s)
+         ↓
+    Invoke Tools
+         ↓
+    Generate Response
+    ```
+  </Tab>
+</Tabs>
+
+## Agents
+
+An **agent** is a specialized AI worker with a defined scope, instructions, and access to specific tools and knowledge.
+
+### Agent components
+
+| Component | Purpose |
+|---|---|
+| **Profile** | Name, description, and avatar that identify the agent |
+| **AI model** | The LLM that powers reasoning and generation |
+| **Scope** | Boundaries defining what tasks the agent handles |
+| **Instructions** | Behavioral guidelines and response patterns |
+| **Tools** | Actions the agent can perform |
+| **Knowledge** | Information sources for RAG retrieval |
+
+### Example agent definition
+
+```yaml
+name: Billing Agent
+description: Handles billing inquiries, payment processing, and invoice management
+
+scope: |
+  Responsible for:
+  - Payment status inquiries
+  - Invoice generation and retrieval
+  - Payment method updates
+  - Refund processing
+
+instructions: |
+  - Verify customer identity before discussing billing details
+  - Always confirm transaction amounts before processing
+  - Provide clear breakdowns of charges when asked
+  - Escalate disputed charges over $500 to a human agent
+
+tools:
+  - get_payment_status
+  - generate_invoice
+  - process_refund
+  - update_payment_method
+
+knowledge:
+  - billing_faqs
+  - pricing_documentation
+```
+
+## Orchestrator
+
+The **orchestrator** is the central coordinator that manages how agents work together. It:
+
+1. **Interprets** user requests to understand intent
+2. **Delegates** tasks to appropriate agents
+3. **Coordinates** multi-agent workflows
+4. **Resolves** conflicts between agent outputs
+5. **Validates** responses before delivery
+
+### Orchestration patterns
+
+| Pattern | Best for |
+|---|---|
+| [Single agent](/agent-platform/orchestration/single-agent) | Simple, focused use cases with one domain |
+| [Supervisor](/agent-platform/orchestration/supervisor) | Complex tasks requiring parallel agent coordination |
+| [Adaptive network](/agent-platform/orchestration/adaptive-network) | Dynamic hand-offs between specialized agents |
+
+## Tools
+
+**Tools** are capabilities that enable agents to interact with external systems, retrieve data, and perform actions.
+
+### Tool types
+
+<AccordionGroup>
+  <Accordion title="Workflow tools">
+    Visual, no-code tools built with a drag-and-drop interface. Best for well-defined processes that benefit from visual traceability.
+
+    ```
+    Start → Validate Input → Call API → Transform Data → End
+    ```
+  </Accordion>
+  <Accordion title="Code tools">
+    Custom JavaScript or Python functions for complex logic. Best for dynamic processing, calculations, or custom integrations.
+
+    ```python
+    def calculate_shipping(weight: float, destination: str) -> dict:
+        rate = get_shipping_rate(destination)
+        cost = weight * rate
+        return {"cost": cost, "estimated_days": get_delivery_estimate(destination)}
+    ```
+  </Accordion>
+  <Accordion title="MCP tools">
+    Remote functions exposed via Model Context Protocol servers. Best for shared toolsets and enterprise integrations.
+
+    ```json
+    {
+      "server": "https://tools.company.com/mcp",
+      "tools": ["crm_lookup", "inventory_check", "order_create"]
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Tool calling
+
+**Tool calling** is how agents interact with tools during task execution.
+
+### The tool calling flow
+
+```
+1. User: "What's my account balance?"
+
+2. Agent identifies need for external data
+   └─ Selected tool: get_account_balance
+
+3. Agent prepares parameters
+   └─ { "user_id": "usr_123" }
+
+4. Platform invokes the tool
+   └─ API call to banking system
+
+5. Tool returns result
+   └─ { "balance": 1234.56, "currency": "USD" }
+
+6. Agent generates response
+   └─ "Your current account balance is $1,234.56"
+```
+
+### Sequential vs. parallel calling
+
+**Sequential**: Tools execute one after another when outputs are dependent.
+
+```
+get_user_profile → get_account_balance → format_statement
+```
+
+**Parallel**: Independent tools execute simultaneously for faster responses.
+
+```
+┌─ get_account_balance ────┐
+├─ get_recent_transactions ─┼─→ combine_results
+└─ get_rewards_points ─────┘
+```
+
+## Knowledge
+
+**Knowledge** connects agents to your data sources, enabling context-aware responses through Retrieval-Augmented Generation (RAG).
+
+### How knowledge works
+
+```
+User Query: "What's your return policy for electronics?"
+
+1. Query embedded into vector representation
+2. Semantic search across knowledge base
+3. Relevant chunks retrieved (return policy docs)
+4. Context injected into agent prompt
+5. Agent generates accurate, grounded response
+```
+
+### Knowledge sources
+
+- Document uploads (PDF, DOCX, TXT)
+- Web crawlers
+- Confluence, SharePoint, Google Drive
+- Databases and APIs
+- Custom connectors
+
+## State management
+
+Agentic apps maintain **state** to enable natural, multi-turn conversations.
+
+### State types
+
+<Tabs>
+  <Tab title="Short-term (session)">
+    Temporary context within a conversation:
+    - Current order being discussed
+    - Selected product options
+    - Pending confirmations
+  </Tab>
+  <Tab title="Long-term (user)">
+    Persistent preferences and history:
+    - User preferences
+    - Past interactions
+    - Account information
+  </Tab>
+</Tabs>
+
+### Context window
+
+The context window limits how many messages agents retain. Configure it based on your use case.
+
+| Setting | Messages | Use case |
+|---|---|---|
+| Minimal | 25 | Simple Q&A, transactional |
+| Default | 50 | General conversations |
+| Extended | 100 | Complex multi-step workflows |
+| Maximum | 200 | Deep contextual discussions |

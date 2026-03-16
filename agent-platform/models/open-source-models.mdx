@@ -1,0 +1,140 @@
+---
+title: "Open-source models"
+description: "Deploy and manage open-source models on Agent Platform's managed infrastructure."
+---
+
+Agent Platform supports 30+ curated open-source models and allows importing any text generation model from Hugging Face. Models are deployed on Kore-hosted infrastructure with optional optimization for improved performance.
+
+<Note>Open-source models do not support tool calling and cannot be used with agentic apps or agents. Use external commercial models for agentic workflows.</Note>
+
+For the complete list of supported models, see [Supported models](/agent-platform/models/supported-models).
+
+## Model sources
+
+| Source | Description |
+|---|---|
+| Platform-hosted | Curated list of 30+ models ready for deployment |
+| Hugging Face | Import any compatible text generation model |
+| Local import | Upload model files (.zip) from your machine |
+
+## Deploy a platform-hosted model
+
+1. Go to **Models** → **Open-source models** → **Deploy a model**
+2. Select **Platform-hosted** and choose a model from the dropdown
+3. Add a **Description** and **Tags**, then click **Next**
+4. Select an optimization technique (optional)
+5. Configure deployment parameters
+6. Select hardware for deployment
+7. Review and accept terms, then click **Deploy**
+
+After deployment, the model is available across Agent Platform and via API endpoint.
+
+## Deploy from Hugging Face
+
+<Note>Models must be compatible with Transformers library version ≤4.43.1.</Note>
+
+1. Go to **Models** → **Open-source models** → **Deploy a model**
+2. Select **Hugging Face**
+3. Enter deployment name and description
+4. Select your Hugging Face connection (or use public mode)
+5. Enter the Hugging Face model name
+6. Configure deployment parameters
+7. Select hardware and click **Deploy**
+
+## Import a local model
+
+### Import a base model
+
+1. Go to **Models** → **Open-source models** → **Import model**
+2. Select the **Base Model** tab
+3. Upload your model file (.zip format)
+4. Click **Import**
+
+### Import an adapter model
+
+Adapter models require a compatible base model.
+
+1. Go to **Models** → **Open-source models** → **Import model**
+2. Select the **Adapter Model** tab
+3. Choose a base model from the platform-hosted list
+4. Upload your adapter model file (.zip format)
+5. Click **Import**
+
+### Import status
+
+| Status | Description |
+|---|---|
+| Importing | File is uploading |
+| Validating | File is being validated |
+| Import failed | Error occurred (view details to troubleshoot) |
+| Ready to deploy | Model is ready for deployment |
+
+## Optimization techniques
+
+Optimize platform-hosted models before deployment for improved performance.
+
+| Technique | Best for | Quantization |
+|---|---|---|
+| **Skip optimization** | Maximum compatibility | None |
+| **CTranslate2 (CT2)** | Small-medium models, low latency, CPU/GPU | int8_float16 |
+| **vLLM** | Large models, high throughput, GPU clusters | AWQ (4-bit) |
+
+| Criteria | CTranslate2 | vLLM |
+|---|---|---|
+| Model size | Small to medium | Large (billions of parameters) |
+| Latency priority | ✓ | |
+| Throughput priority | | ✓ |
+| Resource-constrained | ✓ | |
+| Distributed deployment | | ✓ |
+
+## Deployment parameters
+
+### Inference parameters
+
+| Parameter | Description |
+|---|---|
+| Temperature | Sampling temperature (randomness) |
+| Maximum length | Max tokens to generate |
+| Top P | Nucleus sampling probability mass |
+| Top K | Number of highest probability tokens |
+| Stop sequences | Strings that stop generation |
+| Inference batch size | Batch size for concurrent requests |
+
+### Scaling parameters
+
+| Parameter | Description |
+|---|---|
+| Min replicas | Minimum model replicas deployed |
+| Max replicas | Maximum replicas for auto-scaling |
+| Scale-up delay | Seconds to wait before scaling up |
+| Scale-down delay | Seconds to wait before scaling down |
+
+## Manage deployed models
+
+### Model endpoint
+
+View the generated API endpoint in three formats (cURL, Python, Node.js). Kore-hosted models support JSON schema responses via the `response_format` parameter (v2/chat/completions endpoint only with vLLM or no optimization).
+
+### API keys
+
+1. Go to **API Keys** tab
+2. Click **Create a new API key**
+3. Enter a name and click **Generate key**
+4. Copy the key (shown only once)
+
+### Configurations
+
+| Setting | Description |
+|---|---|
+| Description | Edit model description |
+| Tags | Add searchable tags |
+| Endpoint timeout | 30–180 seconds (default: 60) |
+| Undeploy | Stop the model (removes active instances) |
+| Delete | Remove undeployed model and all data |
+
+## Limitations
+
+- Open-source models do not support tool calling
+- Cannot be used with agentic apps or agents
+- Hugging Face models require Transformers ≤4.43.1
+- Structured output requires v2/chat/completions endpoint and vLLM/no optimization

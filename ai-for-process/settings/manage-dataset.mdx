@@ -1,0 +1,78 @@
+---
+title: "Manage datasets"
+description: "Upload, download, and delete datasets in the Data module. Import CSV files or generate synthetic test data for Prompt Studio experiments."
+---
+
+The **Data** module stores datasets for reuse across prompt testing and model fine-tuning. It supports CSV, JSON, and JSONL formats with no additional formatting requirements.
+
+## Upload a dataset
+
+<Steps>
+  <Step title="Open Data">
+    In the AI for Process top menu, click **Data**.
+  </Step>
+  <Step title="Upload">
+    Click **Upload dataset** and select your file. The uploaded file appears on the Data page.
+  </Step>
+</Steps>
+
+<Note>Files uploaded in Prompt Studio or the Models fine-tuning wizard are automatically saved to the Data tab for future use.</Note>
+
+## Download or delete a dataset
+
+<Warning>Deleting a dataset that is used in Playground experiments may cause errors.</Warning>
+
+<Steps>
+  <Step title="Open Data">
+    In the AI for Process top menu, click **Data**.
+  </Step>
+  <Step title="Select action">
+    Click the three-dots icon in the last column and choose **Download** or **Delete**.
+  </Step>
+</Steps>
+
+## Test data in Prompt Studio
+
+Prompt Studio provides two ways to work with test data:
+
+- **Import test data**: Upload a CSV file to populate prompt variables automatically.
+- **Generate test data**: Create synthetic datasets based on your prompt and variables.
+
+### Import test data
+
+The system reads up to 10 rows from the CSV and maps column names to prompt variables. Column names are case-sensitive and must match variable names exactly. For example, `{{Name}}` requires a column named `Name`.
+
+<Note>You can import a maximum of 10 rows at a time.</Note>
+
+<Steps>
+  <Step title="Open import">
+    On the prompt canvas, click **Test data** > **Import test data**.
+  </Step>
+  <Step title="Upload">
+    In the **Import test data** dialog, upload a CSV from your computer or select an existing dataset.
+  </Step>
+  <Step title="Review and proceed">
+    Review the data preview and click **Proceed**. Variable values populate in the Variables window and are substituted during prompt execution.
+  </Step>
+</Steps>
+
+### Generate test data
+
+Generate synthetic test datasets without creating data manually. The system analyzes your prompt and variables to produce contextually relevant values.
+
+<Note>
+- You can generate a maximum of 5 rows at a time.
+- Only OpenAI and Anthropic models are supported for test data generation.
+</Note>
+
+<Steps>
+  <Step title="Add variables">
+    On the prompt canvas, enter your prompt and add variables using double curly braces: `{{Job Title}}`, `{{Experience}}`, `{{Location}}`. The **Test data** option appears.
+  </Step>
+  <Step title="Generate">
+    Click **Test data** > **Generate test data**. Select a model, specify the number of rows, and click **Generate**.
+  </Step>
+  <Step title="Apply">
+    Preview the generated dataset. Click **Apply value to the variables** to populate the prompt canvas.
+  </Step>
+</Steps>

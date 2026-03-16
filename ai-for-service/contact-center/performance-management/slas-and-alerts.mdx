@@ -1,0 +1,87 @@
+---
+title: "SLAs and alerts"
+description: "Set acceptable thresholds for KPIs and configure notifications when contact center metrics exceed targets."
+---
+
+SLAs & Alerts let you set acceptable thresholds for key performance indicators (KPIs) — such as Average Speed to Answer, Response Service Level, Abandonment Rate, and Transfer Rate — across voice and chat interactions.
+
+To access, go to **Contact Center AI** > **Performance Management** > **SLAs & Alerts**.
+
+## Service level
+
+### Create a service level
+
+<Steps>
+  <Step title="Add a new service level">
+    Select **+ New Service Level** in the upper-right corner.
+  </Step>
+  <Step title="Enter name and description">
+    In the **New Service Level Rule** panel, enter a **Name** and **Description**.
+  </Step>
+  <Step title="Configure setup">
+    Under **Configuration Setup**, select the **Queues** and **Channels**.
+  </Step>
+  <Step title="Select a trigger">
+    Choose from:
+    - **Abandonment Rate**
+    - **Average Speed to Answer (ASA)**
+    - **Response Service Level (RSL)**
+    - **Transfer Rate**
+  </Step>
+  <Step title="Add an action">
+    Select **+ Add an action** and choose:
+    - **Alert** — shows a dashboard popup.
+    - **Email** — sends an email notification.
+  </Step>
+  <Step title="Save">
+    Select **Save**. A confirmation message appears and the service level is created.
+  </Step>
+</Steps>
+
+### Edit a service level
+
+1. Select **Edit** next to the service level.
+2. Make your changes and select **Save**.
+
+### Delete a service level
+
+1. Select **Delete** next to the service level.
+2. Confirm by selecting **Delete**.
+
+## General alerts
+
+General Alerts let administrators and supervisors set up notifications for operational metrics and system events.
+
+### Create a general alert
+
+<Steps>
+  <Step title="Add a new alert">
+    Select the **General Alerts** tab, then select **+ New Alert** in the upper-right corner.
+  </Step>
+  <Step title="Enter name and description">
+    In the **New General Alert** panel, enter a **Name** and **Description**.
+  </Step>
+  <Step title="Select a module">
+    Under **Configuration Setup**, select a module:
+
+    - **After Call Work (ACW)** — select queues, channels, and duration.
+    - **Analytics > Interactions** — trigger on export events (Interaction Details Report, Interaction Dashboard, Interaction Details by Segment).
+    - **Voicemail in Agent Console** — trigger on voicemail count within a time interval.
+  </Step>
+  <Step title="Add an action">
+    Select **+ Add an action** and choose **Alert** or **Email**.
+  </Step>
+  <Step title="Save">
+    Select **Save**. A notification appears and the alert is created.
+  </Step>
+</Steps>
+
+### Edit a general alert
+
+1. Select **Edit** next to the alert.
+2. Make your changes and select **Save**.
+
+### Delete a general alert
+
+1. Select **Delete** next to the alert.
+2. Confirm by selecting **Delete**.

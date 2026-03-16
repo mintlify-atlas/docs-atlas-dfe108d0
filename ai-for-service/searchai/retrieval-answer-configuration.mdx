@@ -1,0 +1,103 @@
+---
+title: "Retrieval and answer configuration"
+description: "Configure retrieval strategies, answer generation types, and search result settings to control how Search AI retrieves content and delivers responses."
+---
+
+This guide covers the configuration of retrieval strategies, answer generation, and search results in Search AI.
+
+**Navigation:** Configuration menu in Search AI
+
+## Retrieval strategies
+
+Configure the chunk retrieval strategy and corresponding thresholds for finding relevant content.
+
+| Strategy | Description | Best for |
+|----------|-------------|----------|
+| **Vector Retrieval** | Uses cosine similarity between query vector and chunk vectors | Semantic similarity matching, contextual queries |
+| **Hybrid Retrieval** | Combines keyword-based matching with vector-based scoring | Balanced precision and recall, improved accuracy |
+
+### Qualification criteria
+
+| Parameter | Description | Range | Default |
+|-----------|-------------|-------|---------|
+| Similarity Score Threshold | Minimum similarity score for a chunk to be considered relevant | 0–100 | 20 |
+| Proximity Threshold | How closely retrieved chunks should be to the highest-ranking chunk | 0–50 | 20 |
+| Top K Chunks | Maximum number of qualified chunks for answer generation | 1–100 | 20 |
+| Token Budget for Chunks | Maximum tokens to send to LLM | 1–1,000,000 | 20,000 |
+
+**Default configuration:** Hybrid Retrieval, Similarity Score: 20, Proximity Threshold: 20, Top K Chunks: 20, Token budget for chunks: 20,000
+
+## Answer generation
+
+Configure how responses are composed and delivered to users.
+
+### Answer types
+
+| Type | Description | Configuration |
+|------|-------------|---------------|
+| **Extractive** | Top chunk retrieved is directly presented as-is | Configure Response Length (tokens) |
+| **Generative** | Top chunks are sent to configured LLM, which generates a paraphrased answer | Requires LLM integration and enabled Answer Generation in GenAI Tools |
+
+### Generative answer configuration
+
+**Chunk settings:**
+
+| Setting | Description | Default | Max |
+|---------|-------------|---------|-----|
+| Token Budget for Chunks | Total tokens for chunks sent to LLM | 20,000 | 1,000,000 |
+| Enable Document Level Processing | Send full documents instead of just chunks | Disabled | — |
+| Token Budget for Documents | Maximum tokens when sending full documents | 50,000 | 100,000 |
+
+**Chunk order options:**
+
+| Order | Description |
+|-------|-------------|
+| Most to Least Relevant | Highest relevance first |
+| Least to Most Relevant | Lowest relevance first, most relevant at end followed by query |
+
+**LLM configuration:**
+
+| Setting | Description |
+|---------|-------------|
+| Select Generative Model | Choose from configured LLM models |
+| Answer Prompt | Select prompt template for answer generation |
+| Temperature | Controls randomness (lower = more deterministic) |
+| Response Length | Expected answer length in tokens |
+
+### Response streaming
+
+Enable real-time token-by-token response delivery for Web/Mobile SDK channels, reducing perceived latency.
+
+<Note>Streaming is currently supported only for OpenAI and Azure OpenAI models. Not available for API-based responses.</Note>
+
+## Search results
+
+Search results display a ranked list of documents/chunks by relevance.
+
+### Configuration settings
+
+| Setting | Description | Range | Default |
+|---------|-------------|-------|---------|
+| Number of Search Results | Maximum chunks displayed | 1–100 | 20 |
+
+### Filters (facets)
+
+Filters enable users to narrow results based on specific criteria.
+
+| Filter type | Description |
+|-------------|-------------|
+| **Static** | Fixed, predefined filter values |
+| **Dynamic** | Values derived from search results |
+
+**Filter UI options:**
+
+| UI type | Availability | Selection |
+|---------|--------------|----------|
+| Tabs | Static filters only | Single value, string fields only |
+| Single Select | Dynamic filters | One value at a time |
+| Multi Select | Dynamic filters | Multiple values concurrently |
+
+**Filter rules:**
+- Only one tab-style filter can be enabled at a time
+- Two filters cannot use the same field concurrently
+- Filters apply only if search results contain the specified field

@@ -1,0 +1,130 @@
+---
+title: "Agent AI configurations"
+description: "Configure Agent AI widget settings, theming, conversation events, feedback, integrations, and language support."
+---
+
+Use these configuration settings to set up and customize Agent AI for your deployment. The settings cover conversation behavior, widget appearance, external integrations, feedback collection, and language support.
+
+## Widget settings
+
+Configure channel-specific widget behavior and global display options.
+
+### Channel-specific settings
+
+| Setting | Description |
+|---------|-------------|
+| **Proactive Mode** | Automatically trigger the widget when a conversation starts |
+| **Agentic Copilot** | Enable autonomous conversation handling by an Agentic App |
+| **Transfer handling** | Configure how conversations transfer between AI and live agents |
+
+### Global settings
+
+| Setting | Description |
+|---------|-------------|
+| **URL behavior** | Control how links open (same tab, new tab, modal) |
+| **Data format** | Set the format for data passed between widget and agent desktop |
+| **Language** | Set the default display language for the widget UI |
+| **Display options** | Configure which panels and sections appear in the widget |
+
+## Widget theming and layout
+
+Customize the widget's visual layout per channel.
+
+### Customizable elements
+
+- **Menu labels** — Rename or reorder tab labels
+- **Tab order** — Change the sequence of content tabs
+- **Search result display** — Configure how search results are shown
+- **Dialog task grouping** — Group related tasks under custom categories
+- **Action button visibility** — Show or hide specific action buttons
+
+To configure theming, go to **Agent AI** > **Configurations** > **Widget Settings** > **Theming**.
+
+## Conversation events
+
+Configure what happens at the start and end of conversations.
+
+### Welcome events
+
+| Event | Description |
+|-------|-------------|
+| **On-connect dialog tasks** | Run a dialog task automatically when an agent connects |
+| **Greeting messages** | Display a custom greeting when the widget loads |
+
+### Exit events
+
+| Event | Description |
+|-------|-------------|
+| **End-of-conversation dialog tasks** | Run a task when the conversation ends |
+| **Conversation summaries** | Generate and display an AI summary when the session closes |
+| **Agentic App triggers** | Trigger an Agentic App workflow at conversation close |
+
+## Feedback settings
+
+Configure context-specific and overall feedback prompts.
+
+| Feedback context | Description |
+|-----------------|-------------|
+| **Dialog tasks** | Feedback shown after a dialog task completes |
+| **Answers** | Feedback shown after an AI answer is displayed |
+| **FAQs** | Feedback for FAQ responses |
+| **Summaries** | Feedback for auto-generated summaries |
+| **Agentic responses** | Feedback for Agentic Copilot outputs |
+
+To configure feedback, go to **Agent AI** > **Configurations** > **Feedback Settings**.
+
+## Linked services
+
+Connect Agent AI to other platform components.
+
+### Search AI integration
+
+Link Agent AI to Search AI to enable enhanced semantic search within the widget:
+1. Go to **Agent AI** > **Configurations** > **Linked Services**
+2. Select **Search AI** and choose your configured Search AI app
+3. Save and test the integration
+
+### Agentic Copilot configuration
+
+Configure which Agentic App handles autonomous conversation flows:
+1. Go to **Agent AI** > **Configurations** > **Linked Services**
+2. Under **Agentic Copilot**, select an Agentic App from the dropdown
+3. Set fallback behavior for when the Agentic App cannot handle a request
+
+## Agent AI mapping
+
+Assign Agentic Copilot apps and dialog tasks to specific queues.
+
+<Steps>
+  <Step title="Open Agent AI mapping">
+    Go to **Agent AI** > **Configurations** > **Agent AI Mapping**.
+  </Step>
+  <Step title="Select a queue">
+    Choose the contact center queue you want to configure.
+  </Step>
+  <Step title="Assign dialog tasks">
+    Select which dialog tasks should be available to agents in this queue.
+  </Step>
+  <Step title="Assign an Agentic App (optional)">
+    If using Agentic Copilot, select the Agentic App for this queue.
+  </Step>
+  <Step title="Save configuration">
+    Click **Save**. Changes take effect immediately.
+  </Step>
+</Steps>
+
+## Supported languages
+
+Agent AI supports the following features per language:
+
+| Language | Dialog Tasks | Answers | Summaries | Agentic Copilot |
+|----------|-------------|---------|-----------|----------------|
+| English | ✓ | ✓ | ✓ | ✓ |
+| Spanish | ✓ | ✓ | ✓ | — |
+| French | ✓ | ✓ | — | — |
+| German | ✓ | ✓ | — | — |
+| Japanese | ✓ | — | — | — |
+
+<Note>
+Feature availability for non-English languages expands with each release. Check the release notes for the latest updates.
+</Note>

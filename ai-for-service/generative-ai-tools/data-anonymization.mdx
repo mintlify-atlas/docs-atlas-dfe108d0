@@ -1,0 +1,51 @@
+---
+title: "Data anonymization"
+description: "Mask PII and sensitive data in user input before it reaches the LLM while preserving full end-to-end functionality."
+---
+
+Mask PII and sensitive data in user input before it reaches the LLM, while preserving full end-to-end functionality.
+
+## Overview
+
+Personally identifiable information (PII) includes any data that can identify, contact, or locate an individual — such as Social Security Numbers, email addresses, credit card numbers, CVV codes, passport numbers, and home addresses.
+
+The Platform detects sensitive data using regex patterns you define, anonymizes it before sending it to the LLM, and restores the original values after the LLM responds. Conversation history and debug logs always show the original data.
+
+## Anonymization methods
+
+| Method | Description |
+|--------|-------------|
+| **Redaction** | Replaces the value with a placeholder that hides it entirely. |
+| **Replacement** | Substitutes the value with a predefined string. |
+| **Mask with Character** | Conceals part of the value while preserving a recognizable format. |
+
+## Supported features
+
+Data anonymization applies during LLM interactions for:
+
+- Agent Node
+- Conversation Summary
+- DialogGPT
+- Disposition Prediction for Agent Wrap-Up
+- Prompt Node
+- Rephrase Response
+- Sentiment Analysis
+
+## Configure data anonymization
+
+1. Go to **Generative AI Tools** > **Safeguards** > **Data Anonymization**.
+2. Select **Get Started** or **+ New Field**.
+3. Enter the **Information Type** and **Regex Pattern**, then select the **Display Type**.
+
+   <Note>Define patterns as substrings, not exact values. The Platform scans the entire request payload. Use a regex that matches the target value within a broader context.</Note>
+
+4. Select **Save**.
+
+## Prompt guidance for smaller models
+
+For smaller LLMs, add explicit instructions in the system prompt to prevent the model from modifying redacted values. The Platform wraps redacted values with `##`.
+
+```
+Sensitive data like a credit card number may appear as ##************5678##.
+MANDATORILY DO NOT reject, modify, or alter any such values in your responses.
+```

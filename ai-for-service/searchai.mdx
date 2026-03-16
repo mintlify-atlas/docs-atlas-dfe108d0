@@ -1,0 +1,83 @@
+---
+title: "Search AI"
+description: "Advanced RAG-based search solution that enables organizations to search across large datasets conversationally using LLM capabilities."
+---
+
+Search AI is an advanced RAG-based search solution that enables organizations to search across large datasets conversationally. It combines LLM capabilities with intelligent retrieval to generate accurate, context-aware answers.
+
+**Answers** in Search AI are specific pieces of information extracted or generated in response to user queries. Unlike traditional search results that present ranked lists of documents, answers provide precise, tailored information directly addressing the user's question.
+
+## Architecture
+
+Search AI processes every query through a five-step answer generation pipeline:
+
+```
+Content Ingestion → Chunking → Vector Embeddings → Chunk Retrieval → Answer Generation
+```
+
+| Step | Process | Description |
+|------|---------|-------------|
+| 1 | Content Ingestion | Importing source documents for answer generation |
+| 2 | Chunking | Breaking down source documents into smaller, meaningful units |
+| 3 | Vector Embedding Generation | Converting chunks into multi-dimensional vectors |
+| 4 | Chunk Retrieval | Selecting the most relevant chunks based on similarity to the user query |
+| 5 | Answer Generation | Generating a response using the retrieved chunks |
+
+## Key terminology
+
+| Term | Description |
+|------|-------------|
+| **RAG (Retrieval Augmented Generation)** | Extracts data from fragmented, unstructured content and formulates responses based on retrieved information. |
+| **Chunking** | Segmenting large content units into smaller, searchable segments. |
+| **Embeddings** | Multi-dimensional vector representations of chunks, stored in a vector database. |
+| **Tokens** | The smallest unit of data. ~1 token ≈ 4 characters in English. |
+
+## Setup workflow
+
+| Stage | Purpose | Key activities |
+|-------|---------|----------------|
+| **Ingestion** | Build unified knowledge base | Add content sources (websites, documents, connectors) |
+| **Enhancement** | Refine and optimize content | Configure extraction, process via Workbench, set up vector generation |
+| **Retrieval** | Configure answer delivery | Set retrieval strategy, query processing, answer generation |
+
+## Content source types
+
+| Source type | Description | Use case |
+|-------------|-------------|----------|
+| **Web crawl** | Index content from websites | Public websites, knowledge portals |
+| **Documents** | Upload and index files (PDF, DOCX, PPT, TXT) | Internal documents and manuals |
+| **Connectors** | Connect third-party applications | SharePoint, Confluence, ServiceNow, Google Drive |
+
+Search AI provides **100+ connectors** including SharePoint, Confluence, ServiceNow, OneDrive, Google Drive, Slack, Teams, Salesforce, Jira, HubSpot, Zendesk, and more.
+
+## Integration with Automation AI
+
+Configure Search AI as a response method within AI Agents.
+
+| Option | Behavior |
+|--------|----------|
+| Automation first, Search AI as fallback | Prioritizes automation framework; uses Search AI if intent identification fails |
+| Search AI first, Automation as fallback | Uses Search AI first; falls back to automation if no satisfactory match found |
+
+## Key capabilities
+
+| Capability | Description |
+|------------|-------------|
+| Extensive data connectivity | 100+ connectors to enterprise content repositories |
+| Advanced hybrid search | Text and multi-vector weighted search with customizable pipelines |
+| Enterprise security compliance | Integration with existing access control mechanisms |
+| Contextual intelligence | Dynamic enterprise and user context for personalized responses |
+
+## Setup checklist
+
+| Step | Action | Location |
+|------|--------|----------|
+| 1 | Add content sources | Content > Sources |
+| 2 | Configure extraction strategy | Index > Extraction |
+| 3 | Process content via Workbench | Index > Workbench |
+| 4 | Review chunks | Index > Content Browser |
+| 5 | Configure vector settings | Index > Vector Configuration |
+| 6 | Set retrieval strategy | Configuration > Retrieval Strategies |
+| 7 | Configure answer generation | Configuration > Answer Generation |
+| 8 | Enable Answers in App Profile | App Settings > App Profile |
+| 9 | Test and debug | Configuration > Testing and Debugging |

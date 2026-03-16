@@ -1,0 +1,176 @@
+---
+title: "Model analytics and traces"
+description: "Analyze model performance with the Analytics Dashboard and investigate individual runs with Model Traces. Track latency, requests, scaling, credits, and run-level metadata."
+---
+
+The **Model Analytics Dashboard** provides aggregate performance metrics for all model types in your account. **Model Traces** offers run-level analysis for each model request. Use the dashboard for trend analysis and the traces view for troubleshooting individual runs.
+
+## Model Analytics Dashboard
+
+The dashboard tracks performance for fine-tuned, open-source, and external models. It measures:
+
+- Model latency and response times.
+- Request success and failure rates.
+- Model scaling patterns and usage.
+- Credit consumption for deployments and fine-tuning.
+
+### Access the dashboard
+
+<Steps>
+  <Step title="Open Settings">
+    Log in and click **Settings** in the AI for Process top menu.
+  </Step>
+  <Step title="Navigate to Analytics">
+    On the left menu, select **Monitoring** > **Analytics**.
+  </Step>
+  <Step title="Open Model Analytics">
+    Click the **Model Analytics** tab. The dashboard loads with data for the last 7 days by default.
+  </Step>
+</Steps>
+
+### Account-level metrics
+
+- **Credits consumed in deployment**: Credits deducted for deploying models.
+- **Credits consumed in fine-tuning**: Credits deducted for fine-tuning models.
+- **Number of Deployed Models**: Total models deployed in your account.
+- **Number of Fine-tuned Models**: Total models fine-tuned in your account.
+
+### Model-specific metrics
+
+**Fine-tuned and open-source models:**
+
+- **Model Latency**: Per-request latency for the selected period.
+- **Requests**: Success and failure trends, total requests, and average credits per request.
+- **Model Scaling and Usage**: Number of replicas and hardware configuration during deployment.
+
+**External models:**
+
+- **Tokens**: Bar chart of input and output tokens for the selected period.
+- **Model Latency**: Same as fine-tuned and open-source models.
+- **Requests**: Same as above, without average credits per request.
+
+### Filter dashboard data
+
+Combine Global Timeline Filters and Model Performance Filters for targeted analytics.
+
+**Model Performance Filters (fine-tuned and open-source):**
+
+- **Select Model**: Select the deployed model name.
+- **Select Deployment**: Select the deployment name.
+- **Select Filter (version)**: Select the deployment version.
+
+**Model Performance Filters (external models):**
+
+- **Select Model**: Select the deployed model name.
+- **Select Connection**: Select the third-party service connection name.
+
+### Performance widgets
+
+#### Model Latency
+
+Available for all model types. Shows a line graph of the selected model version's latency.
+
+- Blue line shows per-request latency for 24-hour or 7-day periods.
+- For longer ranges, the graph shows average daily latency.
+
+Use this to identify latency spikes, compare deployed versions, and correlate latency with credit usage.
+
+#### Requests
+
+Available for all model types. Shows successful and failed requests as two line graphs.
+
+- Successful requests display in green; failed in red.
+- Shows Total Requests and Avg. credits per request (not shown for external models).
+
+#### Model Scaling and Usage
+
+Available for fine-tuned and open-source models only. Shows a step graph of the number of replicas with a specific hardware configuration.
+
+- Each upward step represents additional replicas; each downward step represents replicas being undeployed.
+- For single-day selections, a red line shows the maximum replicas configured.
+
+#### Tokens
+
+Available for external models only. Shows a stacked bar graph of input and output tokens for the selected period.
+
+## Model Traces
+
+Model Traces provides run-level analysis of any model deployed or integrated in your account. Use it to review request inputs, outputs, response times, and run metadata.
+
+### Access Model Traces
+
+<Steps>
+  <Step title="Open Settings">
+    Log in and click **Settings** in the AI for Process top menu.
+  </Step>
+  <Step title="Navigate to Model Traces">
+    On the left menu, select **Monitoring** > **Model Traces**.
+  </Step>
+  <Step title="Select a model">
+    If accessing for the first time, select a model from the dropdown. The feature loads with data for the last 30 days by default.
+  </Step>
+</Steps>
+
+### Performance metrics summary
+
+| Metric | Description |
+|---|---|
+| **Total Requests** | Total runs serviced by the model since deployment. |
+| **Response Time (P90)** | Response time below which 90% of requests fall. |
+| **Response Time (P99)** | Response time below which 99% of requests fall. |
+| **Failure Rate** | Percentage of requests that failed. |
+| **Hosting Credits** | Credits consumed by the deployed model (open-source and fine-tuned models only). |
+
+### Model Traces table
+
+The table shows all runs for the selected model, sorted from the latest to the oldest:
+
+| Column | Description |
+|---|---|
+| Status | Success or failure icon. |
+| Request ID | Unique identifier for the run. |
+| Response Time | Time taken by the model to respond. |
+| Deployment Version | Model version deployed. |
+| Source Type | The type of source that initiated the request. |
+| Source | The specific source name. |
+| Executed on | Run execution timestamp. |
+| Input | Input text provided for the run. |
+| Output | Output text generated by the model. |
+
+Click any row to open the detailed trace view.
+
+### Filter by column
+
+<Steps>
+  <Step title="Open the filter">
+    Navigate to **Model Traces** and click the **Filter** icon. Click **+ Add Filter**.
+  </Step>
+  <Step title="Configure the filter">
+    Select a **Column**, **Operator**, and **Value**, then click **Apply**.
+  </Step>
+</Steps>
+
+To combine multiple filters using AND or OR operators, select the operator tab before applying. AND and OR cannot be mixed in a single filter configuration.
+
+| Column | Operators |
+|---|---|
+| Status | Is Equals To, Is Not Equals To |
+| Request ID | Is Equals To, Is Not Equals To, Contains |
+| Response Time | Is Equals To, Is Not Equals To, Is Greater Than, Is Less Than, Is Greater Than Equals To, Is Less Than Equals To |
+| Source Type | Is Equals To, Is Not Equals To, Contains |
+
+### Export data
+
+Click **Export** to generate a CSV file of model traces records based on the selected date range and filters. All table columns are included regardless of current visibility settings.
+
+Files are saved automatically using the format `modelname_traces_data` (for example, `GPT4_traces_data`).
+
+### Trace details
+
+Click a run record to open the **Traces** window, which includes:
+
+- **Input panel**: The request text provided to the model.
+- **Output panel**: The text output generated by the model.
+- **Metadata panel**: Request ID, base model, deployment name, deployment version, response time, input/output tokens, execution timestamp, source type, source, and user ID.
+
+Enable **JSON mode** to view the complete request or response payload in the code editor.

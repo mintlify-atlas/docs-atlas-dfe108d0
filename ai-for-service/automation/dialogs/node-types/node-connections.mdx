@@ -1,0 +1,87 @@
+---
+title: "Node connections"
+description: "Configure If-Else conditions on sequence connections and scope sub-intents using node groups in dialog tasks."
+---
+
+Node connections define how the conversation flows between nodes in a dialog task. This article covers two key aspects: configuring If-Else conditions on sequence connections, and scoping sub-intents using node groups.
+
+## Adding If-Else conditions to sequence connections
+
+The platform allows you to use If-Else conditions to configure node connections when you want the conversation to follow specific paths depending on specific information.
+
+**Example:** In a *Book a Flight* dialog task, if the AI Agent detects 5 or fewer passengers, it presents the standard offer; otherwise it presents a promotional offer.
+
+### Types of conditions
+
+| Condition type | Description |
+|------|----|
+| **If** | Directs the conversation on a specific path if specific criteria are met. Lets you configure Entity, Context, and Intent criteria. |
+| **Else** | Sets the node connection when the *If* condition criteria are not met. Only allows you to configure the next node to connect to. |
+| **Else If** | Configures another set of criteria when the initial *If* condition is not met. Lets you configure Entity, Context, and Intent criteria. |
+
+### Condition criteria
+
+<Tabs>
+  <Tab title="Entity">
+    Compares an Entity node in the dialog with a specific value:
+
+    1. Select the **Entity** (based on the Entity Node).
+    2. Select an **Operator**: exists, does not exist, equal to, greater than or equal to, less than or equal to, not equal to, greater than, less than, or contains.
+    3. Enter a **Value**. You can enter a static value or a dynamic variable such as context, environment, or content.
+    4. In the **Then go to** dropdown, choose the node to connect to if the condition is met.
+    5. Click **Add Path Label** to label this conversation path.
+
+    **Example:** *PassengerCount (entity) greater than (operator) 5 (value).*
+  </Tab>
+  <Tab title="Context">
+    Compares a context object in the dialog task with a specific value:
+
+    1. Select the **Context** object using the required syntax.
+    2. Select an **Operator**.
+    3. Enter a **Value**. You can enter a static value or dynamic variable.
+    4. In the **Then go to** dropdown, choose the next node.
+    5. Click **Add Path Label** to label this conversation path.
+
+    You can configure multiple context-based If conditions using **AND** or **OR** logic (not both in the same condition).
+  </Tab>
+  <Tab title="Intent">
+    For **Entity nodes**, this criterion lets you select a follow-up intent that matches the user utterance.
+
+    For **Message nodes**, you can choose `context.followupintent`, or select to wait for user input.
+  </Tab>
+</Tabs>
+
+### Node type applicability
+
+- **Primary Intent nodes** do not allow connection conditions at all—you can only choose the next node.
+- **Message Nodes** allow `context.followupintent` and *User Input* as Intent condition criteria.
+- **Agent Transfer nodes** provide no options to connect to a subsequent node—this node ends the AI Agent's process.
+
+## Sub-intent scoping using node groups
+
+Node groups define a group of nodes but are not part of the dialog flow. They are primarily used to scope sub-intents—controlling which sub-intents can be identified and executed while the user is at any node within the group.
+
+### Add a node group
+
+1. Open the dialog task where you want to add the group.
+2. Group the nodes via **More Options > Manage Groups**.
+3. Add, remove, edit, or delete nodes from the group at any time.
+
+### Configure a node group
+
+Node group configuration includes:
+
+- **Scoping of Intents** – Define sub-intents available while the user is at any node in the group.
+- **Sub-intent Training** – Train the sub-intent for recognition within this group.
+- **Sub-intent Properties** – Define the behavior of the sub-intent.
+
+### Sub-intent properties
+
+The **fulfillment** section defines actions when a sub-intent is identified:
+
+1. **Context Variables** – Set key-value pairs to update session or context variables.
+2. **Present a Message** – Optionally define a message to present to the user.
+3. **Context Output** – Define context tags to set when this intent is identified.
+4. **Transition Flow** – Define how the dialog resumes after executing the sub-intent:
+   - **Jump To A Node** – The dialog resumes from the specified node.
+   - **Resume The Dialog** – The dialog resumes from the node where the intent was identified.

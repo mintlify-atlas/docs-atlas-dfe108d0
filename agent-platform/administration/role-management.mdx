@@ -1,0 +1,142 @@
+---
+title: "Role management"
+description: "Control what users can do across Agent Platform with role-based access control for accounts, tools, and agentic apps."
+---
+
+Role management implements role-based access control (RBAC) for accounts, tools, and agentic apps. Every user must have a role.
+
+**Access**: **Settings** → **Users Management** → **Role Management**
+
+**Key points:**
+- **Account creator** → automatically assigned **Master Admin** (highest account-level access)
+- **Tool creator** → automatically assigned **Tool Admin**
+- **App creator** → automatically assigned **App Owner**
+- New users get the **Member** role by default
+
+## Key concepts
+
+### Roles
+
+| Category | Description |
+|---|---|
+| **System roles** | Built-in, preset permissions. Cannot be modified or deleted. |
+| **Custom roles** | Admin-defined roles with configurable permissions. Applies to Account and Tool types only. |
+
+### Role types
+
+| Role type | Assigned when | Governs |
+|---|---|---|
+| **Account** | User joins the account | Users, integrations, security settings |
+| **Tool** | User is invited to a tool | Tool configurations and deployments |
+| **App** | User is invited to an agentic app | App features, configurations, and deployments |
+
+### Access levels
+
+| Level | What the user can do |
+|---|---|
+| **Full** | View, add, edit, and delete |
+| **Custom** | View, add, and edit (no delete) |
+| **View** | View only |
+| **No Access** | Cannot access the module |
+
+## System roles
+
+### Account roles
+
+| Role | Description |
+|---|---|
+| **Master Admin** | Full control over all platform features: models, tools, integrations, users, and billing. Assigned to the account creator. |
+| **Admin** | Full access except model deletion, billing, and connectors. |
+| **Member** | Can create tools, add external models, and modify specific integrations. Default role for new users. |
+| **Viewer** | View-only access across all modules. |
+
+### Tool roles
+
+| Role | Description |
+|---|---|
+| **Tool Admin** | Full control over tool management, versioning, sharing, deployment, deletion, and API key creation. |
+| **Tool Manager** | All tool permissions except deletion. |
+| **Tool Editor** | Can create versions, deploy, monitor, and export tools. |
+| **Tool Viewer** | View-only access to node details; can generate output. |
+
+### App roles
+
+| Role | Description |
+|---|---|
+| **App Owner** | Full administrative access across all platform features. Cannot be removed from the system. |
+| **App Admin** | Full access to most platform features. Can manage all roles except the App Owner's permissions. |
+| **App Developer** | Full access to core development features. Limited admin access. |
+| **App Tester** | View-only access to most features for observing and testing agents and analytics. |
+| **App Viewer** | Basic view-only access to configurations, tools, guardrails, and simulation. |
+
+## Custom roles
+
+Custom roles apply to **Account** and **Tool** role types only.
+
+**Rules:**
+- Custom roles appear in the invitation dropdown and can be assigned to invited users.
+- You cannot delete a custom role that is assigned to active users. Reassign or remove those users first.
+
+### Add a custom role
+
+1. Go to **Settings** → **Users Management** → **Role Management**.
+2. Click **Add New Role**.
+3. Enter a unique **Role Name** and **Role Description**.
+4. Select a **Role Type**: **Account** or **Tool**.
+5. Set the access level for each module.
+6. Click **Create**.
+
+### Edit a custom role
+
+<Note>Updating a custom role immediately changes permissions for all users currently assigned to it. The Role Type cannot be changed after creation.</Note>
+
+1. Click the **...** menu for the custom role.
+2. Select **Edit**.
+3. Update Role Name, Role Description, or Access level.
+4. Click **Update**.
+
+### Delete a custom role
+
+You can only delete custom roles not assigned to any active users.
+
+1. Ensure no users are assigned to the role (reassign or delete them first).
+2. Click the **...** menu for the custom role.
+3. Select **Delete**, then confirm.
+
+### Duplicate a role
+
+Duplicating copies the role's name, type, and all permission settings into a new custom role that you can modify.
+
+1. Click the **...** menu for any role.
+2. Select **Duplicate**.
+
+The duplicate appears with the original name followed by `_copy`.
+
+## Key module permissions
+
+### Account role permissions
+
+| Module | Master Admin | Admin | Member | Viewer |
+|---|:---:|:---:|:---:|:---:|
+| Create tools | Yes | Yes | Yes | No |
+| Add external model | Yes | Yes | Yes | No |
+| Create/fine-tune custom model | Yes | Yes | No | No |
+| Manage deployments | Yes | Yes | No | No |
+| Delete model | Yes | No | No | No |
+| Invite users | Yes | Yes | No | No |
+| Manage roles | Yes | Yes | No | No |
+| Security and control | Yes | Yes | No | No |
+| Billing | Yes | No | No | No |
+
+### App role permissions
+
+| Feature | App Owner | App Admin | App Developer | App Tester | App Viewer |
+|---|:---:|:---:|:---:|:---:|:---:|
+| App configuration | Full | Full | Full | View | View |
+| Agents | Full | Full | Full | View | View |
+| Code tools | Full | Full | Full | View | View |
+| Analytics | Full | Full | Full | View | No Access |
+| Environments | Full | Full | View | View | No Access |
+| API keys | Full | Full | View | View | No Access |
+| Guardrails | Full | Full | Full | View | View |
+| Sharing & permissions | Full | Full | Full | View | No Access |

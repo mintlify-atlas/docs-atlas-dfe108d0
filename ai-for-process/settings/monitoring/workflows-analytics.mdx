@@ -1,0 +1,127 @@
+---
+title: "Workflow analytics"
+description: "Monitor deployed workflow run success rates, average response times, and node executions using time-based and workflow-specific filters."
+---
+
+The **Workflows Analytics Dashboard** tracks the performance of deployed workflows and their versions. Use it to monitor run success and failure rates, average response times (ART), and event-based node executions.
+
+## Access the dashboard
+
+<Steps>
+  <Step title="Open Settings">
+    Log in and click **Settings** in the AI for Process top menu.
+  </Step>
+  <Step title="Navigate to Analytics">
+    On the left menu, select **Monitoring** > **Analytics**.
+  </Step>
+  <Step title="Open Workflow Analytics">
+    Click the **Workflows Analytics** tab. The dashboard loads with data for the last 7 days by default.
+  </Step>
+</Steps>
+
+To load the latest data at any time, click the **Refresh** icon.
+
+## Key metrics
+
+### Account-level metrics
+
+These metrics summarize activity across all workflows for the selected period:
+
+- **Number of workflows**: Total deployed workflows, including all versions.
+- **Number of runs**: Total successful and failed workflow runs across all deployed workflows.
+- **Number of times nodes are executed**: Event-driven execution counts for all node types.
+
+### Workflow-specific metrics
+
+These metrics appear in the performance widgets for the selected workflow and version:
+
+- **Workflow Runs**: Success and failure trends for workflow runs.
+- **Avg. Workflow Response Time**: ART for the selected workflow version.
+- **Nodes Execution**: Event-based execution graph for all node types, up to your account's rate limit.
+
+## Filter dashboard data
+
+### Global Timeline Filters
+
+Select the time period for all dashboard metrics from the top panel. Available options:
+
+| Filter | Description |
+|---|---|
+| 24 hours | Data for all hours in the past day. |
+| 7 days | Data for all days in the past week (default). |
+| 30 days | Data for all days in the past month. |
+| 90 days | Data for all days in the past three months. |
+| This Month | Data from the first day of the current month to today. |
+| Last Month | Data for the entire previous month. |
+| This Year | Data from January 1 of the current year to today. |
+| Last Year | Data for the entire previous calendar year. |
+| Custom | Select a day or date range from the calendar widget. |
+
+<Note>
+- Select only current or past dates. Future dates are not supported.
+- Data is available for up to one year from the current date.
+- For date ranges: only consecutive dates are supported. Alternate or random date selections are not allowed.
+</Note>
+
+### Workflow Performance Filters
+
+These filters apply only to workflow-specific metrics and work alongside a global timeline selection:
+
+- **Workflow Name**: Select a deployed workflow from the list.
+- **Workflow Version**: Select a version of the chosen workflow.
+
+<Note>If no versions exist for a workflow, the dropdown is empty. By default, data for all workflow versions is shown unless you select a specific version.</Note>
+
+## Performance widgets
+
+To load data:
+
+1. Select a date or date range using the Global Timeline Filters.
+2. Select a **Workflow Name** and optionally a **Workflow Version**.
+
+Selecting a single day shows hourly data; selecting a date range shows daily data. Hover over any data point to view metrics for that specific date and time.
+
+### Workflow Runs
+
+Shows successful and failed workflow runs as two line graphs.
+
+- Successful runs display in green; failed runs in red.
+- Hover over a data point to view the total, successful, and failed request counts.
+
+<Warning>The widget shows data only for periods the workflow was deployed. No data points appear for hours or days with no activity.</Warning>
+
+Use this widget to:
+- Monitor success versus failure rates and identify failure patterns.
+- Identify peak and low performance periods.
+- Detect sudden spikes in failures or performance drops.
+- Compare performance across workflow versions.
+
+### Avg. workflow response time
+
+Shows a line graph of the ART for each request the selected workflow version handles.
+
+- Hover over a data point to view the date, ART for that hour or day, and the number of requests processed.
+- The widget shows the **Overall ART** — the aggregated ART across the selected period.
+
+Use this widget to:
+- Identify bottlenecks by spotting sudden ART spikes.
+- Track optimization progress before and after workflow changes.
+- Compare ART across workflow versions.
+
+### Nodes Execution
+
+Shows a line graph of nodes executed per event run. The Y-axis is fixed to the maximum rate limit for your account. A red line marks the rate limit threshold.
+
+Hover over a data point to view **Total Events** — the combined execution count for Start, AI, Function, Condition, API, DocSearch, and End nodes.
+
+Use this widget to:
+- Identify overused nodes or inefficient workflows.
+- Stay within subscription thresholds by tracking node executions against your rate limit.
+
+## Expanded widget view
+
+Expand any widget for a drill-down view of analytics. Each expanded view has its own Global Timeline and Workflow Performance filters.
+
+<Warning>Filter changes in the expanded view don't affect the main dashboard or global filters.</Warning>
+
+To expand a widget, hover over its top-right corner and click the **double-arrow** icon.

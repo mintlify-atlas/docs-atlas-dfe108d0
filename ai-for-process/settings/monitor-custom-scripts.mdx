@@ -1,0 +1,169 @@
+---
+title: "Monitor custom scripts"
+description: "Track custom script executions, analyze run and log-level metrics, filter results, and troubleshoot performance issues."
+---
+
+**Monitoring > Custom Scripts** provides run-level and log-level visibility into custom scripts deployed in your AI for Process account. It tracks executions across API nodes, Function nodes, and direct API calls for the selected period.
+
+## Prerequisites
+
+- At least one custom script must be deployed and executed via API call or API/Function node.
+- If a previously executed script is undeployed, existing run and log data remains accessible. No new runs or logs are generated until the script is redeployed and executed again.
+
+## Access Custom Scripts monitoring
+
+<Steps>
+  <Step title="Open Settings">
+    Go to **Settings** in the AI for Process top menu.
+  </Step>
+  <Step title="Navigate to Custom Scripts">
+    In the left menu, select **Monitoring** > **Custom scripts**.
+  </Step>
+  <Step title="Select a script">
+    If accessing for the first time, select a script from the dropdown. The dashboard loads data for the last week by default.
+  </Step>
+</Steps>
+
+## Dashboard overview
+
+The dashboard has two tabs:
+
+- **All Runs** — Run-level data including status, deployed version, response time, function, and source.
+- **Logs** — Log-level data for functions executed within the script.
+
+| Control | Description |
+|---|---|
+| **Script Name** dropdown | Switch between deployed and executed scripts. |
+| **Time Selection** filter | View data for a specific period. |
+| **Filter By** | Multi-field, multi-level filter for targeted analysis. |
+
+## All Runs tab
+
+### Performance metrics
+
+| Metric | Description |
+|---|---|
+| **Total Runs** | Total executions since deployment. |
+| **Response Time (P90)** | 90% of runs complete within this time. |
+| **Response Time (P99)** | 99% of runs complete within this time. |
+| **Failure Rate** | Percentage of failed runs. |
+
+### Run-level data
+
+| Column | Description |
+|---|---|
+| **Run ID** | Unique identifier for the script run. |
+| **Status** | Success, Failed, or In Progress. |
+| **Deployment Version** | Version number, incrementing with each deployment. |
+| **Response Time** | Execution duration. Empty for failed or in-progress runs. |
+| **Function** | Name of the executed function. |
+| **Executed On** | Date and time of execution. |
+| **Source Type** | Workflow or API (from endpoint). |
+| **Source** | Name of the triggering source. |
+
+## Logs tab
+
+Shows execution logs captured during script runs.
+
+<Note>
+- **Default logging** (`print()`, `console.log()`): Logs appear only after the run completes.
+- **korelogger**: Logs populate in real-time with structured log levels (Info, Debug, Warning, Error).
+- **Failed runs** can generate logs if logging is implemented correctly.
+</Note>
+
+### Log-level data
+
+| Column | Description |
+|---|---|
+| **Log ID** | Unique log identifier. |
+| **Log Level** | Stdout, Stderr, Info, Debug, Warning, or Error. |
+| **Log Message** | Recorded message for the specific action. |
+| **Timestamp** | Date and time of the log entry. |
+
+## Filter runs and logs
+
+### Time-based filtering
+
+Use the **Custom** time selection dropdown to filter by a specific past period or the current day.
+
+### Column filtering
+
+<Steps>
+  <Step title="Open the filter">
+    Select the **All Runs** or **Logs** tab. Click the **Filter** icon and click **+ Add Filter**.
+  </Step>
+  <Step title="Configure">
+    Select a column, operator, and value. Click **Apply**.
+  </Step>
+</Steps>
+
+The **contains** operator matches results including a specific keyword. Combine multiple filters using AND or OR operators. AND and OR cannot be mixed in the same filter set.
+
+## Record view
+
+Click any run in **All Runs** to open the record view, which shows:
+
+- Run ID.
+- Log-level details: Log ID, Log level, Log message, and Timestamp.
+- JSON editors showing the script's input and the function's output.
+
+Use the record view to trace a specific run for debugging, inspect input and output values, and identify failures or misconfigured logic.
+
+## Enhanced logging
+
+AI for Process supports two logging options for custom scripts running on the gVisor service:
+
+### Standard logging
+
+Use default logging functions. Logs are captured as `stdout` after execution completes.
+
+```python
+def check_print_function():
+    print("Checking print function...")
+    print("Print function is working!")
+```
+
+### korelogger (recommended)
+
+Supports structured log levels and enables real-time log streaming.
+
+```python
+import korelogger
+def call_openai_chat(prompt):
+    korelogger.debug("Debug log using korelogger")
+    korelogger.info("Info log using korelogger")
+    korelogger.warning("Warning log using korelogger")
+    korelogger.error("Error log using korelogger")
+```
+
+Output format:
+
+```text
+DEBUG :: Debug log using korelogger
+INFO :: Info log using korelogger
+WARNING :: Warning log using korelogger
+ERROR :: Error log using korelogger
+```
+
+Log entries use these identifying markers:
+
+| Field | Description |
+|---|---|
+| `traceparent` | Links related operations together. |
+| `run_id` | Identifies each script execution. |
+| `deployment_id` | Tracks which version of the script ran. |
+| `source` | Shows where the log came from. |
+| `source_type` | Categorizes the type of source. |
+
+## Export runs and logs
+
+<Steps>
+  <Step title="Open the export">
+    Select the **All Runs** or **Logs** tab. Click the **Ellipses** button and select **Export**.
+  </Step>
+</Steps>
+
+The export reflects the selected date range and applied column filters. Files are saved as:
+
+- Runs data: `<scriptname>_runs_data`
+- Logs data: `<scriptname>_logs_data`

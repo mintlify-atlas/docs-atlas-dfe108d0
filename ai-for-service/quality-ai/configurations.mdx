@@ -1,0 +1,191 @@
+---
+title: "Quality AI configurations"
+description: "Configure evaluation metrics, forms, Auto QA settings, taxonomy, and conversation sources for Quality AI."
+---
+
+Quality AI provides extensive configuration options to tailor automated evaluation, analytics, and coaching to your contact center's needs.
+
+## General settings
+
+Configure app-level behavior, access controls, and language preferences for Quality AI.
+
+| Setting | Description |
+|---------|-------------|
+| **Auto QA scoring** | Enable automated scoring for 100% of interactions |
+| **Agent access** | Control whether agents can see their own interaction scores and evaluations |
+| **Auditor anonymity** | Hide auditor names from agents when sharing evaluation results |
+| **Language** | Set the primary language for AI evaluation and insights |
+
+To configure, go to **Quality AI** > **Configure** > **General Settings**.
+
+## Conversation sources
+
+Manage where Quality AI ingests voice and chat conversations from.
+
+### Supported sources
+
+| Source | Type | Description |
+|--------|------|-------------|
+| **Contact Center AI** | Native | Direct integration with Kore.ai CCAI |
+| **Agent AI** | Native | Conversations from the Agent AI widget |
+| **Quality AI Express** | File-based | Upload recordings/transcripts from external CCaaS platforms |
+
+### Configuring a conversation source
+
+<Steps>
+  <Step title="Open Conversation Sources">
+    Go to **Quality AI** > **Configure** > **Conversation Sources**.
+  </Step>
+  <Step title="Select source type">
+    Choose Contact Center AI, Agent AI, or Quality AI Express.
+  </Step>
+  <Step title="Configure connection">
+    For external sources, specify the file format, upload frequency, and authentication.
+  </Step>
+  <Step title="Enable auto-processing">
+    Toggle on automatic processing to start ingesting conversations immediately on upload.
+  </Step>
+</Steps>
+
+## Evaluation metrics
+
+Define what Quality AI measures and how it scores agent performance.
+
+### Metrics measurement types
+
+<AccordionGroup>
+  <Accordion title="By Question">
+    Evaluate agent responses to specific questions, either statically (fixed expected answer) or dynamically (AI-judged).
+    
+    Use case: Confirm the agent asked required compliance questions.
+  </Accordion>
+  <Accordion title="By AI Agent">
+    Use an AI agent to assess multiple conversation aspects in a single evaluation call, reducing latency.
+    
+    Use case: Holistic evaluation of conversation quality using a custom evaluation prompt.
+  </Accordion>
+  <Accordion title="By Playbook Adherence">
+    Measure how well agents follow established procedures and scripts.
+    
+    Use case: Verify agents follow the required call opening and closing scripts.
+  </Accordion>
+  <Accordion title="By Dialog Task">
+    Evaluate adherence to predefined dialog task steps and behavioral requirements.
+    
+    Use case: Confirm the agent completed all required steps in a guided sales process.
+  </Accordion>
+  <Accordion title="By Value">
+    Validate agent accuracy against backend data using LLM-powered entity recognition.
+    
+    Use case: Verify the agent confirmed the correct order number with the customer.
+  </Accordion>
+  <Accordion title="By Speech">
+    Assess voice behaviors such as crosstalk, dead air, and speaking rate.
+    
+    Use case: Flag calls with excessive silence or simultaneous talking.
+  </Accordion>
+  <Accordion title="By Hold Etiquette">
+    Evaluate how agents manage customer holds during voice interactions.
+    
+    Use case: Confirm the agent asked permission before placing the customer on hold.
+  </Accordion>
+  <Accordion title="By Transfer Etiquette">
+    Assess how agents handle internal customer transfers.
+    
+    Use case: Verify the agent properly briefed the receiving agent before transferring.
+  </Accordion>
+</AccordionGroup>
+
+### Creating an evaluation metric
+
+<Steps>
+  <Step title="Open Evaluation Metrics">
+    Go to **Quality AI** > **Configure** > **Evaluation Criteria** > **Metrics**.
+  </Step>
+  <Step title="Add a new metric">
+    Click **+ Add Metric** and select the measurement type.
+  </Step>
+  <Step title="Configure the metric">
+    Set the name, description, scoring weight, and measurement parameters.
+  </Step>
+  <Step title="Test the metric">
+    Run the metric against sample conversations to validate the scoring behavior.
+  </Step>
+  <Step title="Save and activate">
+    Save the metric and add it to an evaluation form.
+  </Step>
+</Steps>
+
+## Evaluation forms
+
+Create standardized assessments aligned to queues and channels.
+
+### Form structure
+
+Each evaluation form contains:
+- **Sections** — logical groupings of related metrics
+- **Metrics** — individual evaluation criteria with weights
+- **Score thresholds** — pass/fail cutoffs for automated QA
+
+### Creating an evaluation form
+
+<Steps>
+  <Step title="Open Evaluation Forms">
+    Go to **Quality AI** > **Configure** > **Evaluation Forms**.
+  </Step>
+  <Step title="Create a new form">
+    Click **+ New Form**, enter a name, and select the applicable queues and channels.
+  </Step>
+  <Step title="Add sections and metrics">
+    Organize your metrics into logical sections (e.g., Opening, Issue Resolution, Closing).
+  </Step>
+  <Step title="Set scoring weights">
+    Assign percentage weights to each section and metric so they total 100%.
+  </Step>
+  <Step title="Set pass threshold">
+    Define the minimum score for an interaction to pass Auto QA evaluation.
+  </Step>
+  <Step title="Publish">
+    Publish the form to make it available for manual and Auto QA evaluations.
+  </Step>
+</Steps>
+
+## Agent scorecards
+
+Define agent-level evaluation criteria and combine metrics into agent attributes.
+
+Scorecards aggregate individual metric scores into an overall agent performance profile:
+- **Attributes** — categories of performance (e.g., Communication, Compliance, Resolution)
+- **Metrics per attribute** — the metrics that contribute to each attribute score
+- **Period** — daily, weekly, or monthly aggregation
+
+## Taxonomy builder
+
+Organize conversation topics to reflect your business priorities.
+
+### What it does
+
+The Taxonomy Builder lets you create a hierarchical structure of topics for conversation analysis. Conversations are automatically classified into your taxonomy, enabling you to:
+- Track conversation volume by topic
+- Identify trending issues
+- Filter analytics by specific topics
+
+### Creating a taxonomy
+
+<Steps>
+  <Step title="Open Taxonomy Builder">
+    Go to **Quality AI** > **Configure** > **Taxonomy Builder**.
+  </Step>
+  <Step title="Create top-level categories">
+    Add broad categories that reflect your main service areas (e.g., Billing, Technical Support, Account Management).
+  </Step>
+  <Step title="Add sub-topics">
+    Under each category, add more specific topics (e.g., Billing → Invoice Dispute, Payment Issue, Plan Change).
+  </Step>
+  <Step title="Define classification rules">
+    For each topic, provide example utterances or keywords that help the AI classify conversations.
+  </Step>
+  <Step title="Publish the taxonomy">
+    Publish to start classifying new and historical conversations.
+  </Step>
+</Steps>

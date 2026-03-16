@@ -1,0 +1,99 @@
+---
+title: "Tips and FAQs"
+description: "Best practices for data ingestion, chunking strategy, LLM selection, and frequently asked questions for Search AI."
+---
+
+This document covers best practices, how-to instructions, and frequently asked questions for building and managing Search AI solutions.
+
+## Best practices
+
+### Data ingestion
+
+**File best practices:**
+- Use **digitally created documents** rather than scanned or handwritten files
+- Maintain **consistent layouts** across pages
+- Ensure documents are **unencrypted** and password-free
+- **Single-column documents** work best; multi-column layouts may reduce accuracy
+- Remove unnecessary headers, footers, and metadata
+
+**Images and tables:**
+- Provide text descriptions for key information in images
+- Add contextual summaries before or after tables and images
+- Update extraction strategies for documents with significant visual content
+
+### Chunking strategy
+
+**Default chunk size:** 1000 tokens (customize based on your use case)
+
+| Use smaller chunks (300–500 tokens) when: | Use larger chunks (1000+ tokens) when: |
+|---|---|
+| Precise question answering | Reasoning tasks |
+| Technical documentation | Narrative content |
+| Multiple topics in one document | Contextual dependency |
+| Limited context windows | Multi-step procedures |
+
+### LLM selection
+
+| Content type | Recommended model | Reason |
+|---|---|---|
+| Simple FAQs, knowledge base | GPT-4o mini | Cost-effective for explicit information |
+| Technical docs, processes | GPT-4 Turbo | Better handling of technical concepts |
+| Legal, scientific, complex | GPT-4o | Superior reasoning for interpretation |
+| Specialized knowledge | Fine-tuned custom model | Industry-specific accuracy |
+
+**Context window guidelines:**
+
+| Context window | Recommended max tokens for chunks |
+|---|---|
+| 8k | 5,000–6,000 |
+| 16k | 12,000–13,000 |
+| 32k | 25,000–27,000 |
+| 64k+ | 50,000+ |
+
+## Frequently asked questions
+
+### Application training
+
+**When does auto-training occur?**
+On content ingestion (uploads, crawls, connector syncs).
+
+**When is manual training needed?**
+Config changes and content deletion.
+
+**Where to trigger manual training?**
+Extract or Vector Configuration page.
+
+**Training types:**
+
+| Type | Description | Scope |
+|------|-------------|-------|
+| Full Training | Complete training of the application | All content, regardless of changes |
+| Incremental Training | Training only for changed content | Additions, deletions, or modifications |
+
+### Multilingual support
+
+Search AI supports multilingual capabilities, enabling users to interact in their preferred language. Language support works with any language supported by your configured LLM and vector generation model.
+
+**Re-ranker recommendations:**
+
+| Model | Best for |
+|-------|----------|
+| Cross Encoder (ms-marco-MiniLM) | English — lightweight and fast |
+| BGE Re-Ranker (bge-reranker-v2-m3) | Multilingual — lightweight with broad language support |
+| MixedBread Re-Ranker | Highest accuracy — resource intensive |
+
+### User feedback handling
+
+Users express satisfaction through thumbs up/down actions captured via the Web SDK or Public API.
+
+**Enabling feedback:**
+1. Navigate to **Configuration > Answer Generation**
+2. Enable **Feedback Configuration**
+
+**Viewing feedback:** Navigate to **Analytics > Search AI > Answer Insights**.
+
+| Scenario | Display |
+|----------|--------|
+| Majority positive | Green indicator with positive count |
+| Majority negative | Red indicator with negative count |
+| Mixed feedback | Highlights majority sentiment |

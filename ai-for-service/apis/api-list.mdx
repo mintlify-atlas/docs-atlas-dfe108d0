@@ -1,0 +1,111 @@
+---
+title: "AI for Service API list"
+description: "REST APIs across all AI for Service modules for building integrations, automating workflows, and extracting insights."
+---
+
+AI for Service exposes REST APIs across its product modules, enabling you to build integrations, automate workflows, and extract insights programmatically.
+
+<Note>All APIs are subject to rate limits. If a rate limit is exceeded, the API call fails with: "Rate limit for this API has been reached. Please try again after some time." For details, see [Rate Limits](/ai-for-service/apis/rate-limit).</Note>
+
+## Automation AI APIs
+
+APIs for bot lifecycle management, NLP training, analytics, admin operations, and data table access.
+
+| Category | Description |
+|----------|-------------|
+| **Bot management** | Create, update, import, export, and delete AI agents |
+| **NLP training** | Submit and manage ML training, utterances, and FAQ training |
+| **Analytics** | Retrieve conversation metrics, user analytics, and performance data |
+| **Admin operations** | Manage users, roles, and account settings programmatically |
+| **Data tables** | Read and write data to custom data tables |
+
+See [API introduction](/ai-for-service/apis/automation/api-introduction) for authentication setup.
+
+## Contact Center AI APIs
+
+APIs for agent and queue management, analytics, campaign operations, and voice gateway capabilities.
+
+| Category | Description |
+|----------|-------------|
+| **Agent management** | Manage agent profiles, status, and assignments |
+| **Queue management** | Configure and monitor contact center queues |
+| **Analytics APIs** | Access operational metrics, reports, and real-time data |
+| **Campaign APIs** | Create, update, and manage outbound campaigns |
+| **Voice Gateway** | Control voice interactions and SIP configurations |
+
+## Agent AI APIs
+
+APIs for retrieving conversation data, controlling transcription sessions, and triggering post-conversation hooks.
+
+| Category | Description |
+|----------|-------------|
+| **Conversation data** | Retrieve conversation transcripts and AI suggestion logs |
+| **Transcription control** | Start, stop, and manage real-time transcription sessions |
+| **Webhook hooks** | Trigger post-conversation automations and data exports |
+
+## Quality AI APIs
+
+APIs for accessing raw Quality AI data and Auto QA scoring reports.
+
+| Category | Description |
+|----------|-------------|
+| **Raw data access** | Export conversation data for custom analysis |
+| **Auto QA reports** | Retrieve automated quality scoring results |
+| **Scoring data** | Access agent evaluation scores and criteria breakdowns |
+
+## Search AI APIs
+
+APIs for answer generation, content and chunk management, data ingestion, connectors, and app import/export.
+
+| Category | Description |
+|----------|-------------|
+| **Answer generation** | Query the Search AI engine and retrieve answers programmatically |
+| **Content management** | Add, update, and delete content in the search index |
+| **Data ingestion** | Ingest structured and unstructured data into Search AI |
+| **Connectors** | Configure and manage content source connectors |
+| **App import/export** | Export and import Search AI application definitions |
+
+## Common API patterns
+
+### Authentication
+
+All APIs use JWT bearer token authentication. See [API introduction](/ai-for-service/apis/automation/api-introduction) for token generation.
+
+```bash
+curl -X GET "https://bots.kore.ai/api/v1/..." \
+  -H "Authorization: Bearer {jwt-token}" \
+  -H "Content-Type: application/json"
+```
+
+### Base URL
+
+All API endpoints use the following base URL pattern:
+
+```
+https://bots.kore.ai/api/v1/
+```
+
+### Response format
+
+All APIs return JSON responses:
+
+```json
+{
+  "status": "success",
+  "data": { ... }
+}
+```
+
+### Error responses
+
+```json
+{
+  "status": "failure",
+  "errors": [
+    {
+      "msg": "Error message",
+      "code": 400
+    }
+  ]
+}
+```

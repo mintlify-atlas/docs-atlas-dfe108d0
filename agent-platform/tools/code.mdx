@@ -1,0 +1,227 @@
+---
+title: "Code tools"
+description: "Build tools with custom JavaScript or Python code for complex logic and dynamic processing."
+---
+
+Code tools execute custom scripts to perform tasks that require:
+
+- Complex business logic
+- Dynamic data processing
+- Custom calculations
+- Conditional operations beyond visual flows
+- Integration with systems requiring custom protocols
+
+**Supported languages**: JavaScript (Node.js) and Python (Python 3.x)
+
+## When to use
+
+Code tools are ideal when:
+
+- Logic is **dynamic or conditional**
+- You need **fine-grained control** over data handling
+- Visual workflows become **too complex**
+- External services require **custom integration**
+- You need **computational operations**
+
+| Use case | Why code works |
+|---|---|
+| SQL query processor | Dynamic query construction based on user input |
+| Custom validators | Complex validation rules with multiple conditions |
+| Data transformers | Parse and reshape data from various formats |
+| Algorithm execution | Mathematical calculations, sorting, filtering |
+
+## Creating a code tool
+
+<Steps>
+  <Step title="Create the tool">
+    Navigate to **Tools** → **+ New Tool**. Select **Code Tool** and choose language (JavaScript or Python).
+  </Step>
+
+  <Step title="Define metadata">
+    | Field | Description |
+    |---|---|
+    | **Name** | A unique descriptive name. Only alphabets, numbers, and underscores allowed. |
+    | **Description** | A clear description of the tool's functionality. The agent uses this to determine when to invoke the tool. |
+    | **Include tool response in artifacts** | When enabled, the tool's response is included in the `artifacts` field of the Execute API response. |
+  </Step>
+
+  <Step title="Define input parameters">
+    For each parameter, specify:
+
+    | Field | Description |
+    |---|---|
+    | **Name** | A unique identifier for the parameter |
+    | **Description** | Explains the parameter's purpose; helps the agent extract relevant data from user input |
+    | **Type** | string, number, boolean, list of values, or object |
+    | **isMandatory** | Whether the parameter is required |
+    | **Default value** | A fallback value used when the parameter isn't found |
+  </Step>
+
+  <Step title="Define output parameters">
+    Choose one of the following modes:
+
+    - **Use complete tool output** — Returns the entire tool response without modification. Recommended as the default.
+    - **Define custom parameters** — Extracts specific values from the tool's response and maps them as structured outputs.
+
+    For each custom output parameter, specify the name, type, and path to the value in the response payload. Use **Output Routing** to route to **Agent** or **Artifacts**.
+  </Step>
+
+  <Step title="Write code">
+    Your code must define an `execute` function as the entry point.
+
+    <CodeGroup>
+    ```javascript JavaScript
+    async function execute(input, context) {
+      const { query_text, max_results = 100 } = input;
+
+      try {
+        const results = await processQuery(query_text, max_results);
+        return {
+          success: true,
+          data: results,
+          count: results.length
+        };
+      } catch (error) {
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+    }
+    ```
+
+    ```python Python
+    def execute(input: dict, context: dict) -> dict:
+        query_text = input.get("query_text")
+        max_results = input.get("max_results", 100)
+
+        try:
+            results = process_query(query_text, max_results)
+            return {
+                "success": True,
+                "data": results,
+                "count": len(results)
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e)
+            }
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Test">
+    Click **Run Sample Execution**. Provide sample input values for each parameter and review the output and execution logs.
+  </Step>
+
+  <Step title="Deploy">
+    Click **Deploy** to make the tool available to agents. Once deployed, the agent automatically invokes the tool when a matching intent is detected.
+  </Step>
+</Steps>
+
+## Code structure
+
+### Entry point
+
+<CodeGroup>
+```javascript JavaScript
+async function execute(input, context) {
+  // Your code here
+  return output;
+}
+```
+
+```python Python
+def execute(input: dict, context: dict) -> dict:
+    # Your code here
+    return output
+```
+</CodeGroup>
+
+### Context object
+
+The `context` object provides access to environment and runtime info:
+
+```javascript
+const context = {
+  env: {
+    API_KEY: "sk-xxxx",
+    DB_CONNECTION: "postgres://..."
+  },
+  session: {
+    id: "session_123",
+    user_id: "user_456"
+  },
+  memory: {
+    // Session memory store
+  }
+};
+```
+
+### Environment variables
+
+<CodeGroup>
+```javascript JavaScript
+const apiKey = context.env.API_KEY;
+const dbUrl = context.env.DATABASE_URL;
+```
+
+```python Python
+api_key = context["env"]["API_KEY"]
+db_url = context["env"]["DATABASE_URL"]
+```
+</CodeGroup>
+
+Set environment variables under **Settings** → **Environment**.
+
+## HTTP requests
+
+<CodeGroup>
+```javascript JavaScript (fetch)
+async function execute(input, context) {
+  const response = await fetch('https://api.example.com/data', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${context.env.API_KEY}`
+    },
+    body: JSON.stringify(input)
+  });
+
+  const data = await response.json();
+  return { success: true, data };
+}
+```
+
+```python Python (requests)
+import requests
+
+def execute(input: dict, context: dict) -> dict:
+    response = requests.post(
+        'https://api.example.com/data',
+        headers={
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {context["env"]["API_KEY"]}'
+        },
+        json=input
+    )
+    return {"success": True, "data": response.json()}
+```
+</CodeGroup>
+
+## Execution limits
+
+| Limit | Value |
+|---|---|
+| Timeout | 30 seconds (configurable) |
+| Memory | 256 MB |
+| Output size | 1 MB |
+
+## Best practices
+
+- **Keep functions focused**: One tool = one capability. Don't combine unrelated logic.
+- **Validate input early**: Check required fields before processing.
+- **Handle edge cases**: Empty inputs, null values, invalid formats, API failures.
+- **Handle errors gracefully**: Always return structured error responses instead of throwing.
+- **Document your code**: Add comments for complex logic and business rules.

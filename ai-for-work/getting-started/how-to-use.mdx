@@ -1,0 +1,65 @@
+---
+title: "Using the AI for Work Assistant"
+description: "Learn how to use the AI for Work Assistant to execute tasks, manage workflows, and coordinate across connected apps using natural language."
+---
+
+The AI for Work Assistant is your workspace hub for executing tasks, managing workflows, and coordinating across connected apps using natural language.
+
+## Getting started
+
+Log in at [https://work.kore.ai/login/](https://work.kore.ai/login/). The AI for Work Assistant is available on the homepage.
+
+Type an open-ended question or instruction in the **Ask or search anything** search box. For example, if you're connected to Jira, type `Get my Jira issues` — the Jira agent retrieves your issues automatically.
+
+## Agentic flow
+
+The platform manages complex, multi-step workflows by organizing tasks into a structured sequence, each handled by a specialized agent. Each agent performs a unique function, executes in the correct order, and passes information seamlessly to the next — enabling multiple instructions to complete with minimal manual effort.
+
+**Key capabilities:**
+
+- Coordinate multiple agents across connected apps in a single instruction
+- Execute tasks sequentially with automatic handoff between agents
+- Edit or delete individual actions before starting the flow
+- Review and approve outputs (such as draft emails) before final execution
+
+**Use when**: You need to chain tasks across multiple apps or automate a multi-step workflow in one request.
+
+### Agentic flow example
+
+**Instruction**: "Get my Jira issues. Let me know John Doe's availability for a meeting tomorrow. Send the Jira issues to John Doe."
+
+**Agents involved:**
+
+1. **Jira** — Fetches your Jira issues
+2. **Google Calendar** — Checks John Doe's availability for a specified time
+3. **Gmail** — Sends the fetched Jira issues to John Doe via email
+
+**Steps to execute the flow:**
+
+<Steps>
+  <Step title="Enter your instructions">
+    Type your instructions and press Enter. Each action is mapped to its respective agent.
+  </Step>
+  <Step title="Review actions">
+    Hover over any instruction to display the **Edit** and **Delete** icons. Modify or remove individual actions as needed.
+  </Step>
+  <Step title="Start the flow">
+    Click **Start** to initiate the flow. Tasks execute sequentially.
+  </Step>
+  <Step title="Approve outputs">
+    The first two actions run automatically. For the third action, a draft email is created. Review and edit the draft, then click **Send** to complete the task.
+  </Step>
+</Steps>
+
+## File storage and data handling
+
+When you upload files during chat sessions, files are stored in managed cloud storage (AWS S3) under a multi-tenant architecture. This applies to:
+
+- All file uploads in platform chat sessions
+- Documents processed through Search AI functionality
+
+<Note>
+  Files uploaded during chat sessions are stored in the platform's cloud infrastructure.
+</Note>
+
+**Data security**: All files in the platform's managed storage are protected with industry-standard encryption to ensure data confidentiality and integrity.

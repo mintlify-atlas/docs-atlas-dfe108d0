@@ -1,0 +1,129 @@
+---
+title: "Quality AI analytics and audit"
+description: "Monitor performance, evaluate interactions, and make data-driven coaching decisions with Quality AI."
+---
+
+The Analyze section of Quality AI provides dashboards, analytics, and audit tools to help supervisors, QA managers, and agents monitor performance, evaluate interactions, and make data-driven coaching decisions.
+
+## Dashboards
+
+Access dashboards under **Quality AI** > **Analyze** > **Dashboards**.
+
+### Supervisor dashboard
+
+Real-time overview of audit results, agent performance, failure statistics, and scorecard trends.
+
+| Metric | Description |
+|--------|-------------|
+| **Auto QA score** | Average automated quality score across all interactions |
+| **Manual audit score** | Average score from human evaluator reviews |
+| **Failure rate** | Percentage of interactions that fall below the pass threshold |
+| **Top failure categories** | Most frequently failed evaluation metrics |
+
+Filter by date range (daily, weekly, monthly), queue, channel, and agent.
+
+### Agent dashboard (My Dashboard)
+
+Personalized workspace for agents showing:
+- Supervisor-assigned scorecards with current performance
+- Sentiment trend over time
+- Individual interaction scores and evaluation feedback
+- Areas for improvement highlighted by Auto QA
+
+### Agent leaderboard
+
+Ranks agents by performance score across queues and channels. Supervisors can use the leaderboard to identify high performers and coaching candidates.
+
+### Adherence heatmap
+
+Visual timeline showing how consistently agents meet evaluation metrics over time. Each cell represents a time period, color-coded from green (high adherence) to red (low adherence).
+
+## Analytics and intelligence
+
+Access analytics under **Quality AI** > **Analyze** > **Intelligence**.
+
+### Conversation intelligence
+
+Post-interaction analytics dashboard covering:
+- **Agent efficacy** — Task completion rate, resolution time, handle time trends
+- **Customer experience** — Sentiment trends, satisfaction scores, resolution rates
+- **Contact center efficiency** — Volume by queue, peak hours, transfer rates
+
+### Customer Experience (CX) Insights
+
+Post-interaction view combining:
+- Customer sentiment over the conversation
+- Resolution outcome (resolved, unresolved, escalated)
+- Churn risk signals
+- Topic-level drivers of poor or positive experiences
+
+### Performance Insights
+
+Time-based visualization of agent communication quality:
+- Speaking pace and clarity scores
+- Empathy language usage
+- Filler word frequency
+- Evaluation score trends over time
+
+### Topic Discovery
+
+Interactive visual map that groups conversations by topic and overlays:
+- Sentiment distribution per topic
+- Resolution rate per topic
+- Average handle time per topic
+
+Use Topic Discovery to identify high-volume topics with poor resolution rates and prioritize coaching or workflow improvements.
+
+## Conversation mining and auditing
+
+Access audit tools under **Quality AI** > **Analyze** > **Conversation Mining**.
+
+### Conversation mining — Interactions
+
+Review and filter all scored interactions using:
+
+| Filter | Options |
+|--------|---------|
+| **Queue** | All queues or specific queues |
+| **Date range** | Custom date range or presets |
+| **Score range** | Filter by Auto QA score |
+| **Keyword** | Search conversation transcripts |
+| **Topic** | Filter by taxonomy topic |
+| **Resolution** | Resolved, unresolved, escalated |
+| **Agent** | Specific agent or team |
+
+### AI-assisted manual audit
+
+Evaluate voice and chat interactions with AI-generated insights alongside manual review.
+
+When you open an interaction for manual audit, Quality AI shows:
+- Auto QA scores for each metric
+- AI-generated evaluation rationale
+- Transcript with AI-highlighted key moments
+- Sentiment curve
+
+The auditor reviews the AI assessments, accepts or overrides each score, and submits the evaluation.
+
+### Audit allocations
+
+Assign interactions to auditors for structured manual QA:
+
+<Steps>
+  <Step title="Create an allocation">
+    Go to **Quality AI** > **Analyze** > **Audit Allocations** and click **+ New Allocation**.
+  </Step>
+  <Step title="Set criteria">
+    Define the interaction pool using filters (queue, date range, score range, agent, etc.).
+  </Step>
+  <Step title="Assign auditors">
+    Select the auditors responsible for this allocation and set their target volume.
+  </Step>
+  <Step title="Set deadline">
+    Specify a completion deadline for the allocation.
+  </Step>
+  <Step title="Publish">
+    Publish the allocation. Auditors see their assigned interactions in their queue.
+  </Step>
+</Steps>
+
+Track progress in real time on the Audit Allocations dashboard, which shows completed vs. pending reviews per auditor.

@@ -1,0 +1,148 @@
+---
+title: "Fine-tuned models"
+description: "Create custom models trained on your enterprise data for domain-specific tasks."
+---
+
+Fine-tuned models let you customize base models for your specific use cases by training them on your own datasets. You can fine-tune platform-hosted models or import base models from Hugging Face, then deploy them for inference within the platform or externally via API.
+
+## Create a fine-tuned model
+
+Go to **Models** → **Fine-tuned models** → **Start fine-tuning** and complete the following steps.
+
+<Steps>
+  <Step title="General details">
+    Enter model name, description, and tags for searchability.
+  </Step>
+
+  <Step title="Select base model">
+    **Platform-hosted**: Select from the dropdown list.
+
+    **Import from Hugging Face**: Select your Hugging Face connection and enter the model name.
+  </Step>
+
+  <Step title="Fine-tuning configuration">
+    | Parameter | Description |
+    |---|---|
+    | Fine-tuning type | Full fine-tune, LoRA, or QLoRA (availability depends on model size) |
+    | Number of epochs | How many times the model processes the entire dataset |
+    | Batch size | Training examples per iteration |
+    | Learning rate | Step size during optimization |
+
+    **Fine-tuning type by model size:**
+
+    | Base model parameters | Supported types |
+    |---|---|
+    | < 1B | Full fine-tune, LoRA, QLoRA |
+    | ≥ 1B and < 5B | LoRA, QLoRA |
+    | ≥ 5B and ≤ 8B | QLoRA only |
+  </Step>
+
+  <Step title="Training and evaluation datasets">
+    **Training dataset**: Upload JSONL, CSV, or JSON files with at least two columns: prompt and completion.
+
+    **Evaluation dataset** (choose one):
+    - **Use from training dataset**: Allocates a percentage (default 15%) for evaluation
+    - **Upload evaluation dataset**: Use a separate dataset
+    - **Skip evaluation**: Skip the evaluation step
+  </Step>
+
+  <Step title="Test dataset (optional)">
+    Upload a test dataset to evaluate the fine-tuned model after training completes.
+  </Step>
+
+  <Step title="Hardware selection">
+    Select the hardware configuration for fine-tuning.
+  </Step>
+
+  <Step title="Weights and Biases integration (optional)">
+    Connect your W&B account to monitor fine-tuning metrics in real-time.
+  </Step>
+
+  <Step title="Review and start">
+    Review all settings and click **Start fine-tuning**. The Overview page displays real-time progress.
+  </Step>
+</Steps>
+
+## Training overview
+
+The Overview page displays real-time fine-tuning progress:
+
+- **General information**: Progress status (Initializing, Training in progress, Testing in progress, Fine-tuning completed, Stopped, Failed)
+- **Training information**: Training type, steps, training loss, validation percentage, validation loss
+- **Test data information**: Model performance measured by BLEU score
+- **Hardware information**: CPU and GPU utilization during fine-tuning
+
+If fine-tuning fails, view the reason and click **Re-trigger** to restart.
+
+## Deploy a fine-tuned model
+
+1. Go to the model's **Overview** or **Model Endpoint** page and click **Deploy model**
+2. Enter deployment name, description, and tags
+3. Configure inference and scaling parameters
+4. Select hardware for deployment
+5. Review, accept terms, and click **Deploy**
+
+After deployment completes, the status changes to "Deployed" and an API endpoint is generated.
+
+### Deployment parameters
+
+**Inference parameters:**
+
+| Parameter | Description |
+|---|---|
+| Temperature | Controls randomness in output |
+| Maximum length | Maximum tokens to generate |
+| Top P | Nucleus sampling threshold |
+| Top K | Number of highest probability tokens |
+| Stop sequences | Tokens that stop generation |
+| Inference batch size | Concurrent request batching |
+
+**Scaling parameters:**
+
+| Parameter | Description |
+|---|---|
+| Min replicas | Minimum deployed replicas |
+| Max replicas | Maximum replicas for auto-scaling |
+| Scale up delay | Seconds before scaling up |
+| Scale down delay | Seconds before scaling down |
+
+## Manage deployed models
+
+### Model endpoint
+
+The API endpoint enables external inferencing. Available in cURL, Python, and Node.js formats.
+
+**Platform usage**: Use the deployed model in Prompt Playground or AI nodes in tool flows.
+
+### Deployment history
+
+The deployment history tracks all versions. Version naming auto-increments: first deployment is `ModelName_v1`, subsequent are `ModelName_v2`, `ModelName_v3`, etc.
+
+### API keys
+
+Generate API keys for secure external access (scoped per deployment). Keys are shown only once.
+
+### Configurations
+
+- **Model endpoint timeout**: 30–180 seconds (default: 60 seconds)
+- **Undeploy**: Disconnects the model from all active instances immediately
+- **Delete**: Removes the model and all associated data. Only available for undeployed models.
+
+## Re-deploy a model
+
+To update deployment parameters or hardware:
+
+1. Go to the deployed model's **Model Endpoint** page
+2. Click **Deploy model**
+3. Modify parameters as needed
+4. Complete the deployment wizard
+
+## Export a model
+
+1. On the **Models** page, click the three-dot menu next to the model name
+2. Select **Export model**
+3. The ZIP file downloads to your local machine
+
+## Iterative fine-tuning
+
+You can fine-tune on top of an existing fine-tuned model by selecting a previously fine-tuned model from the platform-hosted dropdown when choosing a base model.

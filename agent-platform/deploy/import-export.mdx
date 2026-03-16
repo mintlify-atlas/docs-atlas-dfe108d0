@@ -1,0 +1,180 @@
+---
+title: "App import and export"
+description: "Transfer app configurations between environments for backup, sharing, and migration."
+---
+
+Import and export functionality enables you to:
+
+- **Backup** app configurations.
+- **Share** setups across teams.
+- **Migrate** between environments.
+- **Version control** outside the platform.
+
+## Export
+
+### What's exported
+
+**App-level export** includes:
+
+| Component | Included |
+|---|---|
+| App metadata | Name, description, settings |
+| Orchestration | Pattern, configuration |
+| Agents | All agent definitions |
+| Tools | Workflow, code, MCP tools |
+| Knowledge | Search AI connections |
+| Events | Event configurations |
+| Memory stores | Schema definitions |
+| Variables | Environment and content variables |
+| MCP servers | Server configurations |
+
+**Not exported:**
+- API keys and secrets
+- Actual data in memory stores
+- Usage analytics
+- Deployment history
+
+### Export process
+
+1. Navigate to **Deploy** → **Export/Import**.
+2. Select **Export** tab.
+3. Choose export type: **App** (full application) or **Agents** (selected agents only).
+4. Select version (if applicable).
+5. Click **Export**.
+6. Download the JSON file.
+
+## Import
+
+### Prerequisites
+
+- Import permissions in your account
+- Valid JSON file (max 5 MB)
+- Target app must exist (for agent imports)
+
+### Import process
+
+1. Navigate to **Deploy** → **Export/Import**.
+2. Select **Import** tab.
+3. Upload JSON file.
+4. Review component summary.
+5. Resolve any conflicts (highlighted in red).
+6. Click **Import**.
+
+### Import order
+
+Components are imported in dependency order:
+
+```
+1. Tools (standalone)
+2. Agents
+3. App configuration
+4. Events
+5. Memory stores
+```
+
+## Handling conflicts
+
+### Missing dependencies
+
+```
+⚠️ Agent "Support Agent" references tool "get_order_status"
+   which does not exist in target environment.
+
+Options:
+- Import the tool first
+- Update agent to use existing tool
+- Skip this agent
+```
+
+### Model availability
+
+```
+⚠️ Agent uses model "gpt-4-custom" which is not available.
+
+Options:
+- Configure the model first
+- Select an alternative model
+```
+
+### Name conflicts
+
+```
+⚠️ Tool "get_order_status" already exists.
+
+Options:
+- Overwrite existing
+- Rename imported tool
+- Skip import
+```
+
+## Environment variables
+
+Variables are exported but values may need updating after import:
+
+```json
+{
+  "env_variables": [
+    {
+      "name": "API_KEY",
+      "value": "***REDACTED***",
+      "is_secret": true
+    },
+    {
+      "name": "API_URL",
+      "value": "https://api.example.com",
+      "is_secret": false
+    }
+  ]
+}
+```
+
+After import, navigate to **Settings** → **Environment** and update secret values.
+
+## Best practices
+
+### Before export
+
+- Test the app thoroughly.
+- Document the configuration.
+- Note any external dependencies.
+- Verify all tools are deployed.
+
+### Before import
+
+- Backup existing configuration.
+- Check model availability.
+- Prepare environment variables.
+- Review import summary carefully.
+
+### Migration checklist
+
+```markdown
+## Pre-migration
+- [ ] Export source configuration
+- [ ] Document external dependencies
+- [ ] List required API keys
+- [ ] Note model requirements
+
+## Import
+- [ ] Create target app (if new)
+- [ ] Upload configuration
+- [ ] Resolve conflicts
+- [ ] Update environment variables
+
+## Post-migration
+- [ ] Configure API keys
+- [ ] Test all agents
+- [ ] Verify tool functionality
+- [ ] Run diagnostics
+- [ ] Test end-to-end flows
+```
+
+## Troubleshooting
+
+| Issue | Solution |
+|---|---|
+| "Invalid JSON format" | Validate JSON syntax; check file wasn't corrupted. |
+| "File too large" | Maximum size is 5 MB. Split into separate exports. |
+| "Missing required field" | Ensure export is from a compatible version. |
+| Tools not working after import | Redeploy workflow tools; check API connections; verify environment variables. |
+| Agents not responding correctly | Review instruction import; check knowledge connections; verify model configuration. |

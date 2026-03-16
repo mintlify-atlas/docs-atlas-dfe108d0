@@ -1,0 +1,119 @@
+---
+title: "Using Prompt Studio"
+description: "Step-by-step guide to accessing Prompt Studio, creating prompts, and using the canvas."
+---
+
+## Access Prompt Studio
+
+1. Log in and select **Prompt Studio** from the modules list.
+2. On the dashboard, view prompts in three tabs: **All prompts**, **My prompts**, **Shared prompts**.
+3. Click **New prompt**, enter a name, and click **Proceed**.
+4. Choose a creation method: **Generate a prompt**, **Start from scratch**, or **Prompt library**.
+
+## Create prompts
+
+### Generate a prompt
+
+Expand a basic instruction into a detailed, comprehensive prompt using AI.
+
+1. Click **Generate a prompt**.
+2. Select a model and enter your instruction.
+3. Review the AI-generated prompt.
+4. Click **Proceed** to copy it to the canvas for customization.
+
+<Note>Only OpenAI and Anthropic models support prompt generation. You can also access this feature directly on the canvas via the **Generate Prompt** button.</Note>
+
+### Start from scratch
+
+Opens a blank canvas where you can manually write prompts, add variables, select models, and generate outputs with full control.
+
+### Prompt library
+
+Access 65+ pre-built templates for common use cases like code generation, summarization, and Q&A.
+
+1. Click **Prompt library**.
+2. Browse **My templates** (your saved templates) or **All templates** (built-in options).
+3. Select a template and click **Use template** to copy it to the canvas.
+
+<Note>Templates are read-only. Edit only after copying to the canvas.</Note>
+
+## Use the prompt canvas
+
+### Add prompts
+
+| Field | Purpose |
+|---|---|
+| **System prompt** | Define the model's role and behavior (optional—use toggle to enable/disable) |
+| **Prompt** | Provide task instructions for the model |
+| **Response JSON schema** | Define structured output format (optional) |
+
+Supported JSON schema types: String, Boolean, Number, Integer, Object, Array, Enum, anyOf.
+
+### Add variables
+
+Variables let you test prompts with multiple values simultaneously.
+
+**Syntax:** Use `{{variable_name}}` in your prompt.
+
+1. Add variables in the Prompt field using double curly braces (for example, `{{product}}`).
+2. When variables are added, a **Variables** column appears.
+3. Assign values to each variable. Click **Add an empty row** for multiple test cases.
+
+Variables are substituted with their values during execution, generating outputs for all rows at once.
+
+### Select models
+
+Compare up to 5 models to identify the best fit for your use case.
+
+1. Click the **Select Model** field.
+2. Choose a model and connection.
+3. Add additional models in columns to the right.
+4. Click the settings icon to adjust parameters (temperature, top k, top p, max tokens).
+
+### Generate output
+
+1. Click **Run** to generate outputs.
+2. Review results in the model columns, including: response text, token count, and response time.
+
+<Note>Maximum 10 rows can be generated simultaneously.</Note>
+
+## Canvas options
+
+### Model column options
+
+| Icon | Feature | Description |
+|---|---|---|
+| ★ | Bookmark | Set as preferred model (required when committing if none selected) |
+| ⚙ | Model settings | Adjust temperature, top k, top p, max tokens |
+| ▶ | Play | Regenerate output for the entire column |
+| ⌛ | Avg response time | View average generation time |
+| 💻 | Avg tokens | View mean input/output token usage |
+| ↻ | Regenerate | Regenerate output for a single cell |
+
+### Top toolbar options
+
+| Icon | Feature | Description |
+|---|---|---|
+| 📚 | Prompt library | Browse ~70 templates |
+| 🔗 | Prompt API | Share prompts via version-specific API endpoints |
+| 💾 | Save to library | Save current prompt as a reusable template |
+| 📄 | Draft history | Capture and restore canvas states |
+| 📤 | Export CSV | Export canvas data for analysis |
+| 👥 | Share | Share prompts for collaboration |
+| 🕐 | Versions | View, compare, and restore prompt versions |
+| ✓ | Commit | Save current prompt as a new version (V1, V2, etc.) |
+| ▶ | Run | Execute prompts and generate outputs |
+
+## Quick reference
+
+| Task | Action |
+|---|---|
+| Create prompt quickly | Use **Generate a prompt** with AI expansion |
+| Full control over prompt | Use **Start from scratch** |
+| Use proven templates | Browse **Prompt library** |
+| Test multiple scenarios | Add variables with `{{variable}}` syntax |
+| Compare model performance | Add up to 5 models side by side |
+| Fine-tune outputs | Adjust model settings (temperature, tokens) |
+| Save for reuse | Commit version or save to library |
+| Share with team | Use Share or Prompt API |
+| Analyze results | Export as CSV |

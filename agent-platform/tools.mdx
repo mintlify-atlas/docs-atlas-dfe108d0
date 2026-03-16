@@ -1,0 +1,168 @@
+---
+title: "Tools overview"
+description: "Enable agents to interact with external systems, retrieve data, and perform actions."
+---
+
+Tools are the functional extensions of an agent's intelligence—they enable agents to go beyond conversation by interacting with third-party applications, retrieving information, performing logic-based operations, and triggering workflows across complex environments.
+
+When an agent needs to take action, it:
+
+1. Identifies the appropriate tool based on the task
+2. Prepares the required parameters
+3. Invokes the tool through the platform
+4. Processes the results
+5. Incorporates the output into its response
+
+## Tool types
+
+The platform supports three tool types, each serving a different purpose.
+
+<CardGroup cols={3}>
+  <Card title="Workflow tools" icon="diagram-project" href="/agent-platform/tools/workflow">
+    Visual, no-code tools built with drag-and-drop. Best for well-defined, traceable processes.
+  </Card>
+  <Card title="Code tools" icon="code" href="/agent-platform/tools/code">
+    Custom JavaScript or Python functions. Best for complex logic and dynamic processing.
+  </Card>
+  <Card title="MCP tools" icon="plug" href="/agent-platform/tools/mcp">
+    Remote functions via Model Context Protocol. Best for enterprise integrations and shared toolsets.
+  </Card>
+</CardGroup>
+
+## Quick comparison
+
+| Aspect | Workflow | Code | MCP |
+|---|---|---|---|
+| Interface | Visual builder | Code editor | Server config |
+| Languages | No-code | JS, Python | Protocol-based |
+| Best for | Defined processes | Custom logic | External services |
+| Deployment | API endpoint | Inline execution | Remote server |
+| Skill level | Low | Medium-high | Medium |
+
+## How tool calling works
+
+```yaml
+User: "What's the weather in Tokyo?"
+
+1. Agent receives request
+   └─ Identifies need for external data
+
+2. Tool selection
+   └─ Matches "weather" to get_weather tool
+
+3. Parameter preparation
+   └─ Extracts: { "location": "Tokyo" }
+
+4. Tool invocation
+   └─ Platform calls the tool API
+
+5. Execution
+   └─ Tool fetches weather data
+
+6. Result processing
+   └─ Returns: { "temp": 22, "condition": "Sunny" }
+
+7. Response generation
+   └─ Agent: "It's currently 22°C and sunny in Tokyo."
+```
+
+## Tool anatomy
+
+Every tool has these components:
+
+**Name** — A unique identifier used in tool selection.
+
+```yaml
+name: get_order_status
+```
+
+**Description** — Explains what the tool does. The LLM uses this to decide when to invoke it.
+
+```yaml
+description: |
+  Retrieves the current status of a customer order including
+  shipping information, estimated delivery date, and tracking number.
+  Use when customers ask about their order status.
+```
+
+**Parameters and output:**
+
+<CodeGroup>
+```yaml Parameters accepted
+parameters:
+  order_id:
+    type: string
+    description: The unique order identifier (for example, ORD-12345)
+    required: true
+
+  include_history:
+    type: boolean
+    description: Whether to include status change history
+    required: false
+    default: false
+```
+
+```yaml Output returned
+output:
+  type: object
+  properties:
+    status:
+      type: string
+      enum: [pending, processing, shipped, delivered, cancelled]
+    tracking_number:
+      type: string
+    estimated_delivery:
+      type: string
+      format: date
+```
+</CodeGroup>
+
+## Creating tools
+
+### Create new
+
+1. Navigate to **Tools** in your app or the tools library.
+2. Click **+ New Tool**.
+3. Select tool type (Workflow, Code, or MCP).
+4. Configure name, description, and parameters.
+5. Build the tool logic.
+6. Test and deploy.
+
+### Import existing
+
+1. Click **Import Tool**.
+2. Upload a `.zip` file containing `flow_definition.json` (required), `app_definition.json` (optional), and `env_variables.json` (optional).
+3. Review and configure.
+4. Deploy.
+
+## Tool scopes
+
+### Library tools
+
+Created in the **Tools** section, independent of any app. Once deployed, library tools are accessible across multiple apps and act as templates—when imported into an app, they generate a local copy that can be customized without altering the original.
+
+### App-scoped tools
+
+Created within a specific agentic app, or imported from the library into an app. Changes apply only to the local copy and do not affect the library version.
+
+## Execution modes
+
+| Mode | Behavior | Use for |
+|---|---|---|
+| **Synchronous** | Tool executes immediately, agent waits for response | Real-time lookups, quick calculations |
+| **Asynchronous** | Tool executes in background, agent continues or waits for callback | Long-running processes, batch operations, external approvals |
+
+## Security
+
+- **API keys**: Tools are secured with API keys for external access.
+- **Role-based access**: Control who can view, edit, deploy, and access execution logs.
+- **PII protection**: Tools inherit app-level PII protection with input scanning and automatic masking in logs.
+
+## Monitoring
+
+Track tool performance with:
+
+- **Execution history** — Success/failure rates
+- **Response times** — Latency metrics
+- **Token usage** — For AI-powered tools
+- **Audit logs** — Who changed what, when

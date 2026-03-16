@@ -1,0 +1,176 @@
+---
+title: "Workflow overview"
+description: "Understand workflow architecture, create and configure workflows, and manage the full deployment lifecycle in AI for Process."
+---
+
+Workflows in AI for Process automate business processes by orchestrating AI models, integrations, and human decision points into a structured, executable sequence. Each workflow run is independent and stateless, producing predictable, repeatable outputs.
+
+## What is a workflow
+
+A workflow is a directed graph of nodes connected by transitions. You define the logic — what happens, in what order, under what conditions — and the platform executes it. Workflows do not retain memory between runs; each execution starts fresh from the inputs provided at runtime.
+
+Workflows can:
+
+- Process structured and unstructured data using AI models.
+- Integrate with external systems via APIs or pre-built connectors.
+- Route execution through conditional branches or parallel paths.
+- Pause and wait for human input before resuming.
+- Start automatically in response to external events or on a schedule.
+
+## Workflow architecture
+
+### Execution model
+
+A workflow runs from a Start node through processing nodes to an End node. The platform maintains a **context object** — a shared runtime state container — for the duration of each run. Nodes read inputs from this context and write their outputs back to it.
+
+```
+[Start Node] ─► [Node A] ─► [Node B] ─► [End Node]
+                 │
+                 ├─► [Node C]  ────► [End Node]
+                 │    (parallel branch)
+                 └─► [Node D]  ────► [End Node]
+```
+
+Key properties:
+
+- **Stateless**: The context object is discarded after each run.
+- **Sequential execution**: Nodes run one after another when tasks depend on prior results.
+- **Parallel execution**: Multiple branches from the same node run simultaneously. A single node supports up to 10 outgoing parallel branches.
+- **Context propagation**: Nodes reference outputs using `{{context.steps.NodeName.output}}` syntax, resolved at runtime.
+
+### Node types
+
+| Node category | Purpose |
+|---|---|
+| Start / End | Entry and exit points. Every workflow requires both. |
+| AI nodes | LLM-powered nodes for text, image, audio, and document processing. |
+| Integration nodes | Connect to third-party services via pre-built connectors or custom APIs. |
+| API nodes | Call external REST APIs and use the response in downstream nodes. |
+| Function nodes | Execute custom JavaScript or Python logic inline. |
+| Condition nodes | Route execution based on if/else expressions. |
+| Loop nodes | Iterate over a list, running child nodes for each item. |
+| Human nodes | Pause execution and send a task to the Inbox for human input. |
+| Agentic App nodes | Delegate a task to a deployed AI agent for autonomous reasoning. |
+| Doc Intelligence nodes | Parse and extract structured data from documents. |
+| Doc Search nodes | Query a knowledge base or vector store. |
+
+## Create a workflow
+
+<Steps>
+  <Step title="Open the Workflows page">
+    Log in and navigate to the **Workflows** page.
+  </Step>
+  <Step title="Create a new workflow">
+    Click **Create new workflow**. The **New workflow** dialog opens.
+  </Step>
+  <Step title="Enter details">
+    Enter a name and a brief description for the workflow.
+  </Step>
+  <Step title="Open the Flow Builder">
+    Click **Create**. The workflow is created and the **Workflow** page opens. You can now build your workflow in the Flow Builder.
+  </Step>
+</Steps>
+
+### Collaborate on workflows
+
+Account owners can invite users to collaborate on specific workflows. Invited users can access the Models and Data modules for the account but can only see the workflows they are invited to.
+
+<Steps>
+  <Step title="Open sharing settings">
+    Click **Workflows** in the top navigation bar and select the workflow. Then click **Sharing & Permissions** in the left navigation bar.
+  </Step>
+  <Step title="Invite collaborators">
+    Click **Invite**, enter the users' email addresses, and click **Invite** to grant access.
+  </Step>
+</Steps>
+
+## Configure a workflow
+
+From the **Configurations** page, you can update workflow details, set the sync/async mode, and manage environment variables.
+
+### Set sync/async mode
+
+The sync/async mode determines how the workflow endpoint responds to callers.
+
+- **Synchronous mode**: Blocks the client until the workflow completes and returns a response. Set the timeout duration (60–300 seconds, default: 180 seconds).
+- **Asynchronous mode**: The client continues while the workflow processes. Requires a callback URL and access token. Timeout range is 60–600 seconds (default: 180 seconds), or no timeout.
+
+<Steps>
+  <Step title="Open sync/async setup">
+    On the **Configurations** page, select **Setup sync/async**.
+  </Step>
+  <Step title="Configure the mode">
+    For async mode, turn on **Enable async** and enter the callback URL and access token.
+  </Step>
+  <Step title="Save">
+    Select **Save**.
+  </Step>
+</Steps>
+
+<Note>Timeout precedence: Workflow timeout > Node timeout > Model timeout.</Note>
+
+### Manage environment variables
+
+Environment variables store reusable values — such as API base URLs or configuration flags — that nodes across the workflow can reference. Marking a variable as secure encrypts its value.
+
+<Steps>
+  <Step title="Open environment variables">
+    On the **Configurations** page, select **Manage environment variables**.
+  </Step>
+  <Step title="Add a variable">
+    Select **Add** or **Add variable**. Provide the following and click **Save**:
+
+    | Field | Description |
+    |---|---|
+    | Variable name | A descriptive name for the variable. |
+    | Secure variable | Enable to encrypt the variable's value. |
+    | Value | The value to store. |
+    | Notes (optional) | Usage notes or context for the variable. |
+  </Step>
+</Steps>
+
+To edit or delete a variable, click the three-dots icon next to its name.
+
+## Deploy a workflow
+
+Deploying a workflow generates a dedicated API endpoint. The endpoint supports three delivery modes:
+
+| Endpoint type | How it works |
+|---|---|
+| Synchronous | The client sends a request and waits. The workflow processes and returns the response immediately. |
+| Asynchronous poll | The workflow processes independently. The client checks back periodically to retrieve the response. |
+| Asynchronous push | The workflow pushes the response to a client-provided callback URL when processing is complete. |
+
+<Note>Fix all errors and warnings in the workflow before deploying.</Note>
+
+<Steps>
+  <Step title="Open the workflow endpoint">
+    On the **Workflows** page, select the workflow and click **Workflow endpoint** in the left menu.
+  </Step>
+  <Step title="Deploy">
+    Click **Deploy**. The Sync and Async poll endpoints are generated automatically.
+  </Step>
+  <Step title="Enable async push (optional)">
+    Click the **Async push** tab, then click **Enable/Settings**. Configure the callback URL, access token, and timeout. Click **Save**.
+  </Step>
+</Steps>
+
+## Redeploy and undeploy
+
+- **Redeploy**: Select **Deploy** at the top right of the **Workflow endpoint** page. Redeployment does not change the endpoint URL.
+- **Undeploy**: On the **Configurations** page, select **Proceed to undeploy**. Undeploying disconnects the workflow from all active instances immediately.
+
+## Delete a workflow
+
+You can only delete a workflow that is not deployed. Deleting a workflow permanently removes it and all associated data. On the **Configurations** page, select **Proceed to delete** and follow the on-screen instructions.
+
+## Workflow management reference
+
+| Phase | Feature | Description |
+|---|---|---|
+| Build and design | Workflow Builder | Visual no-code/low-code builder for creating workflows and managing versions. |
+| Configure and manage | Configurations | Manage metadata, environment variables, and deployment settings. |
+| Collaborate | Sharing and Permissions | Invite users to collaborate on specific workflows. |
+| Deploy and integrate | Workflow Endpoint and API Keys | Deploy and generate API endpoints; create API keys for secure access. |
+| Monitor and optimize | Workflow Monitor | Track and analyze workflow executions to identify issues and optimize performance. |
+| Govern and audit | Guardrails and Audit Logs | Apply safety scanners and view detailed audit logs. |

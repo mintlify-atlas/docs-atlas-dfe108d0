@@ -1,0 +1,121 @@
+---
+title: "Models overview"
+description: "Configure and manage AI models for your agents, tools, and workflows."
+---
+
+Agent Platform is model-agnostic, supporting a wide range of AI models from commercial providers, open-source repositories, and custom fine-tuned deployments. Access Model Hub from the top navigation to manage all your models in one place.
+
+## Model types
+
+| Model type | Description | Best for |
+|---|---|---|
+| **External models** | Commercial models from OpenAI, Anthropic, Google, Azure, Cohere, and Amazon Bedrock | Production workloads requiring proven reliability |
+| **Open-source models** | 30+ curated models plus any Hugging Face text generation model | Cost control, customization, data privacy |
+| **Fine-tuned models** | Custom models trained on your enterprise data | Domain-specific tasks, consistent outputs |
+
+## External models
+
+Connect commercial models with minimal setup using Easy Integration or API Integration.
+
+### Supported providers
+
+| Provider | Popular models | Tool calling |
+|---|---|---|
+| **OpenAI** | GPT-4o, GPT-4 Turbo, GPT-3.5 Turbo, o1 series | ✓ |
+| **Anthropic** | Claude 3.5 Sonnet, Claude 3 Opus/Sonnet/Haiku | ✓ |
+| **Google** | Gemini 1.5 Pro, Gemini 1.5 Flash | ✓ |
+| **Azure OpenAI** | GPT-4o, GPT-4, GPT-3.5 Turbo | ✓ |
+| **Cohere** | Command R+, Command R | ✓ |
+| **Amazon Bedrock** | Claude, Titan, Llama models via AWS | ✓ |
+| **Vertex AI** | Gemini 2.5 Pro, Gemini 2.5 Flash | ✓ |
+| **Microsoft Foundry** | Custom deployments | ✓ |
+
+<Note>Custom models must support tool calling and follow OpenAI or Anthropic API structures to work with agentic apps.</Note>
+
+See [External models](/agent-platform/models/external-models) for detailed setup instructions.
+
+## Open-source models
+
+Deploy from 30+ curated models or import any text generation model from Hugging Face.
+
+| Option | Description |
+|---|---|
+| **Kore-hosted** | Select from curated models, optimize, and deploy on managed infrastructure |
+| **Hugging Face import** | Bring any compatible model from Hugging Face (public or private) |
+
+**Optimization techniques**: vLLM (high-throughput inference), CTranslate2/CT2 (efficient inference with reduced memory), or no optimization.
+
+<Note>Open-source models do not support tool calling and cannot be used with agentic apps.</Note>
+
+See [Open-source models](/agent-platform/models/open-source-models) for full details.
+
+## Fine-tuned models
+
+Create custom models trained on your enterprise data for domain-specific tasks.
+
+**When to fine-tune:**
+- Consistent output format required across responses
+- Domain-specific terminology or jargon
+- Unique tone, style, or brand voice
+- Improved accuracy for specialized tasks
+
+**Fine-tuning process:**
+1. Prepare training data as JSONL with conversation examples
+2. Select base model from supported Kore-hosted or Hugging Face models
+3. Configure training type (Full, LoRA, or QLoRA)
+4. Monitor progress via Weights & Biases integration
+5. Deploy the model
+
+### Training data format
+
+```json
+{"messages": [{"role": "system", "content": "You are a support agent."}, {"role": "user", "content": "Order status?"}, {"role": "assistant", "content": "I'll check your order status right away."}]}
+```
+
+See [Fine-tuned models](/agent-platform/models/fine-tuned-models) for step-by-step instructions.
+
+## Model parameters
+
+| Parameter | Description | Typical range |
+|---|---|---|
+| **Temperature** | Controls randomness. Lower = focused, higher = creative | 0.0–2.0 (default: 0.7) |
+| **Top P** | Nucleus sampling | 0.0–1.0 (default: 0.9) |
+| **Top K** | Limits selection to top K tokens | 1–100 (default: 50) |
+| **Max tokens** | Maximum output length | Varies by model |
+| **Stop sequences** | Strings that stop generation | Custom list |
+
+## Tool calling support
+
+Not all models support tool calling, which is required for agentic apps.
+
+**Supported for tool calling:**
+- OpenAI: GPT-4o, GPT-4 Turbo, GPT-3.5 Turbo
+- Anthropic: Claude 3.5 Sonnet, Claude 3 series
+- Google: Gemini 1.5 Pro, Gemini 1.5 Flash
+- Azure OpenAI: GPT-4o, GPT-4, GPT-3.5 Turbo
+
+**Not supported:**
+- Kore-hosted open-source models
+- Most Hugging Face imports
+
+## Model selection guide
+
+| Use case | Recommended models | Why |
+|---|---|---|
+| Complex reasoning | GPT-4o, Claude 3 Opus | Highest accuracy |
+| Fast responses | GPT-3.5, Claude 3 Haiku, Gemini Flash | Low latency |
+| Code generation | GPT-4o, Claude 3.5 Sonnet | Best code quality |
+| Cost-sensitive | GPT-3.5, Claude 3 Haiku | Lower token cost |
+| Long context | Claude 3, Gemini 1.5 | 100K+ token windows |
+| Data privacy | Open-source (Kore-hosted) | No external API calls |
+| Real-time voice | GPT-4o Realtime Preview | Native voice support |
+
+## Model endpoint and API keys
+
+After deployment, each model provides:
+
+- **API endpoint**: Use models externally via REST API
+- **API keys**: Secure access tokens for endpoint authentication
+- **Deployment history**: Track version changes
+
+Access these from the model's three-dot menu → **API Endpoint**.

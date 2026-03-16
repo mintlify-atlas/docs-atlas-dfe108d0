@@ -1,0 +1,182 @@
+---
+title: "How-to guides"
+description: "Practical step-by-step guides for configuring and extending agentic apps."
+---
+
+This section provides practical guides for configuring and extending agentic apps. Each guide covers a specific task with step-by-step instructions.
+
+## Writing effective agent instructions
+
+Define your agent's role, goal, context, constraints, and output format using a structured prompt framework.
+
+### Prompt framework
+
+A well-structured agent instruction includes these sections:
+
+1. **Role** — Describe who the agent is and what expertise it has
+2. **Goal** — State the primary objective the agent must achieve
+3. **Context** — Provide background information the agent needs
+4. **Constraints** — List what the agent should and should not do
+5. **Output format** — Specify how responses should be structured
+
+### Sample prompt structure
+
+```text
+You are a [role] specialized in [domain].
+
+Your goal is to [primary objective].
+
+Context: [relevant background information]
+
+Constraints:
+- Always [required behavior]
+- Never [prohibited behavior]
+- If uncertain, [fallback behavior]
+
+Output: [format specification]
+```
+
+### Common issues to avoid
+
+| Issue | Impact | Fix |
+|-------|--------|-----|
+| Vague role definition | Agent gives generic responses | Be specific about domain expertise |
+| Missing constraints | Unpredictable behavior | Add explicit do/don't rules |
+| No fallback instruction | Agent hallucinates when uncertain | Add "If you don't know, say so" |
+| Overly long instructions | Model may ignore parts | Prioritize critical rules at the top |
+
+## Using metadata fields from the API
+
+Pass custom metadata via the Execute API and reference it in agent prompts using session memory.
+
+### Passing metadata in the Execute API request
+
+Include a `metaInfo` object in your API request:
+
+```json
+{
+  "query": "What is my account balance?",
+  "metaInfo": {
+    "userId": "usr_12345",
+    "accountType": "premium",
+    "region": "us-east-1"
+  }
+}
+```
+
+### Referencing metadata in prompts
+
+Access metadata in agent instructions using session context variables:
+
+```text
+The user's account type is {{session.metaInfo.accountType}}.
+Tailor your response accordingly.
+```
+
+<Note>
+Metadata fields are available throughout the conversation session. They are not persisted across separate sessions.
+</Note>
+
+## Passing uploaded files to external systems
+
+Access file metadata stored in session memory and forward file URLs or content to external systems or LLMs for further processing.
+
+### Accessing uploaded file metadata
+
+When a user uploads a file, it is stored in the session context:
+
+```javascript
+// Access file metadata in a Code tool
+const files = context.session.uploadedFiles;
+files.forEach(file => {
+  const { url, name, mimeType, size } = file;
+  // Process or forward as needed
+});
+```
+
+### Forwarding files to an LLM
+
+Use a calling tool to send the file URL to an external LLM:
+
+```javascript
+const response = await callExternalAPI({
+  url: "https://api.example.com/analyze",
+  method: "POST",
+  body: {
+    fileUrl: context.session.uploadedFiles[0].url,
+    prompt: "Summarize the contents of this document"
+  }
+});
+```
+
+## Integrating with AI for Service
+
+### Passing data from AI for Service to Agent Platform
+
+Share variables such as channel information and user preferences from the AI for Service Automation Node to the platform's session memory.
+
+Configure the AI for Service Automation Node to include a `contextData` payload:
+
+```json
+{
+  "contextData": {
+    "channel": "web-chat",
+    "userPreference": "formal",
+    "caseId": "CASE-789"
+  }
+}
+```
+
+These values become available in the Agent Platform session context under `session.contextData`.
+
+### Sharing context from Agent Platform to AI for Service
+
+Configure event-driven handoffs that pass conversation history, user data, and system metadata from the platform back to AI for Service.
+
+Use the `OnHandoff` event to emit context before transferring:
+
+```javascript
+// In a Code tool, emit context before handoff
+context.emit("OnHandoff", {
+  conversationHistory: context.session.messages,
+  userData: context.session.user,
+  agentSummary: "User asked about billing issues"
+});
+```
+
+### Live agent handoff
+
+Configure the Agent Handoff Event to route conversations from an AI agent to a live agent.
+
+<Steps>
+  <Step title="Enable the Agent Handoff event">
+    In your agentic app settings, go to **Events** and enable the **Agent Handoff** event.
+  </Step>
+  <Step title="Configure the AI for Service Automation Node">
+    Add an Automation Node in AI for Service that receives the handoff event and routes to the appropriate queue.
+  </Step>
+  <Step title="Test the handoff">
+    Use the simulation tool to trigger a handoff and verify that the live agent receives the conversation context.
+  </Step>
+</Steps>
+
+### Voice interactions
+
+Configure Real-Time Voice or TTS Streaming for voice channels integrated through the AI for Service Automation Node.
+
+<Tabs>
+  <Tab title="Real-Time Voice">
+    Enable real-time voice by configuring the Voice Gateway in AI for Service:
+    1. Go to **Channels** > **Voice Gateway**
+    2. Enable **Real-Time Transcription**
+    3. Set the **Streaming URL** to your Agent Platform endpoint
+    4. Configure **Language** and **Accent** settings
+  </Tab>
+  <Tab title="TTS Streaming">
+    Enable TTS (Text-to-Speech) streaming:
+    1. Go to **Channels** > **Voice Gateway**
+    2. Select a **TTS Provider** (Google, Amazon Polly, or Azure)
+    3. Choose **Streaming** mode for lower latency
+    4. Configure **Voice** and **Speed** settings
+  </Tab>
+</Tabs>

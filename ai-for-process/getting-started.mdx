@@ -1,0 +1,211 @@
+---
+title: "Get started"
+description: "Set up a workspace, configure AI models, and build your first AI-powered workflow in AI for Process."
+---
+
+Use this guide to set up AI for Process and build your first AI-powered workflow.
+
+## Prerequisites
+
+- Kore.ai account with AI for Process access.
+- Admin permissions for initial setup.
+- (Optional) API credentials for external integrations.
+
+## Access AI for Process
+
+<Steps>
+  <Step title="Navigate to the platform">
+    Log in to your Kore.ai account.
+  </Step>
+  <Step title="Select AI for Process">
+    Click **AI for Process** from the product menu.
+  </Step>
+  <Step title="Choose or create a workspace">
+    Select an existing workspace or create a new one.
+  </Step>
+</Steps>
+
+## Set up a workspace
+
+### Create a workspace
+
+Workspaces organize workflows, models, and users:
+
+<Steps>
+  <Step title="Navigate to Administration">
+    Go to **Administration** → **Workspaces**.
+  </Step>
+  <Step title="Create the workspace">
+    Click **Create Workspace** and configure:
+    - Name and description.
+    - Default model settings.
+    - Team access.
+  </Step>
+</Steps>
+
+### Invite team members
+
+<Steps>
+  <Step title="Open User Management">
+    Go to **User Management** and click **Invite Users**.
+  </Step>
+  <Step title="Assign roles">
+    Assign a role to each invited user:
+
+    | Role | Access |
+    |---|---|
+    | **Admin** | Full workspace access |
+    | **Developer** | Create and edit workflows |
+    | **Reviewer** | Process Inbox tasks |
+    | **Viewer** | Read-only access |
+  </Step>
+</Steps>
+
+## Quick starts
+
+<Tabs>
+  <Tab title="Build a workflow">
+
+### Step 1: Create a workflow
+
+1. Navigate to **Workflows**.
+2. Click **Create Workflow**.
+3. Enter a name and description. For example, "Document Summarizer".
+
+### Step 2: Add nodes
+
+Build the workflow by adding nodes on the canvas:
+
+```text
+[Start] → [Text-to-Text AI] → [End]
+```
+
+1. **Start Node** — Added automatically. Configures the trigger.
+2. **Text-to-Text AI Node** — Drag from the AI Nodes palette.
+3. **End Node** — Add to complete the flow.
+
+### Step 3: Configure the AI node
+
+Click the Text-to-Text node and configure it:
+
+```yaml
+Node: Summarize Document
+Type: text-to-text
+Model: gpt-4
+Prompt: |
+  Summarize the following document in 3-5 bullet points:
+
+  {{input.document_text}}
+
+  Focus on key findings and action items.
+Output variable: summary
+```
+
+### Step 4: Configure the trigger
+
+Select how the workflow starts:
+
+| Trigger type | Use case |
+|---|---|
+| **API** | Called from external systems |
+| **Schedule** | Run on a time-based schedule |
+| **Manual** | Triggered by a user in the UI |
+| **Event** | Triggered by third-party platform events |
+
+### Step 5: Test and deploy
+
+1. Click **Test** to run the workflow with sample input.
+2. Review the output and logs.
+3. Click **Deploy** to make the workflow available.
+4. Copy the generated API endpoint for integration.
+
+  </Tab>
+  <Tab title="Add human review">
+
+Modify an existing workflow to include human approval:
+
+```text
+[Start] → [Text-to-Text AI] → [Human Review] → [End]
+```
+
+### Add a Human Node
+
+1. Drag a **Human Node** from the palette and connect it after the AI node.
+2. Configure the review task:
+
+```yaml
+Human Node: Review Summary
+Task type: approval
+Assignees:
+  - role: reviewer
+Instructions: |
+  Review the AI-generated summary.
+  Approve if accurate, or edit and approve.
+Fields:
+  - name: summary
+    type: text
+    editable: true
+  - name: approved
+    type: boolean
+Timeout: 24h
+```
+
+### Use the Inbox
+
+1. Navigate to **Inbox**.
+2. View pending review tasks.
+3. Review the AI output.
+4. Approve, edit, or reject the task.
+5. The workflow resumes after you take action.
+
+  </Tab>
+  <Tab title="Configure Model Hub">
+
+### View available models
+
+1. Navigate to **Models** → **Model Hub**.
+2. Browse available model types:
+   - **Open-source** — Platform-hosted Hugging Face models.
+   - **External** — OpenAI, Anthropic, Google, Cohere, Amazon Bedrock.
+   - **Fine-tuned** — Your custom-trained models.
+
+### Add an external model
+
+1. Go to **External Models** and click **Add Provider**.
+2. Select the provider and follow the guided setup.
+3. Enter your API key:
+
+```yaml
+Provider: OpenAI
+API Key: sk-...
+Models:
+  - gpt-4
+  - gpt-4o
+  - gpt-3.5-turbo
+```
+
+### Use the model in a workflow
+
+Select the model when configuring any AI node:
+
+```yaml
+AI Node Configuration:
+  model_source: external
+  provider: openai
+  model: gpt-4
+  temperature: 0.7
+  max_tokens: 500
+```
+
+  </Tab>
+</Tabs>
+
+## Next steps
+
+| Goal | Resources |
+|---|---|
+| Build complex workflows | [Workflows](/ai-for-process/workflows/overview) |
+| Explore all node types | [Workflow nodes](/ai-for-process/nodes) |
+| Manage human tasks | [Inbox](/ai-for-process/inbox) |
+| Deploy custom models | [Model Hub](/ai-for-process/models) |
+| Design prompts | [Prompt Studio](/ai-for-process/prompts) |

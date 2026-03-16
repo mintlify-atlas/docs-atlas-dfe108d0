@@ -1,0 +1,143 @@
+---
+title: "Campaigns"
+description: "Proactive outreach to customers through voice calls, SMS, and web channels."
+---
+
+The Campaigns module enables proactive outreach to customers through voice calls, SMS, and web channels. Use it to create targeted campaigns, manage contact lists, monitor performance, and maintain compliance with calling regulations.
+
+To access Campaigns, go to **Contact Center AI** > **Campaigns**.
+
+<Note>Campaigns are not enabled by default. Contact Support to enable them for your account.</Note>
+
+## Campaign types
+
+| Type | Description |
+|------|-------------|
+| **Voice** | Outbound voice calls using agentless, progressive, preview, or power dialers. |
+| **SMS** | Outbound text messaging using simple or advanced message flows. |
+| **Proactive Web** | Rule-based engagement widgets (chat, banner, post, or button) displayed on websites. |
+
+## Voice campaigns
+
+Go to **Contact Center AI** > **Campaigns** > **Proactive Outreach** > **Campaign Management** > **Voice**.
+
+### Dialer types
+
+| Type | Description |
+|------|-------------|
+| **Agentless** | Automatically dials numbers without a live agent. Connects to a configured voice experience flow. |
+| **Progressive** | Automatically dials the next contact when an agent becomes available — one call per available agent. |
+| **Preview** | Provides agents with customer details before placing a call, enabling personalized interactions. |
+| **Power** | Uses a pacing ratio to dial multiple outbound calls per available agent, reducing abandonment. |
+
+### Create a voice campaign
+
+<Steps>
+  <Step title="General tab">
+    Enter **Campaign Name**, **Description**, **Contact Lists**, **Priority**, and **Dialing Mode**.
+  </Step>
+  <Step title="Choose Contact">
+    Configure contact lists with matching fields. Add a DNC List and optional mapping list.
+  </Step>
+  <Step title="Outreach Strategy">
+    Configure:
+    - **Caller ID** — number displayed to the recipient.
+    - **Dialing Order** — order in which phone numbers are dialed.
+    - **Max Attempts Per Contact** — maximum dial attempts per number.
+    - **Default Retry Period** — wait time between retry attempts.
+    - **Contactable Timings** — days and time windows for dialing.
+  </Step>
+  <Step title="Save">
+    Select **Save**.
+  </Step>
+</Steps>
+
+## SMS campaigns
+
+Go to **Campaign Management** > **SMS**.
+
+### Create an SMS campaign
+
+1. Select **+ New Campaign**.
+2. Enter **Campaign Name**, **Description**, **Contact Lists**, **DNC List**, and **Priority**.
+3. Under the **Message** tab, select a format:
+   - **Simple** — for one-way outbound messages.
+   - **Advanced** — for two-way messaging using a start flow with dialog tasks.
+4. Under **Outreach Strategy**, select the **Caller ID**.
+5. Select **Save**.
+
+## Proactive web campaigns
+
+Go to **Campaign Management** > **Proactive Web**.
+
+### Campaign types
+
+| Type | Description |
+|------|-------------|
+| **Chat** | Pushes a configured message to the chat widget. |
+| **Banner** | Displays a banner at the top or bottom of the page. |
+| **Post** | Displays a pop-up at the center of the page. |
+| **Button** | Displays a button on the left or right side; can be static or action-triggered. |
+
+### Create a proactive web campaign
+
+1. Select **+ New Campaign** and choose the campaign type.
+2. Complete the **General** tab with **Campaign Name** and **Description**.
+3. Under **Layout Design**, configure the message, buttons, and appearance.
+4. Under **Engagement Strategy**, define websites, trigger rules, exclusions, goals, channel, and engagement hours.
+5. Select **Save**.
+
+## List management
+
+Go to **Contact Center AI** > **Campaigns** > **List Management**.
+
+### Contact lists
+
+Contact lists contain the phone numbers and customer details used for campaigns.
+
+**Create a contact list (local drive):**
+
+1. Select **+ New Contact List**.
+2. Enter **Name**, **Description**, and select **Local Drive**.
+3. Upload a CSV file (phone numbers must be in E.164 format).
+4. Select **Mapping Fields** and select **Save**.
+
+**Create a contact list (API integration):**
+
+1. Select **+ New Contact List** and select **API Integration**.
+2. Select the **Method**, enter the **URL**, and set the **Data Sync Interval**.
+3. Configure the **Authorization Profile** and add **Headers**.
+4. Select **Validate** to preview the API response.
+5. Configure **Mapping Fields** and select **Save**.
+
+### DNC lists
+
+Do Not Call (DNC) Lists contain contacts who have opted out of being contacted.
+
+1. Select **+ New DNC List**.
+2. Enter **Name** and **Description**, upload a CSV file, and select **Mapping Fields**.
+3. Select **Next** to create the list.
+
+To mark a list as global, select **⋮** > **Mark as Global** > **Confirm**.
+
+## Campaign dashboard
+
+Go to **Contact Center AI** > **Campaigns** > **Dashboard**.
+
+Select any campaign to view detailed metrics including:
+
+- **Connected calls** and **Unconnected calls** counts and percentages
+- **Average call duration**
+- **Outcome** breakdown by outbound dialer dispositions and agent dispositions
+- **Latest Execution** with a consolidated list of all calls in the most recent campaign run
+
+## Campaign settings
+
+Go to **Contact Center AI** > **Campaigns** > **Settings**.
+
+| Setting | Description | Default |
+|---------|-------------|----------|
+| **Max Concurrent Calls** | Maximum simultaneous calls for Agentless campaigns. | 10 (max: 25) |
+| **Total Messages Per Minute** | Maximum SMS messages sent per minute. | 1 |
+| **Power Dialing Customer Wait Time** | How long a customer waits on hold for an agent. | 5 seconds |
+| **Power Dialing Agent Idle Max Time** | Maximum agent idle time before releasing back to the queue. | 30 seconds |

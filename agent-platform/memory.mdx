@@ -1,0 +1,214 @@
+---
+title: "Memory stores"
+description: "Persist data across interactions and sessions to enable stateful agent behavior."
+---
+
+Memory stores enable agents to retain, access, and manipulate information during conversations and across sessions. This provides context persistence and stateful behavior without external databases.
+
+```
+User Request → Agent → Memory Store → Context-Aware Response
+```
+
+## Memory types
+
+Agentic apps support two main types of memory: Session Meta Memory and Custom Memory Stores.
+
+### Session meta (default)
+
+A built-in, read-only store for session-specific data.
+
+- **Scope**: Single session
+- **Lifetime**: Duration of the session
+- **Access**: Read-only in prompts; writable via API
+
+**Contents:**
+
+- **`metadata`**: Contextual data passed via API (for example, userId, channel, custom fields).
+- **`sessionInfo`**: System-populated object with `sessionId`, `appId`, `sessionReference`, `userReference`, `userId`, `runId`, and `timestamp`.
+
+<Note>`sessionMeta` is read-only within code tools. The `metadata` field can be updated via API only.</Note>
+
+### Custom memory stores
+
+User-defined stores for persistent data.
+
+- **Scope**: Configurable (user, app, or session)
+- **Lifetime**: Configurable retention
+- **Access**: Read/write via code tools
+
+## Creating a memory store
+
+Navigate to **Agentic app** → **Memory** → **Create new**.
+
+| Field | Description |
+|---|---|
+| **Name** | User-friendly display name |
+| **Technical name** | Unique identifier for code/prompts (immutable after creation) |
+| **Description** | Purpose documentation |
+| **Schema** | JSON Schema defining data structure |
+| **Access type** | User, application, or session scope |
+| **Retention** | Session, 1 day, 1 week, or 1 month |
+| **Require strict adherence** | Enforce exact schema match; updates that don't conform will fail |
+
+### Example schema
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "preferences": {
+      "type": "object",
+      "properties": {
+        "language": { "type": "string" },
+        "notifications": { "type": "boolean" }
+      }
+    },
+    "recentOrders": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "lastVisit": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
+```
+
+## Accessing memory
+
+### In prompts
+
+```
+Welcome back! Your preferred language is {{memory.userPrefs.preferences.language}}.
+
+Your recent orders:
+{{memory.userPrefs.recentOrders}}
+```
+
+### In code tools
+
+<CodeGroup>
+```javascript JavaScript (async)
+// Read from memory
+const prefs = await memory.get_content("userPrefs");
+console.log(prefs.preferences.language);
+
+// Read with projections (specific fields only)
+const partial = await memory.get_content("userPrefs", {
+  "preferences.language": 1,
+  "lastVisit": 1
+});
+
+// Write to memory
+await memory.set_content("userPrefs", {
+  preferences: { language: "en", notifications: true },
+  lastVisit: new Date().toISOString()
+});
+
+// Delete memory content
+await memory.delete_content("userPrefs");
+```
+
+```python Python (synchronous)
+# Read from memory
+prefs = memory.get_content("userPrefs")
+print(prefs["preferences"]["language"])
+
+# Read with projections
+partial = memory.get_content("userPrefs", {
+    "preferences.language": 1,
+    "lastVisit": 1
+})
+
+# Write to memory
+memory.set_content("userPrefs", {
+    "preferences": {"language": "en", "notifications": True},
+    "lastVisit": datetime.now().isoformat()
+})
+
+# Delete memory content
+memory.delete_content("userPrefs")
+```
+</CodeGroup>
+
+## Access scopes
+
+| Scope | Description | Identifiers | Use case |
+|---|---|---|---|
+| **Session** | Data for current session only | AppId + SessionId | Conversation context, multi-turn dialog state |
+| **User** | Data persists across user sessions | AppId + UserId | Preferences, history |
+| **Application** | Shared across all users | AppId | Global settings, counters |
+
+## Retention policies
+
+| Policy | Duration | Use case |
+|---|---|---|
+| **Session** | Until session ends | Temporary context |
+| **1 day** | 24 hours | Short-term cache |
+| **1 week** | 7 days | Recent activity |
+| **1 month** | 30 days | User preferences |
+
+## Session meta access
+
+### Reading session data
+
+```javascript
+// Get full session meta
+const sessionMeta = await memory.get_content("sessionMeta");
+
+// Access metadata passed via API
+const userId = sessionMeta.metadata.userId;
+const channel = sessionMeta.metadata.channel;
+
+// Access session info
+const sessionId = sessionMeta.sessionInfo.sessionId;
+```
+
+### Passing metadata via API
+
+```json
+{
+  "message": "Hello",
+  "session_id": "sess_123",
+  "metadata": {
+    "userId": "user_456",
+    "userName": "John",
+    "customerTier": "premium",
+    "channel": "mobile_app"
+  }
+}
+```
+
+## File attachments
+
+When users upload files, metadata is stored in `sessionMeta.artifacts`:
+
+```javascript
+const artifacts = await memory.get_content("sessionMeta");
+const files = artifacts.artifacts;
+
+files.forEach(file => {
+  console.log(file.filename);     // Original name
+  console.log(file.mimetype);     // MIME type
+  console.log(file.downloadUrl);  // Temporary URL (30 days)
+  console.log(file.isActive);     // Include in context?
+});
+```
+
+### Supported file types
+
+| Format | Content extraction | URL access |
+|---|---|---|
+| PDF, DOCX, TXT, JSON | Yes | Yes |
+| CSV, XLS, XLSX | No | Yes |
+| PPT, PPTX, HTML | No | Yes |
+| Images (PNG, JPG, GIF) | No | Yes |
+
+## Best practices
+
+- Use meaningful technical names (`userPreferences`, `orderHistory`, not `store1`, `data`)
+- Define clear schemas to ensure data consistency
+- Always handle missing data gracefully using optional chaining
+- Clean up temporary data at the end of workflows
+- Choose the appropriate scope based on data lifecycle

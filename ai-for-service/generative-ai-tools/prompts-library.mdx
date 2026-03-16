@@ -1,0 +1,116 @@
+---
+title: "Prompts library"
+description: "Create, test, and manage prompt templates that power your AI Agent's generative AI features."
+---
+
+The Prompts Library lets you create, test, and manage prompt templates that power your AI Agent's generative AI features. It lists all system and custom prompts with their usage status.
+
+## Prompt types
+
+### Default prompts
+
+Ready-to-use templates for pre-built models (OpenAI, Azure OpenAI). Each template targets a specific feature and model.
+
+- Cannot be edited directly
+- To customize, import a default prompt and save it as a custom prompt
+
+### Custom prompts
+
+Full control over prompt design for any pre-built or custom LLM. Build from scratch or import and modify existing prompts.
+
+<Note>Custom LLM integration and prompt creation are available in English only.</Note>
+
+## Creating a custom prompt
+
+<Steps>
+  <Step title="Open Prompts Library">
+    Go to **Generative AI Tools** > **Prompts Library**.
+  </Step>
+  <Step title="Add a new prompt">
+    Click **+ New Prompt** and select the model and feature this prompt is for.
+  </Step>
+  <Step title="Write the prompt">
+    Use the prompt editor to write your custom prompt. Use `{{variable}}` syntax for dynamic values.
+  </Step>
+  <Step title="Test the prompt">
+    Use the built-in test panel to run the prompt against sample inputs and review the output.
+  </Step>
+  <Step title="Save and activate">
+    Click **Save** and then activate the prompt by assigning it to the appropriate feature node.
+  </Step>
+</Steps>
+
+## Regular vs. streaming prompts
+
+| Feature | Regular | Streaming |
+|---------|---------|-----------|
+| Response delivery | Full response at once | Tokens delivered incrementally |
+| Post-processing | Available | Not available |
+| Guardrails | Supported | Not supported |
+| Tool call requests | Supported | Supported |
+
+**Use regular prompts when:** post-processing or content moderation is required, or full response validation must happen before delivery.
+
+**Use streaming prompts when:** real-time interaction is critical, responses are expected to be long, or immediate feedback improves the user experience.
+
+## Prompt variables
+
+Use variables in prompt templates to inject dynamic values at runtime:
+
+```text
+You are a customer service agent for {{company_name}}.
+The customer's name is {{user.firstName}}.
+Conversation context: {{context.lastMessages}}
+
+Answer the customer's question: {{user.input}}
+```
+
+Available variable namespaces:
+- `{{user.*}}` — User profile data
+- `{{context.*}}` — Conversation context
+- `{{session.*}}` — Session metadata
+- `{{env.*}}` — Environment variables
+
+## Managing prompts
+
+| Action | Description |
+|--------|-------------|
+| **View Associations** | See all nodes and features where the prompt is applied |
+| **Edit** | Modify custom prompts (default prompts are read-only) |
+| **Delete** | Permanently delete unused custom prompts |
+| **Advanced Configuration** | For system prompts, adjust temperature and token limit |
+| **Duplicate** | Clone a prompt as a starting point for customization |
+
+## LLM response format
+
+### Regular response
+
+```json
+{
+  "choices": [
+    {
+      "message": {
+        "role": "assistant",
+        "content": "The generated response text"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 150,
+    "completion_tokens": 80,
+    "total_tokens": 230
+  }
+}
+```
+
+### Streaming response
+
+Streaming responses are delivered as a series of server-sent events:
+
+```
+data: {"choices":[{"delta":{"content":"The "},"finish_reason":null}]}
+data: {"choices":[{"delta":{"content":"generated "},"finish_reason":null}]}
+data: {"choices":[{"delta":{"content":"response."},"finish_reason":"stop"}]}
+data: [DONE]
+```

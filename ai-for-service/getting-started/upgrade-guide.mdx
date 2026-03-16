@@ -1,0 +1,62 @@
+---
+title: "Upgrade from XO10 to AI for Service"
+description: "Resources and step-by-step migration guides for upgrading from XO Platform v10 to AI for Service (XO v11)."
+---
+
+AI for Service (XO v11) is a unified platform that brings together Automation AI, Contact Center AI, Search AI, and Agent AI into a single, integrated experience. Upgrading from XO v10 unlocks advanced capabilities including DialogGPT-powered intent handling, Agentic RAG for search, and a redesigned Dialog Builder—while preserving your existing bot configurations and data.
+
+## Upgrade resources
+
+| Guide | Description |
+|-------|-------------|
+| **Benefits of AI for Service (XO v11)** | Overview of what's new in XO v11—key capabilities, architectural improvements, and a feature comparison with XO v10 across Automation AI, Search AI, Contact Center AI, and Agent AI. |
+| **Automation AI migration from XO v10 to v11** | Step-by-step upgrade journey for Standard Bots and Universal Bots, including prerequisites, best practices, and API endpoint changes. |
+| **Agent AI migration from XO v10 to v11** | Instructions to upgrade your Agent AI account to XO v11, covering the bot-to-app transition and handling upgrade failures. |
+| **Contact Center AI migration from XO v10 to v11** | Full migration guide for SmartAssist and Contact Center AI, including workflow, role, billing, and reporting changes, plus a SmartAssist-to-CCAI feature mapping table. |
+| **SearchAssist to Search AI migration** | Detailed guide for migrating sources, extraction configurations, workbench stages, answer snippets, business rules, and custom configurations from SearchAssist to Search AI. |
+
+## What's new in XO v11
+
+<CardGroup cols={2}>
+  <Card title="DialogGPT" icon="wand-magic-sparkles">
+    Zero-shot intent detection using LLMs and embeddings. No utterance training required.
+  </Card>
+  <Card title="Agentic RAG" icon="brain">
+    Intelligent query processing with LLM-powered agents that improve retrieval precision.
+  </Card>
+  <Card title="Unified platform" icon="layer-group">
+    Automation AI, Contact Center AI, Search AI, and Agent AI in a single workspace.
+  </Card>
+  <Card title="Agent Node" icon="microchip">
+    Tool-calling LLM node for handling complex, multi-step tasks with external integrations.
+  </Card>
+</CardGroup>
+
+## Key differences between v10 and v11
+
+| Aspect | XO v10 | AI for Service (XO v11) |
+|--------|--------|-------------------------|
+| **Intent detection** | ML utterance training required | DialogGPT: descriptions + embeddings only |
+| **Orchestration** | Rule-based dialog manager | Agentic orchestration via LLMs |
+| **Search** | SearchAssist (separate product) | Search AI integrated into the platform |
+| **Agent AI** | AgentAssist (separate product) | Agent AI integrated into the platform |
+| **Multi-product** | Separate logins per product | Single unified platform |
+
+## Migration path overview
+
+<Steps>
+  <Step title="Review benefits and differences">
+    Understand what changes between v10 and v11 before beginning migration.
+  </Step>
+  <Step title="Choose your migration approach">
+    You can migrate incrementally by product, or perform a full migration of all components.
+  </Step>
+  <Step title="Follow the product-specific guides">
+    Each product has its own migration guide with step-by-step instructions.
+  </Step>
+  <Step title="Validate after migration">
+    Test your migrated apps using the Playground and batch testing tools.
+  </Step>
+</Steps>
+
+<Warning>Review the API endpoint changes before migrating. Some API endpoints changed between v10 and v11, which may affect integrations built on the older API.</Warning>

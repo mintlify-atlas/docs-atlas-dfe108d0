@@ -1,0 +1,116 @@
+---
+title: "Using AI for Service platform APIs"
+description: "Authenticate and use secured REST APIs for bot lifecycle management, NLP training, analytics, and admin operations."
+---
+
+The AI for Service platform lets you develop AI Agents using secured APIs. All key developer activities — creation, import and export, training, and publishing — are available via these APIs. Account management activities like managing platform access, admin, and roles can also be performed via secured public APIs.
+
+## Authentication
+
+Authentication involves two steps:
+
+1. **Create a JWT App** — creates secure authentication credentials to access platform features
+2. **Assign API Scopes** — allows the app to access Platform APIs securely
+
+## Creating and managing JWT apps
+
+<Steps>
+  <Step title="Go to Dev Tools">
+    Go to **App Settings** > **Dev Tools** > **Web/Mobile SDK**.
+  </Step>
+  <Step title="Create a JWT app">
+    Select **Add** (first time) or select **Create JWT App** from the **JWT App** drop-down list.
+  </Step>
+  <Step title="Configure the app">
+    Enter a **name** for the app and select the JWT Signing Algorithm.
+
+    Optionally enable:
+    - **Enforce JTI (JWT ID) Claim** — only accepts requests with the JTI Claim
+    - **Enforce JWE Encryption** — requires encrypted JWT tokens
+    - **Enforce Request and Response Payload Encryption** — encrypts payloads using AES-256
+  </Step>
+  <Step title="Save the app">
+    Select **Next** and **Done**.
+  </Step>
+  <Step title="Copy credentials">
+    Select the app name from the JWT App drop-down to see the **Client ID** and **Client Secret**.
+  </Step>
+</Steps>
+
+<Note>Use the **Client ID** and **Client Secret** of the client app to generate a JWT token. Pass this token in each API request for authorization.</Note>
+
+## Associating API scopes
+
+### Adding API scopes in the platform
+
+1. Go to **App Settings** > **Dev Tools** > **API Scope** and select **Create API Scope**
+2. From the **JWT App** drop-down list, select an existing client app
+3. Copy the **Client ID** and **Client Secret**
+4. Select the appropriate **Automation** or **Contact Center** scopes
+5. Select **Save**
+
+### Adding API scopes in the Admin Console
+
+1. Log in to the Admin Console and go to **Security & Control** > **API Scopes**
+2. Select **New** and choose an existing client app (or create one via **Manage Apps**)
+3. Select the appropriate scopes and select **Save**
+
+## Available API scopes
+
+| Scope | Description |
+|-------|-------------|
+| **Intent and Entity Detection** | Allow intent and entity detection from an utterance |
+| **User Engagement Trend** | Retrieve the user engagement trend |
+| **Chat History** | Retrieve chat transcripts |
+| **Debug Logs** | Retrieve debug logs |
+| **Bot Export** | Export definition of a selected agent |
+| **Proactive Messages** | Proactively send messages to end-users via supported channels |
+| **Train ML** | Match a given utterance against the NL model |
+| **Train FAQ** | Match a given FAQ against the FAQ model |
+| **Utterances Import** | Import utterances for a task |
+| **Utterances Export** | Export utterances for a task |
+| **Bot Sessions** | Retrieve conversation sessions |
+| **Metrics** | Retrieve metrics for intents, tasks, and performance logs |
+
+## Generating the JWT token
+
+<Steps>
+  <Step title="Open the JWT generator">
+    Visit [https://developer.kore.ai/tools/jwt/](https://developer.kore.ai/tools/jwt/)
+  </Step>
+  <Step title="Select algorithm">
+    In the **Algorithm** drop-down list, select **HS256**.
+  </Step>
+  <Step title="Set the payload">
+    Replace the **Payload** field content with:
+    ```json
+    {
+      "sub": "1234567890",
+      "appId": "add-Client-ID-here"
+    }
+    ```
+  </Step>
+  <Step title="Add the client secret">
+    In the **Verify Signature** field, replace **your-256-bit-secret** with your Client Secret.
+  </Step>
+  <Step title="Copy the token">
+    Select **Copy JWT** to copy the generated token. Pass this token in the API request for authorization.
+  </Step>
+</Steps>
+
+## Making an API request
+
+```bash
+curl -X GET "https://bots.kore.ai/api/v1/public/bot/{botId}" \
+  -H "Authorization: Bearer {jwt-token}" \
+  -H "Content-Type: application/json"
+```
+
+## Data Tables access
+
+Access control for Data Tables is different from platform and Admin Console access controls.
+
+- Create one or more apps and grant them read, write, and delete permissions to each table and view separately
+- Apps can access data tables and views over public APIs or through Service Nodes in dialog tasks
+
+See [Data Tables and Views](/ai-for-service/administration/data/data-tables-and-views) for configuration details.

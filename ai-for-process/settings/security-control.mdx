@@ -1,0 +1,173 @@
+---
+title: "Security and control"
+description: "Configure Single Sign-On (SSO), API application scopes, and authorization profiles to secure your AI for Process account."
+---
+
+## Single Sign-On (SSO)
+
+Administrators can enable **Single Sign-On (SSO)** from the Settings console to centralize authentication using an external Identity Provider (IDP).
+
+SSO provides:
+- **Secure Access**: Reduces password fatigue and the risk of phishing or weak passwords.
+- **Simplified User Management**: Centrally grant or revoke access across accounts.
+- **Improved User Experience**: Reduces the need for multiple logins.
+
+<Note>Only account owners and admins can enable or disable SSO from the Settings console.</Note>
+
+AI for Process supports SSO for the following protocols and providers:
+
+| Protocol | Provider |
+|---|---|
+| SAML | Okta, OneLogin, Other |
+| WS-Federation | Windows Azure, Other |
+| OpenID Connect | Google account |
+
+### How SSO works
+
+1. A user attempts to access their AI for Process account.
+2. The Service Provider (SP) redirects the user to the IDP login page.
+3. The user provides credentials to the IDP.
+4. The IDP issues an authentication token.
+5. The SP uses the token to grant the user access.
+6. The user accesses the account without logging in again during the same session.
+
+### Enable SSO
+
+<Steps>
+  <Step title="Navigate to SSO">
+    Log in to AI for Process. Click **Settings** in the top menu. Go to **Security & Control** > **Single Sign On**.
+  </Step>
+  <Step title="Enable SSO">
+    Click **Enable SSO**.
+  </Step>
+  <Step title="Select protocol and provider">
+    Select the required protocol and provider. The default is SAML / Okta.
+  </Step>
+  <Step title="Configure parameters">
+    Enter the required configuration parameters for your protocol and provider (see the table below).
+  </Step>
+  <Step title="Save">
+    Click **Save**.
+  </Step>
+</Steps>
+
+**Configuration parameters by protocol:**
+
+| Protocol | Provider | Parameters |
+|---|---|---|
+| SAML | Okta | Okta single sign-on URL, Identity provider issuer, Certificate |
+| SAML | OneLogin | SAML 2.0 endpoint, Issuer URL, X.509 certificate |
+| SAML | Other | Single sign-on URL, Issuer URL, Certificate |
+| WS-Federation | Windows Azure | Azure AD sign-on endpoint URL, Azure AD federation metadata document |
+| WS-Federation | Other | AD sign-on endpoint URL, AD federation metadata document URL |
+| OpenID Connect | Google | No additional configuration required. |
+
+### Disable SSO
+
+<Steps>
+  <Step title="Open SSO settings">
+    Navigate to the **Single sign on** page in Settings.
+  </Step>
+  <Step title="Disable">
+    Click the **Disable SSO** tab. In the confirmation window, click **Yes**.
+  </Step>
+</Steps>
+
+Disabling SSO removes the current configuration and reverts to the default sign-in flow.
+
+### Exclude users from SSO
+
+The **Manage Users** feature lets the account owner exclude specific users from mandatory SSO, allowing them to use either the default sign-in or SSO.
+
+To exclude a user, navigate to the **Single Sign-on** page and type or select the user's email address in the **Manage Users** field. Click **Save**.
+
+<Note>By default, the account owner is excluded from the SSO requirement. It is recommended to exclude at least one more account user.</Note>
+
+## API Scopes
+
+API scopes let you create internal applications with restricted access to only the necessary API endpoints. This reduces security risks and allows fine-grained control over who can access specific platform operations.
+
+**Key behaviors:**
+
+- API keys grant access exclusively to their assigned scopes.
+- Unauthorized access to unassigned scopes is automatically rejected.
+- You can generate multiple API keys for a single app.
+- API keys can be deleted but cannot be modified after creation.
+- Each API key can only be copied once.
+
+### Supported API scopes
+
+| API scope | Description |
+|---|---|
+| Deploy workflow | Deploy a specific workflow into an environment. |
+| Undeploy workflow | Undeploy a workflow from an environment. |
+| Deploy Model | Deploy an open-source or fine-tuned model. |
+| Undeploy Model | Undeploy a model from the environment. |
+| Import Model | Import a model in chunks into the AI for Process environment. |
+| Import workflow | Import a new workflow into the system. |
+| Export Model | Export a trained AI model from the system. |
+| Export workflow | Export a workflow's configuration and data. |
+| Deploy Guardrails | Deploy pre-defined guardrails for AI interactions. |
+| Undeploy Guardrails | Remove deployed guardrails. |
+
+### Create an API application
+
+<Steps>
+  <Step title="Navigate to API Scopes">
+    Log in and click **Settings**. Click **Security & Control** > **API Scopes**.
+  </Step>
+  <Step title="Create the app">
+    Click **Create an API App**, enter a name, and select the required scopes.
+  </Step>
+  <Step title="Create an API key">
+    Click **Next**, then click **Create API Key**. Enter a name and click **Generate Key**. Click **Copy and Close** to save the key.
+  </Step>
+</Steps>
+
+<Warning>The API key is shown only once. Copy and save it in a secure location. If lost, you must revoke the old key and generate a new one.</Warning>
+
+### Manage API apps and keys
+
+- **Edit an app**: Hover over the app and click **Edit**. Modify the name or change the selected API scopes. Click **Save**.
+- **Delete an app**: Hover over the app and click **Delete**. Confirm the deletion.
+- **Delete an API key**: In the app's **API Keys** tab, hover over the key and click **Delete**. Confirm.
+
+## Authorization profiles
+
+Authorization profiles provide a structured framework to handle user authorization when integrating with external web services. Reuse profiles across multiple integrations and endpoints without creating new authentication mechanisms each time.
+
+**Supported auth types:**
+
+- **OAuth V2**: Standard authorization framework for token-based access. Supports multiple grant types, scopes, and refresh tokens.
+- **OAuth V2 Client Credentials**: Machine-to-machine (M2M) authorization without user interaction. Uses client ID and client secret to obtain access tokens.
+
+### Add an authorization profile
+
+<Steps>
+  <Step title="Navigate to Authorization profiles">
+    Log in and click **Settings**. Click **Security & Control** > **Authorization profile**.
+  </Step>
+  <Step title="Create">
+    Click **Create Authorization Profile** or **Add new auth**.
+  </Step>
+  <Step title="Configure">
+    In the **New Authorization Mechanism** dialog, select the **Authorization Type**, enter an **Identity Provider Name**, and fill in the required fields (Callback URL, Client ID, Client Secret, Token request URL, and Authorization URL for OAuth V2).
+  </Step>
+  <Step title="Save">
+    Click **Save new Auth**.
+  </Step>
+</Steps>
+
+**Key OAuth V2 fields:**
+
+| Field | Description | Required |
+|---|---|---|
+| Authorization Type | OAuth V2 or OAuth V2 Client Credentials. | Yes |
+| Identity Provider Name | Name of the identity provider. | Yes |
+| Callback URL | Endpoint where the authorization server redirects after granting permission. | Yes |
+| Client ID | Unique identifier for the application. | Yes |
+| Client Secret | Confidential key for authenticating the application. | Yes |
+| Authorization URL | Endpoint where users authenticate and grant permissions. | Yes (OAuth V2 only) |
+| Token request URL | Endpoint where the client exchanges a code for an access token. | Yes |
+| Scope | Defines the level of access requested. | Optional |
+| Refresh token URL | Endpoint to obtain a new access token when the previous one expires. | Optional |

@@ -1,0 +1,82 @@
+---
+title: "Agent Platform"
+description: "Build intelligent, autonomous AI agents that understand context, take actions, and deliver results at enterprise scale."
+---
+
+The Agent Platform is a comprehensive solution for enterprises to develop, deploy, and manage AI-powered business applications. It enables the orchestration of intelligent agents across service, work, and process automation while upholding enterprise-grade security and governance.
+
+## Key components
+
+The platform's key components provide comprehensive capabilities that empower organizations to efficiently scale and manage AI deployments across the AI lifecycle.
+
+<CardGroup cols={2}>
+  <Card title="Multi-agent orchestration" icon="network-wired" href="/agent-platform/orchestrate">
+    Define agent behaviors, skills, and integrations through low-code, declarative programming. Supports real-time streaming across voice and chat channels.
+  </Card>
+  <Card title="Tools and integrations" icon="wrench" href="/agent-platform/tools">
+    Build reusable tools agents invoke to perform tasks or access external systems via visual workflow builders, custom code, or external API integrations.
+  </Card>
+  <Card title="Knowledge and RAG" icon="database" href="/agent-platform/knowledge">
+    Enable context-aware responses with hybrid retrieval-augmented generation. Supports agentic retrieval where multiple agents collaborate to find information.
+  </Card>
+  <Card title="Model Hub" icon="microchip" href="/agent-platform/models">
+    Deploy and manage AI models including fine-tuned domain-specific models. Use any AI model—OpenAI, Anthropic, Google, or custom.
+  </Card>
+  <Card title="Prompt Studio" icon="pen-to-square" href="/agent-platform/prompts">
+    Design, test, and optimize prompts collaboratively with real-time co-editing, commenting, and version tracking.
+  </Card>
+  <Card title="Evaluation Studio" icon="chart-bar" href="/agent-platform/evaluation">
+    Measure AI performance with AI-driven automated assessments and human evaluator insights.
+  </Card>
+  <Card title="AI safety and guardrails" icon="shield-halved" href="/agent-platform/guardrails">
+    Ensure responsible agent operations with PII anonymization, input/output guardrails, advanced content filtering, and granular access controls.
+  </Card>
+  <Card title="Analytics and observability" icon="chart-line" href="/agent-platform/analytics">
+    Gain deep insights into agent performance through detailed activity capture, session logs, conversation histories, and usage metrics.
+  </Card>
+  <Card title="Memory" icon="memory" href="/agent-platform/memory">
+    Manage interaction state throughout its entire lifecycle. Maintain continuity across sessions by tracking previous interactions and user preferences.
+  </Card>
+  <Card title="Agent Protocol" icon="plug" href="/agent-platform/apis">
+    Communicate seamlessly between agents, tools, and external systems using a standardized protocol with multi-modal content and real-time streaming.
+  </Card>
+  <Card title="Marketplace" icon="store" href="/agent-platform/agents/agentic-apps/marketplace">
+    Access a comprehensive library of pre-built agents, tools, and extensions across diverse domains and use cases.
+  </Card>
+  <Card title="Enterprise CI/CD" icon="rocket" href="/agent-platform/deploy-apps">
+    Manage granular versioning and multi-stage deployments across separate environments (QA, UAT, Prod).
+  </Card>
+  <Card title="SDKs" icon="code" href="/agent-platform/sdk-overview">
+    Build and integrate platform capabilities with comprehensive SDKs for custom agents, tools, Search/RAG, and observability traces.
+  </Card>
+</CardGroup>
+
+## How it works
+
+When a user submits a request, the orchestrator analyzes intent, selects appropriate agents, and coordinates their execution. Each specialized agent invokes the tools and knowledge it needs, and the platform synthesizes a unified response.
+
+```
+User Request
+     ↓
+Orchestrator (analyzes intent, selects agents, coordinates)
+     ↓
+┌────────────┬────────────┬────────────┐
+Agent A      Agent B      Agent C
+(Specialist) (Specialist) (Specialist)
+     ↓            ↓            ↓
+  Tools       Knowledge      Tools
+     └────────────┴────────────┘
+                  ↓
+          Unified Response
+```
+
+## Get started
+
+<CardGroup cols={2}>
+  <Card title="Getting started" icon="flag" href="/agent-platform/getting-started">
+    Set up your account, configure an LLM, and create your first agentic app.
+  </Card>
+  <Card title="Core concepts" icon="lightbulb" href="/agent-platform/concepts">
+    Learn the building blocks: agents, orchestrators, tools, knowledge, and memory.
+  </Card>
+</CardGroup>

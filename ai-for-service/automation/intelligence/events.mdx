@@ -1,0 +1,112 @@
+---
+title: "Events"
+description: "Configure what your AI Agent does when specific actions occur during a conversation or when conditions are met on active channels."
+---
+
+Events fire when specific actions occur during a conversation or when conditions are met on active channels. You configure what the AI Agent does when each event fires.
+
+Go to **Automation > Conversation Management > Events**.
+
+## Event actions
+
+When an event fires, the AI Agent executes one of these actions:
+
+| Action | Description |
+|--------|-------------|
+| **Initiate a Task** | Launches a selected Dialog task (Standard or Hidden). If the dialog is not published, the AI Agent shows an error. |
+| **Run a Script** | Runs JavaScript using session, context objects, variables, and functions. |
+| **Show a Message** | Displays a simple or advanced message with full formatting and channel override support. |
+
+## Event types
+
+Events fall into three categories: Intent, Conversation, and Sentiment.
+
+| Event | Category | Trigger |
+|-------|----------|---------|
+| **Intent not Identified** | Intent | AI Agent cannot identify user intent. |
+| **Ambiguous Intents Identified** | Intent | Two or more intents identified with similar confidence scores. |
+| **End of Task** | Conversation | A dialog task or FAQ completes. |
+| **Task Execution Failure** | Conversation | Error occurs during task execution. |
+| **RCS Opt-in** | Conversation | User opts in to the RCS Messaging channel. |
+| **RCS Opt-out** | Conversation | User opts out of the RCS Messaging channel. |
+| **Repeat Bot Response** | Conversation | User requests the AI Agent to repeat its last response (primarily for voice/IVR). |
+| **Sentiment Events** | Sentiment | User emotion matches configured tone criteria. |
+
+## Intent events
+
+### Intent not identified
+
+Fires when the AI Agent cannot understand the user's intent. Configure one of:
+
+- **Show a standard message** from the standard responses library.
+- **Automatically run a dialog task** — select the task from the dropdown.
+
+### Ambiguous intents identified
+
+Fires when the NLP engine detects multiple intents with similar confidence. By default, the AI Agent presents the list of ambiguous intents to the user for selection.
+
+**Conditions that trigger this event:**
+- Two or more "definite" intents are identified.
+- Two or more "possible" intents are identified within the proximity threshold.
+- Only low-confidence Knowledge Graph intents are found and no other engine identifies an intent.
+
+**To configure:**
+1. Go to **Conversation Intelligence > Events > Intent Events**.
+2. Click **Configure** to enable the event.
+3. Select a configuration option: present all qualified intents to the user (default), or automatically run a Dialog Task.
+4. Click **Save & Enable**.
+
+## Conversation events
+
+### End of task
+
+Fires when the AI Agent is no longer expected to send or receive messages. The context is updated with the end reason and the completed task name.
+
+| Scenario | End of Task flag |
+|----------|------------------|
+| Reached the last node of the dialog | `Fulfilled` |
+| Task canceled by the user | `Canceled` |
+| Error in task or FAQ execution | `Failed` |
+| FAQ answered successfully | `Fulfilled` |
+| Event executed via Run Script or Show Message | `Fulfilled_Event` |
+
+### Task execution failure
+
+Fires when an error occurs during dialog task execution, including AI Agent execution errors, service call failures, agent transfer errors, and webhook failures.
+
+**Defaults:** Always enabled with the **Show Message** action. Cannot be disabled.
+
+### Repeat bot response
+
+Fires when specific utterances request the AI Agent to repeat its last response. Applies to voice channels: IVR, Audiocodes, Twilio Voice, and SmartAssist Gateway.
+
+## Sentiment events
+
+Sentiment Events detect a user's emotional state and trigger specific behaviors—such as transferring to a live agent when a user is frustrated.
+
+The NLP interpreter analyzes user utterances for tone and stores scores in the context object.
+
+### Configure a sentiment event
+
+1. Go to **Conversation Intelligence > Events > Sentiment Events**.
+2. Click **+ New Event**.
+3. Configure the event name, trigger timing (on Task Completion or After Every User Utterance), and emotion configurations.
+
+**Tone score scale:** Scores range from **-3** (definitely suppressed) to **+3** (definitely expressed).
+
+| Score | Meaning |
+|-------|---------|
+| **+3** | User definitely expressed the tone. |
+| **+2** | User expressed the tone. |
+| **0** | Neutral — tone not expressed or suppressed. |
+| **-3** | User definitely suppressed the tone. |
+
+**Available tones:** `angry`, `disgust`, `fear`, `sad`, `joy`, `positive`.
+
+**Using tone scores in transition conditions:**
+
+```javascript
+if (context.message_tone.angry > 2.0) {
+    // go to liveAgent
+}
+```

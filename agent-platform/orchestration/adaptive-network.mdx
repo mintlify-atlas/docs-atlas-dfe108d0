@@ -1,0 +1,198 @@
+---
+title: "Adaptive network pattern"
+description: "Agents dynamically transfer control to each other based on context and conversation flow."
+---
+
+Decentralized orchestration where agents autonomously decide when to hand off tasks to other specialists.
+
+## Overview
+
+The adaptive network pattern enables decentralized orchestration where agents autonomously decide when to hand off tasks to other specialists. Unlike the supervisor pattern, there's no central coordinator—agents evaluate tasks and route them directly to peers.
+
+```
+User Request → Agent A → Agent B → Agent C → Response
+                  └─────────┴─────────┘
+                    Dynamic handoffs
+```
+
+## When to use
+
+The adaptive network pattern is ideal when:
+
+- Tasks naturally **flow between domains**.
+- You need **dynamic routing** based on conversation context.
+- Agents should **autonomously decide** when to hand off.
+- **Sequential expertise** is required.
+- You want **lower latency** than supervisor aggregation.
+
+### Good fit examples
+
+| Use case | Why adaptive network works |
+|---|---|
+| Employee onboarding | HR → IT → Finance flow based on current step |
+| Customer journey | Sales → Support → Success natural progression |
+| Incident handling | Triage → Specialist → Resolution escalation |
+| Complex troubleshooting | Problem domains emerge during conversation |
+
+## Key characteristics
+
+### Dynamic delegation
+
+Agents assess incoming tasks and route them to the most suitable peer when the task falls outside their scope.
+
+```yaml
+User: "I can't log into my email"
+
+IT Agent evaluates:
+  Is this an account issue? → Hand off to Identity Agent
+  Is this a device issue? → Handle directly
+  Is this a policy issue? → Hand off to HR Agent
+```
+
+### Context preservation
+
+Conversation history travels with handoffs—users don't repeat information.
+
+```yaml
+Turn 1 (HR Agent): "I need to onboard a new employee, John Smith"
+Turn 2 (IT Agent receives context): Already knows it's about John Smith
+Turn 3 (Finance Agent receives context): Already knows full onboarding context
+```
+
+### Sequential workflows
+
+Tasks typically flow through agents sequentially rather than in parallel.
+
+## Execution flow
+
+```yaml
+1. User submits initial query
+
+2. Initial agent evaluates:
+   Intent analysis
+   Scope check
+   Capability assessment
+
+3. Agent decision:
+   Handle directly → Process and respond
+   Hand off → Select best agent, transfer control
+
+4. Next agent receives:
+   Original request
+   Conversation history
+   Handoff context
+
+5. Process continues until resolution
+
+6. Final agent delivers response to user
+```
+
+## Comparison with supervisor
+
+| Aspect | Supervisor | Adaptive network |
+|---|---|---|
+| Control | Centralized | Decentralized |
+| Execution | Parallel | Sequential |
+| Routing | Supervisor decides | Agents decide |
+| Latency | Higher (aggregation) | Lower (direct) |
+| Best for | Decomposable tasks | Flowing conversations |
+
+## Benefits
+
+| Benefit | Description |
+|---|---|
+| **Low latency** | Direct agent-to-agent communication |
+| **Natural flow** | Conversations progress organically |
+| **Agent autonomy** | Specialists decide when to engage |
+| **Context continuity** | Full history travels with handoffs |
+| **Scalability** | Add new agents without central changes |
+
+## Best practices
+
+### Clear handoff rules
+
+Define explicit conditions for when agents should hand off:
+
+```yaml
+handoff_triggers:
+  - condition: "User mentions billing or payment"
+    target: billing_agent
+
+  - condition: "Technical issue beyond my scope"
+    target: specialist_agent
+
+  - condition: "User explicitly requests different help"
+    target: router_agent
+```
+
+### Prevent circular handoffs
+
+Set maximum handoff limits and avoid circular routing:
+
+```yaml
+handoff:
+  max_handoffs: 5
+  allow_circular: false
+  track_visited: true
+```
+
+### Graceful fallbacks
+
+Handle cases where no agent can help:
+
+```yaml
+fallback:
+  agent: support_agent
+  message: "I'll connect you with a specialist who can help."
+```
+
+## Example: Smart employee buddy
+
+```yaml
+name: Smart Employee Buddy
+orchestration:
+  pattern: adaptive_network
+  initial_agent: welcome_agent
+
+agents:
+  - name: Welcome Agent
+    description: |
+      First point of contact. Greets employees and identifies
+      their needs. Routes to HR, IT, or Finance based on query.
+
+    instructions: |
+      Hand off rules:
+      - Benefits, leave, policies → HR Agent
+      - Computer, access, software → IT Agent
+      - Payroll, expenses, reimbursements → Finance Agent
+
+  - name: HR Agent
+    description: |
+      Handles leave requests, benefits inquiries, policy questions,
+      and employee data updates.
+
+    tools:
+      - get_leave_balance
+      - submit_leave_request
+      - get_benefits_info
+
+  - name: IT Agent
+    description: |
+      Manages access requests, password resets, software installation,
+      and technical troubleshooting.
+
+    tools:
+      - reset_password
+      - request_software
+      - create_support_ticket
+
+  - name: Finance Agent
+    description: |
+      Handles payroll questions, expense submissions, reimbursements,
+      and tax documents.
+
+    tools:
+      - get_payslip
+      - submit_expense
+      - get_tax_documents
+```

@@ -1,0 +1,66 @@
+---
+title: "Automation AI"
+description: "Build conversational AI assistants for customers, agents, and employees across voice and digital channels."
+---
+
+Automation AI uses **DialogGPT** and **AI Agents** to deliver multi-turn conversations that understand intent, retain context, and respond naturally.
+
+## Key components
+
+| Component | Description |
+|-----------|-------------|
+| **DialogGPT** | Agentic orchestration engine that routes conversations using generative models—no training data required. |
+| **Agent Flows** | Conversational workflows combining Dialog Tasks and Agent Nodes for goal-driven service interactions. |
+| **AI Agents** | Agent Nodes with tool-calling that handle complex tasks via contextual intelligence and external integrations. |
+| **Conversation management** | Handles interruptions, clarifications, and context switches mid-conversation. |
+| **Evaluation** | Testing suite to validate conversational workflows before deployment. |
+
+## DialogGPT orchestration
+
+DialogGPT analyzes each user message and routes it to the appropriate handler:
+
+- **Agent Flows** — Structured tasks for goal-oriented interactions
+- **Generative AI** — LLM-powered responses for open-ended queries
+- **Agent handoff** — Transfer to a human agent when needed
+
+## Build an AI Agent
+
+### 1. Create and configure the app
+
+| Step | What to do |
+|------|------------|
+| **Create the app** | Create a DialogGPT-based app. The platform auto-enables the required XO GPT models. |
+| **Configure DialogGPT** | Define Conversation Types and set models for Chunk Shortlisting and Conversation Orchestration. |
+
+### 2. Configure generative AI
+
+| Step | What to do |
+|------|------------|
+| **Integrate an LLM** | Connect to a supported LLM provider, a bring-your-own model, or Kore.ai XO GPT. |
+| **Create a custom prompt** | Tailor model behavior per use case. Agent Node supports tool calling and prompt streaming. |
+| **Enable GenAI features** | Activate LLM-powered features that accelerate development and improve runtime performance. |
+| **Configure data safeguards** | Enable PII/sensitive data anonymization and set up Guardrails to enforce appropriate AI outputs. |
+
+### 3. Build flows and connect knowledge
+
+| Step | What to do |
+|------|------------|
+| **Create a dialog** | Define conversation flows using interlinked nodes. |
+| **Add an Agent Node** | Use LLMs and tool calling to handle complex tasks and integrate with external systems. |
+| **Connect Search AI** | Index content from websites, documents, and third-party systems to give DialogGPT a reliable knowledge base. |
+| **Add supporting nodes** | Use Prompt, Entity, and Agent Transfer nodes with transitions to complete the conversation flow. |
+
+### 4. Test
+
+| Step | What to do |
+|------|------------|
+| **Interactive testing** | Validate your app in real time using the built-in [Playground](/ai-for-service/automation/testing/playground) before publishing. |
+| **Batch testing** | Upload CSV or JSON test cases to validate accuracy and reliability at scale. |
+
+### 5. Deploy
+
+| Step | What to do |
+|------|------------|
+| **Enable a channel** | Connect the agent to one or more voice or digital channels. |
+| **Configure agent transfer** | Set up handoff to a human agent. |
+| **Publish** | Submit the app through the publishing flow for admin review before making it available to end users. |

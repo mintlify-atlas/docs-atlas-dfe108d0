@@ -1,0 +1,263 @@
+---
+title: "Audit logs"
+description: "Track and audit all user actions and system events in AI for Process, including logins, role changes, model updates, and workflow activities."
+---
+
+**Audit Logs** on the Settings console provides full visibility into user actions and system interactions across your AI for Process account. Every log entry includes:
+
+- Event name and category.
+- The user who performed the action.
+- Date and time of the event.
+- A detailed description of the action.
+
+Use audit logs to identify patterns in user activity, detect anomalies, spot unauthorized usage, and ensure compliance with internal policies and regulations.
+
+## Access Audit Logs
+
+<Steps>
+  <Step title="Open Settings">
+    Go to **Settings** in the AI for Process top menu.
+  </Step>
+  <Step title="Navigate to Audit Logs">
+    In the left menu, click **Monitoring** > **Audit Logs**.
+  </Step>
+</Steps>
+
+## Dashboard information
+
+| Column | Description |
+|---|---|
+| **Event Name** | The specific event or action that occurred. |
+| **Category** | The module or entity affected by the event. |
+| **User Name** | The user who performed the action. |
+| **Date and Time** | When the event occurred. |
+| **Description** | Detailed information about what was done. |
+
+## Filter Audit Logs
+
+### Add a custom filter
+
+<Steps>
+  <Step title="Open the filter">
+    Go to **Audit Logs**. Click the **Filter** icon and click **+ Add Filter**.
+  </Step>
+  <Step title="Configure">
+    Select the **Column**, **Operator** (Is Equal To or Is Not Equal To), and **Value**. Click **Apply**.
+  </Step>
+</Steps>
+
+To clear filters, click **Clear All**.
+
+### Add multiple filters
+
+Combine multiple filters using **AND** or **OR** operators.
+
+<Note>AND and OR operators cannot be mixed in the same filter set. Use either AND or OR consistently across all filter criteria.</Note>
+
+- **AND**: All conditions must be met for an entry to appear.
+- **OR**: Any condition being met is sufficient.
+
+To add multiple filters, select the **AND** or **OR** operator tab in the **Filter By** window before configuring each filter.
+
+## Time-based Audit Logs
+
+Use the time selection feature to view logs within a specific period. Default is **Last 30 Days**.
+
+| Option | Description |
+|---|---|
+| **All Time** | All logs since the account was created. |
+| **Today** | Logs generated on the current day. |
+| **Yesterday** | Logs generated on the previous day. |
+| **This Week** | Logs for all days in the current week. |
+| **This Month** | Logs for all days in the current month. |
+| **Last Month** | Logs for all days in the previous month. |
+| **Last 30 Days** | Logs for the past 30 days. |
+| **Last 90 Days** | Logs for the past 90 days. |
+| **This Year** | Logs for all days in the current year. |
+| **Last Year** | Logs for all days in the previous year. |
+
+<Steps>
+  <Step title="Open the time filter">
+    Go to the **Audit Logs** dashboard. Click the time selection button (shows **Last 30 Days** by default).
+  </Step>
+  <Step title="Select a period">
+    Choose a preset period from the left panel, or click a date on the calendar widget.
+  </Step>
+  <Step title="Apply">
+    Click **Apply**.
+  </Step>
+</Steps>
+
+## Export Audit Logs
+
+Export account-level audit logs as a `.csv` file. The export includes: Date and Time, Event Name, Event Category, Description, User/App Name, and IP Address.
+
+<Steps>
+  <Step title="Export">
+    Go to the **Audit Logs** dashboard. Click the **Export** icon next to the **Filter By** icon.
+  </Step>
+</Steps>
+
+A success message confirms the download. The file is saved as `Account_Audit_Logs`.
+
+## Audit log event reference
+
+The tables below list all tracked events by category.
+
+### Account-level events
+
+<AccordionGroup>
+
+<Accordion title="Login/Logout">
+
+| Event | Description | Additional metadata |
+|---|---|---|
+| Login | Tracks account login activity. | Login method |
+| Logout | Tracks account logout activity. | — |
+
+</Accordion>
+
+<Accordion title="Roles">
+
+| Event | Description |
+|---|---|
+| Role edited | Tracks edits to a custom role. |
+| Role created | Tracks the creation of custom roles. |
+| Role deleted | Tracks the deletion of custom roles. |
+| Role changed | Tracks role changes for member users, including bulk changes. |
+
+</Accordion>
+
+<Accordion title="Integrations">
+
+| Event | Description |
+|---|---|
+| Integration added | Tracks integrations added to the account. |
+| Integration deleted | Tracks integration deletions. |
+| Integration disabled | Tracks the disabling of an integration. |
+| Integration edited | Tracks modifications to an integration's configuration. |
+
+</Accordion>
+
+<Accordion title="Models">
+
+| Event | Description | Additional metadata |
+|---|---|---|
+| Model added | Tracks the addition of models to the account. | Deployment Name or Connection Name |
+| Model deleted | Tracks the deletion of models from the account. | Deployment Name or Connection Name |
+| API Key created | Tracks API key creation for a model. | — |
+| API Key deleted | Tracks API key deletion for a model. | — |
+| Model fine-tuning | Tracks the fine-tuning process. | Training method, epochs, batch size, learning rate, datasets |
+| Model deployed | Tracks open-source model deployments. | Temperature, Max length, Top p/k, Inference batch size, replicas |
+| Model undeployed | Tracks open-source model undeployments. | Hours of usage, deployment parameters |
+
+</Accordion>
+
+<Accordion title="Workflows">
+
+| Event | Description |
+|---|---|
+| Workflow created | Tracks the creation of a workflow. |
+| Workflow deleted | Tracks the deletion of a workflow. |
+
+</Accordion>
+
+<Accordion title="Users management">
+
+| Event | Description | Additional metadata |
+|---|---|---|
+| User invited | Tracks the invitation of new users. | Added User IDs, Role Name, Role ID |
+| User deleted | Tracks the deletion of existing users. | Removed User IDs |
+
+</Accordion>
+
+<Accordion title="Prompts">
+
+| Event | Description |
+|---|---|
+| Prompt created | Tracks the creation of a prompt. |
+| Prompt deleted | Tracks the deletion of a prompt. |
+| Versions committed | Tracks prompt versions committed. |
+| Version restored | Tracks the prompt version restored. |
+| Prompt shared | Tracks prompts shared with other users. |
+| Endpoint copied | Tracks the prompt endpoint copy. |
+| Endpoint consumed | Tracks the prompt endpoint consumed externally. |
+| API Key created | Tracks API key creation for a prompt endpoint. |
+| Generated test data | Tracks the generation of test data. |
+| Generated prompt | Tracks prompt generation by the account user. |
+
+</Accordion>
+
+<Accordion title="Dataset">
+
+| Event | Description |
+|---|---|
+| Dataset uploaded | Tracks dataset uploads in the account. |
+
+</Accordion>
+
+<Accordion title="Guardrails">
+
+| Event | Description |
+|---|---|
+| Guardrails deployed | Tracks guardrails deployment. |
+| Guardrails undeployed | Tracks guardrails undeployment. |
+
+</Accordion>
+
+<Accordion title="Manage custom scripts">
+
+| Event | Description |
+|---|---|
+| Custom script saved as draft | Tracks a custom script saved as a draft. |
+| Custom script deployed | Tracks custom script deployment. |
+| Custom script undeployed | Tracks custom script undeployment. |
+| Custom script re-deployed | Tracks custom script redeployment. |
+| Custom script deleted | Tracks custom script deletion. |
+| Custom script exported | Tracks custom script export. |
+
+</Accordion>
+
+</AccordionGroup>
+
+### Workflow-level events
+
+<AccordionGroup>
+
+<Accordion title="Workflow management">
+
+| Event | Description |
+|---|---|
+| Workflow deployed | Tracks workflow deployments. |
+| Workflow undeployed | Tracks workflow undeployments. |
+| Version created | Tracks workflow version creation. |
+| Version deleted | Tracks workflow version deletion. |
+| API Key created | Tracks workflow API key creation. |
+| API Key deleted | Tracks workflow API key deletion. |
+| Workflow name updated | Tracks workflow name updates. |
+| Workflow description updated | Tracks workflow description updates. |
+| Workflow exported | Tracks workflow export. |
+| API sync timeout updated | Tracks synchronous timeout updates. |
+| API async enabled | Tracks enabling of asynchronous mode. |
+| API async updated | Tracks updates to asynchronous mode configuration. |
+| API async disabled | Tracks disabling of asynchronous mode. |
+| Environment variable added | Tracks the addition of an environment variable. |
+| Environment variable deleted | Tracks the deletion of an environment variable. |
+| Environment variable edited | Tracks the modification of an environment variable. |
+
+</Accordion>
+
+<Accordion title="Guardrails (workflow-level)">
+
+| Event | Description |
+|---|---|
+| Input scanner added | Tracks the addition of an input scanner. |
+| Input scanner edited | Tracks the modification of an input scanner. |
+| Input scanner removed | Tracks the deletion of an input scanner. |
+| Output scanner added | Tracks the addition of an output scanner. |
+| Output scanner edited | Tracks the modification of an output scanner. |
+| Output scanner removed | Tracks the deletion of an output scanner. |
+
+</Accordion>
+
+</AccordionGroup>

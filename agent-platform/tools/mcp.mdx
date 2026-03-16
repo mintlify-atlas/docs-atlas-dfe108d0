@@ -1,0 +1,167 @@
+---
+title: "MCP tools"
+description: "Connect agents to external tools and services using the Model Context Protocol."
+---
+
+Model Context Protocol (MCP) is an open standard that enables AI agents to interact with external tools, data, and services through a single, consistent interface.
+
+**Without MCP:** Connecting to multiple external services requires a separate integration with custom logic for each one.
+
+**With MCP:** The agent communicates with all services through a single interface, dramatically reducing development complexity.
+
+## Key capabilities
+
+- **Open standard** — Universal protocol for AI and tool integration
+- **Simplified development** — One interface to communicate with all tools on a server
+- **Scalable architecture** — Add new tools without building custom integrations
+- **Universal compatibility** — Any MCP-compatible client works with any MCP server
+
+## When to use
+
+MCP tools work best when:
+
+- Tools are hosted on **external servers**
+- You need **shared toolsets** across teams or multiple apps
+- Tools require **enterprise integrations**
+- You want to use **third-party tool providers**
+- You need **separation** between tool logic and agent logic
+
+| Use case | Why MCP works |
+|---|---|
+| CRM integration | Connect to a Salesforce MCP server |
+| Enterprise tools | Share tools across multiple apps |
+| Third-party services | Use pre-built MCP tool providers |
+| Microservices | Each service exposes tools via MCP |
+
+## How MCP works
+
+MCP uses a client-server architecture:
+
+| Component | Role |
+|---|---|
+| **MCP server** | Hosts and exposes tools to clients |
+| **MCP client** | The platform—discovers available tools and invokes them |
+| **MCP protocol** | Standardized communication layer (HTTP or SSE) |
+
+### Interaction workflow
+
+1. **Tool discovery** — The MCP client connects to the server and retrieves the list of available tools.
+2. **Intent detection** — The LLM receives the user query and the tool list, then identifies the appropriate tool.
+3. **Tool invocation** — The client sends a structured request with the tool name and required parameters.
+4. **Execution** — The server runs the tool and returns results to the client.
+5. **Response generation** — The agent uses the tool output to formulate a natural language response.
+
+## Configure MCP tools
+
+<Steps>
+  <Step title="Add an MCP server">
+    1. Navigate to **Tools** → **+ New Tool** → **MCP Tool**.
+    2. Enter a **Name** and **Description** for the MCP server.
+    3. Under **Request Definition**, click **Configure** and provide:
+       - **Type**: Select `HTTP` or `SSE`.
+       - **URL**: The endpoint that returns tool definitions.
+       - **Auth profiles**: Authorization profile for authenticating requests.
+       - **Headers** (optional): Header-based authentication or custom headers.
+       - **Body**: Request payload if the server requires additional parameters.
+  </Step>
+
+  <Step title="Discover tools">
+    Click **Test** to connect to the server and retrieve its available tools. On a successful connection, the platform displays all tools the server exposes.
+  </Step>
+
+  <Step title="Select tools">
+    Choose the tools to enable and click **Add Selected**.
+  </Step>
+
+  <Step title="Link to agent">
+    Add the selected MCP tools to your agent's tool list.
+  </Step>
+</Steps>
+
+## Manage MCP tools
+
+### Tool preview
+
+Navigate to **Tools** within the app and open the **MCP** tab to see all configured tools, grouped by server. Click any tool to view its description, input and output parameters, and sample responses.
+
+### Output parameters
+
+- **Use complete tool output** (default) — Returns the entire tool response without modification.
+- **Define custom parameters** — Extracts specific values from the tool response and maps them as structured outputs.
+
+### Tool naming
+
+By default, tools imported from an MCP server retain the original tool name. If a tool with the same name already exists, the system automatically prefixes the MCP server name:
+
+`<MCP server name>__<tool name>`
+
+For example: `GoogleMCP__GMAIL_DELETE_DRAFT`
+
+### Updating tools
+
+Click the **refresh** icon on the MCP server card to fetch the latest tool definitions from the server. The platform compares tools by name:
+
+- If all agent-linked tools are still available, the update is applied automatically.
+- If any agent-linked tools are no longer available, the platform displays a message listing the removed tools.
+
+## Authentication
+
+<CodeGroup>
+```yaml Bearer token
+auth:
+  type: bearer
+  token: "{{env.MCP_TOKEN}}"
+```
+
+```yaml API key header
+auth:
+  type: api_key
+  header: X-API-Key
+  key: "{{env.MCP_API_KEY}}"
+```
+
+```yaml OAuth 2.0
+auth:
+  type: oauth2
+  client_id: "{{env.CLIENT_ID}}"
+  client_secret: "{{env.CLIENT_SECRET}}"
+  token_url: https://auth.example.com/token
+```
+</CodeGroup>
+
+## Limitations
+
+- **Static discovery** — Tool lists are fetched at configuration time. If the server adds, removes, or updates tools, manually reconfigure the server to apply the changes.
+- **No automatic sync** — Dynamic updates from the MCP server are not automatically reflected in the platform.
+- **Supported operations** — The platform supports tool discovery, invocation, and result processing. It does not support MCP resource endpoints, MCP prompt templates, or dynamic tool updates.
+
+## Security
+
+If the MCP server exposes pre-authorized tools that access PII, avoid sharing the agentic app that uses those tools. Sharing the app may grant others access to sensitive data on the connected servers.
+
+## Building an MCP server
+
+To expose your own tools via MCP, implement a server using the MCP SDK:
+
+```javascript
+import { MCPServer } from '@modelcontextprotocol/server';
+
+const server = new MCPServer({
+  name: 'my-tools',
+  version: '1.0.0'
+});
+
+server.addTool({
+  name: 'get_inventory',
+  description: 'Check product inventory levels',
+  parameters: {
+    product_id: { type: 'string', required: true }
+  },
+  handler: async (params) => {
+    const inventory = await checkInventory(params.product_id);
+    return { stock: inventory.quantity, location: inventory.warehouse };
+  }
+});
+
+server.listen(3000);
+```

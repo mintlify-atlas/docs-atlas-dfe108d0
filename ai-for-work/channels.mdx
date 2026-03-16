@@ -1,0 +1,278 @@
+---
+title: "Channels"
+description: "Deploy AI for Work directly inside Microsoft Teams and Slack, including architecture, prerequisites, and step-by-step configuration."
+---
+
+Deploy AI for Work directly inside your organization's collaboration platforms. This guide covers integration with **Microsoft Teams** and **Slack**.
+
+## Microsoft Teams
+
+AI for Work integrates with Microsoft Teams using Azure Bot Service, enabling users to access AI assistance, receive proactive notifications, and use Copilot features without leaving Teams.
+
+### When to use
+
+| Scenario | Details |
+|----------|--------|
+| **Heavy Teams usage** | Organizations using Teams as the primary hub for communication, meetings, and file sharing |
+| **Workflow integration** | Teams needing AI assistance during active chats, meetings, or collaborative document sessions |
+| **Proactive notifications** | Businesses requiring AI-driven alerts, reminders, or time-sensitive updates delivered in Teams |
+| **Copilot enhancement** | Companies extending standard Copilot with custom AI agents and specialized workflows |
+
+### Architecture
+
+```
+[AI for Work Platform] ↔ [Azure Bot Service] ↔ [Microsoft Teams]
+```
+
+| Component | Role |
+|-----------|------|
+| **AI for Work Platform** | Processes user requests |
+| **Azure Bot Service** | Routes messages between the platform and Teams |
+| **Microsoft Teams** | User-facing interface |
+| **Azure App Registration** | Manages authentication and permissions |
+
+### Prerequisites
+
+| Requirement | Details |
+|-------------|--------|
+| **Azure Subscription** | Active subscription with administrative privileges |
+| **Teams Admin Access** | Permission to upload and manage custom apps in the Teams Admin Center |
+| **AI for Work Account** | Active subscription with access to the Admin Console |
+
+### Configuration
+
+<Steps>
+  <Step title="Initial setup and webhook configuration">
+    **Objective**: Establish communication between AI for Work and Azure Bot Service.
+
+    1. Log in to the **Admin Console**.
+    2. Navigate to **Channels** > **Microsoft Teams and Copilot**.
+    3. Copy and save the **Webhook URL** for use in Azure Bot configuration.
+  </Step>
+  <Step title="Azure Bot Service creation">
+    **Create Azure Bot Resource:**
+
+    1. Sign in to the **Azure Portal**.
+    2. Click **+ Create a resource** and search for **Azure Bot**.
+    3. Select **Azure Bot** and configure the following:
+       - **Bot Handle**: Choose a unique name
+       - **Subscription**: Select your active subscription
+       - **Resource Group**: Create or reuse an existing group
+       - **Pricing Tier**: Select based on expected usage
+       - **App Type**: Select **Multi-Tenant** or **Single-Tenant**
+
+    **Configure Bot Resource:**
+
+    1. After deployment completes, navigate to **Configuration** in the left sidebar.
+    2. Paste the webhook URL from the AI for Work platform into the **Messaging endpoint** field and click **Apply**.
+  </Step>
+  <Step title="Authentication and security setup">
+    **For MultiTenant applications:**
+
+    1. In **Configuration**, click **Manage Password** next to the Microsoft App ID.
+    2. Go to **Certificates &amp; secrets** → **+ New client secret**.
+    3. Enter description and expiry → **Add**.
+    4. Copy the **Value** of the client secret (App Password).
+    5. Record the **Microsoft App ID** and **App Password** for the Platform configuration.
+
+    **For Single-Tenant applications**: Follow the same steps. Also note the Tenant ID for the Platform configuration.
+  </Step>
+  <Step title="Enable Microsoft Teams Channel integration">
+    1. Navigate to **Channels** in the bot resource menu.
+    2. Select the **Microsoft Teams** channel and **M365 Extensions** channel (required for Copilot integration).
+    3. Review channel information and select **Save**.
+
+    <Note>The Web Chat channel isn't supported for this integration, so keep it disabled.</Note>
+  </Step>
+  <Step title="Proactive notifications setup">
+    **Create App Registration for notifications:**
+
+    1. In the Azure Portal, navigate to **App registrations** → **+ New registration**.
+    2. Configure the application name and supported account types. Click **Register**.
+
+    **Add Microsoft Graph permissions:**
+
+    1. Navigate to **API permissions** and select **Add a permission** → **Microsoft Graph** → **Application permissions**.
+    2. Add the following permissions:
+       - `MS TeamsAppInstallation.ReadForUser.All`
+       - `MS TeamsAppInstallation.ReadWriteSelfForUser.All`
+       - `MS TeamsAppInstallation.ReadWriteForUser.All`
+       - `User.Read.All`
+       - `AppCatalog.Read.All`
+    3. Click **Grant Admin Consent**.
+    4. Generate a **Client Secret** and note the **App ID** and **Directory (Tenant) ID**.
+    5. Configure these values in AI for Work under **Microsoft Teams &amp; Copilot Channel Settings**.
+  </Step>
+  <Step title="Configure AI for Work Platform">
+    1. Navigate to **Admin Console** → **Channels** → **Microsoft Teams and Copilot**.
+    2. Enter the following credentials under **Configuration**:
+       - **Microsoft App Tenant ID**: (Single-Tenant only) The tenant ID from the bot's app registration
+       - **Microsoft App ID**: The App ID from your Azure Bot resource
+       - **App Password**: The client secret from the bot's app registration
+       - **App ID of the Microsoft Teams App**: Additional app credentials for proactive notifications
+       - **Application (Client) ID**: From the notifications app registration
+       - **Client Secret**: From the notifications app registration
+       - **Delivery (Tenant) ID**: From the notifications app registration
+
+    **Customization options**: Customize the **App Name**, **Logo**, and **Description** before publishing to Microsoft Teams.
+
+    **Copilot enablement**: Enable **Copilot Integration** during configuration so Teams users can access platform features using Copilot.
+  </Step>
+  <Step title="Microsoft Teams application deployment">
+    **Generate application manifest:**
+
+    Upon configuring credentials in the Platform, generate and download the Microsoft Teams application manifest file.
+
+    **Upload to Microsoft Teams Admin Center:**
+
+    1. Sign in to [Microsoft Teams Admin Center](https://admin.teams.microsoft.com/).
+    2. Navigate to **Microsoft Teams apps** → **Manage apps**.
+    3. Click **Upload new app** and select the downloaded manifest file.
+    4. Wait for upload and validation to complete.
+
+    Configure app permission policies as needed and set up app setup policies for automatic installation (optional).
+  </Step>
+  <Step title="User access configuration">
+    Choose how to distribute the Platform app in Microsoft Teams:
+
+    - **Add App for All Users** (Recommended) — Automatically adds the Platform app for all employees. All users receive a notification and welcome message.
+    - **Let Users Add App Themselves** — The app is available in the Microsoft Teams App Marketplace. Users search for and add it manually.
+    - **Add App for Selected Users or User Groups** — Assigns the app only to specific users or security groups. Selected users are automatically notified.
+
+    <Note>Users must be provisioned in the **Account Hub** of the Platform to access the app.</Note>
+  </Step>
+</Steps>
+
+### Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Bot not responding in Microsoft Teams">
+    - Verify the webhook URL is correctly configured in Azure Bot.
+    - Check that the Microsoft Teams channel is enabled and saved.
+    - Validate client secrets haven't expired.
+  </Accordion>
+  <Accordion title="Authentication failures">
+    - Confirm all required API permissions are granted with admin consent.
+    - Verify client secrets are copied correctly (Value, not Secret ID).
+    - Check tenant ID matches between configurations.
+  </Accordion>
+  <Accordion title="Manifest upload failures">
+    - Ensure you have proper permissions in the Microsoft Teams Admin Center.
+    - Verify the manifest file is not corrupted during download.
+    - Check organizational policies allow custom app uploads.
+  </Accordion>
+  <Accordion title="Proactive notifications not working">
+    - Verify all required Microsoft Graph permissions are granted.
+    - Verify that the notification app registration client secret is valid.
+    - Ensure JWT token generation is working correctly.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Slack
+
+AI for Work integrates with Slack as a custom app, enabling users to perform work tasks, query enterprise knowledge, and interact with AI agents without leaving Slack.
+
+### When to use
+
+| Scenario | Details |
+|----------|--------|
+| **Seamless workflow integration** | Teams needing AI assistance during active conversations, with persistent chat history and context retention |
+| **Enterprise knowledge access** | Organizations connecting users to knowledge repositories within Slack channels |
+| **Heavy Slack usage** | Remote or hybrid teams that treat Slack as their central hub |
+
+### Architecture
+
+```
+[AI for Work Platform] ↔ [Slack App Configuration] ↔ [Slack Workspace]
+```
+
+### Prerequisites
+
+| Requirement | Details |
+|-------------|--------|
+| **Slack Workspace** | Active workspace with administrative privileges |
+| **Slack Developer Portal Access** | Permission to create and manage apps in your workspace |
+| **AI for Work Account** | Active subscription with access to the Admin Console |
+
+### Integration lifecycle
+
+| Phase | Steps |
+|-------|-------|
+| **Configuration and creation** | Customize app details in the Admin Console to generate an App Manifest, then use the manifest to create the app in the Slack Developer Portal |
+| **Connection and security** | Perform a credential exchange to link the platforms, then authorize the required permissions |
+| **Rollout** | Define the welcome experience, then grant user access to onboarded employees |
+
+### Configuration
+
+<Steps>
+  <Step title="Configure app display settings">
+    1. Log in to the **Admin Console**.
+    2. Navigate to **Channels** → **Slack**.
+    3. Open the **Configuration** page and set:
+
+    | Setting | Description |
+    |---------|-------------|
+    | **App Name** | Name users see when interacting with the app in Slack |
+    | **App Description** | Explains the app's capabilities; appears in the About section in Slack |
+
+    <Note>If you change the app name or description after deployment, generate a new manifest and update the Slack app in the Developer Portal.</Note>
+  </Step>
+  <Step title="Generate the app manifest">
+    1. On the **Configuration** page, click **Get Manifest**.
+    2. Copy the entire manifest code.
+  </Step>
+  <Step title="Create the app in the Slack Developer Portal">
+    1. Go to the [Slack Developer Portal](https://api.slack.com/apps/).
+    2. Click **Create New App** and select **From a manifest**.
+    3. Select the target workspace from the **Slack Workspace** dropdown.
+    4. Paste the manifest code, click **Next**, review the configuration, then click **Create**.
+  </Step>
+  <Step title="Configure app credentials">
+    **Retrieve credentials from Slack:**
+
+    1. In the Slack Developer Portal, navigate to **Basic Information** → **App Credentials**.
+    2. Copy the **Client ID**, **Client Secret**, and **Signing Secret**.
+
+    **Enter credentials in AI for Work:**
+
+    1. Return to the **Admin Console** → **App Credentials** page.
+    2. Paste the copied values into the corresponding fields.
+    3. Click **Authorize**, then click **Allow** in the Slack permission request.
+  </Step>
+  <Step title="Customize the welcome experience">
+    1. In the Admin Console, navigate to the **Welcome Experience** page.
+    2. Configure the following:
+
+    | Setting | Description |
+    |---------|-------------|
+    | **Welcome Message** | Introductory message users see when they first open the app |
+    | **Sample Prompts** | Up to four clickable prompts to help users start a conversation |
+
+    3. For each sample prompt, set the **Display Message** (text shown to users) and **Actual Query** (complete query sent to the platform when the user clicks the prompt).
+    4. Click **Save and Update**.
+  </Step>
+  <Step title="Customize the app icon (optional)">
+    1. In the Slack Developer Portal, go to **Basic Information** → **Display Information**.
+    2. Click **Upload** next to **App Icon** and select an image file.
+    3. Optionally, set a **Background Color** and click **Save Changes**.
+  </Step>
+</Steps>
+
+### User access management
+
+Only users who have onboarded to AI for Work can interact with the Slack app. Before deploying:
+
+1. Invite all intended users to the platform.
+2. Onboard users with the appropriate access permissions.
+3. Confirm users exist in both the platform and the target Slack workspace.
+
+Users in the Slack workspace who have not onboarded will see the app but receive an error when attempting to send a message.
+
+### Current limitations
+
+| Limitation | Details |
+|------------|--------|
+| **Single workspace** | The app deploys to one Slack workspace. Multi-workspace deployments require a separate app instance per workspace. |
+| **Direct messaging only** | The app functions as a direct messaging interface. Adding the app to channels is not supported, and mentions in public or private channels do not trigger responses. |

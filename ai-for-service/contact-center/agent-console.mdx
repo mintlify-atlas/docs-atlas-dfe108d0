@@ -1,0 +1,154 @@
+---
+title: "Agent console"
+description: "Unified agent desktop for handling customer interactions across voice, chat, and email channels."
+---
+
+The Agent Console is your primary workspace for handling customer interactions. It combines conversation management, real-time AI assistance, customer context, and communication tools in a single interface.
+
+To open the console, select the **Console** icon on the left panel.
+
+## Console layout
+
+The Agent Console has four main panels:
+
+1. **Conversation Tray** — lists all your assigned conversations with status indicators.
+2. **Incoming Interactions** — shows new interactions waiting for you to accept.
+3. **Live Interaction Pane** — your active workspace for chatting, calling, or emailing customers.
+4. **Additional Tools** — widgets for Agent AI, customer history, canned responses, and user info.
+
+## Agent status
+
+Your status controls whether new interactions are routed to you.
+
+| Status | Description | Receives interactions |
+|--------|-------------|----------------------|
+| **Available** | Ready for new interactions. | Yes |
+| **Busy** | At full capacity. | No |
+| **Away** | Temporarily unavailable. | No |
+| **Break** | On a scheduled break. | No |
+| **Training** | In a training session. | No |
+| **Login Prep** | Preparing before going live. | No |
+| **Offline** | Logged out. | No |
+
+### Status insights
+
+Select **View Status Insights** from the status icon to see time spent in each status for the current day. For custom date ranges, select **View Detailed Status Insights**.
+
+## Conversation tray
+
+The Conversation Tray shows all conversations assigned to you.
+
+| Status | Description |
+|--------|-------------|
+| **Overdue** | No response within the system-specified time. |
+| **Ongoing** | Last message within the system-specified time. |
+| **Idle** | Last message beyond the system-specified time threshold. |
+| **After Call Work (ACW)** | Post-call tasks after ending a conversation. |
+
+Use the search bar to find conversations by phone number, email address, or customer name.
+
+### Manual call (dialer)
+
+1. Select the **+** icon on the Conversation Tray and select **Outbound Call**.
+2. On the **Dialer** tab, select the country, enter the phone number, and select **Call**.
+
+## Incoming interactions
+
+### Accepting interactions
+
+**Manual Answer Mode:** Select **Accept** to take the next interaction. If you do not accept within the configured time, the conversation returns to the queue and your status changes to Away.
+
+**Auto Answer Mode:** Interactions are automatically accepted and appear in your Conversation Tray with a **New** indicator.
+
+**Channel selection:** You can choose to receive **Voice & Digital**, **Digital** only, or **Voice** only.
+
+## Live interaction pane
+
+The Live Interaction Pane is where you communicate with customers.
+
+### Arrival summary
+
+Every conversation starts with an Arrival Summary showing: agent name, conversation summary, queue, wait time, intent, and customer sentiment.
+
+### Composing responses
+
+- Type in the text editor and select **Send**, or press **Tab + Enter**.
+- Press **/** in the text editor to open the standard response library.
+- Use AI-enhanced compose options (Make more friendly, Make more formal, Expand, Rephrase) to improve drafts.
+
+### Real-time sentiment
+
+The sentiment indicator reflects the overall sentiment of the full conversation. Select the indicator to view a graph showing emotional fluctuations per message.
+
+## Voice interactions
+
+### Outbound calls
+
+1. Select **+** on the Conversation Tray and select **Outbound Call**.
+2. Select the number to call from (phone number or SIP trunk).
+3. Enter the phone number with the country code and select **Call**.
+
+### Consult, conference, and warm transfer
+
+**Consult call:** Select **Transfer**, search for an agent, and select **Consult**. The customer is placed on hold and the consult call connects. Use **Merge** to start a conference or **Forward** for a warm transfer.
+
+**Conference call:** Select **Merge** during a consult to bring the customer into the conversation. Up to 4 supervisors and the primary agent can join the same conference call.
+
+**Warm transfer:** After a consult, select **Forward** to transfer the call to the other agent and disconnect yourself.
+
+### Call transfer
+
+1. Select **Transfer** (or press **Alt + Shift + T**) and search for an **Agent** or **Queue**.
+2. Select the agent or queue and choose **Transfer**.
+
+## Chat and digital interactions
+
+- **Translate conversations:** Select **Translate** on the Live Interaction Pane and choose a language.
+- **Attachments:** Select the **Attachments** icon to share files (stored in Amazon S3).
+- **Co-browse:** Select **CoBrowse** to view and optionally control a customer's web session in real time.
+- **Snooze:** Pause a conversation timer and free your slot while waiting for a customer response.
+
+## Email interactions
+
+Emails appear as threaded conversations.
+
+| Action | Result |
+|--------|--------|
+| **Reply** | Opens a response window addressed to the most recent sender only. |
+| **Reply All** | Opens a response window addressed to all participants. |
+| **Forward** | Opens a new draft with subject prefixed by `Fwd:`. |
+
+**Work Bin:** Park an email conversation temporarily, freeing your slot while waiting for a customer reply.
+
+## Agent forms (secure forms)
+
+Agent forms let customers submit sensitive information securely.
+
+1. Select **Agent Form**.
+2. Select the form and select **Send Form**.
+3. When the customer submits it, the status changes to **Filled**. Select the form to view it.
+4. Select **Unmask** to view masked fields.
+
+## Ending interactions
+
+1. Select **End** in the Live Interaction Pane.
+2. Confirm by selecting **Yes**. The interaction moves to After Call Work (ACW).
+
+### Dispositions
+
+A disposition code labels the outcome of an interaction. Select a code from the dropdown during or after the conversation. If Intelligent Disposition Suggestions is enabled, the system suggests the most appropriate disposition code automatically.
+
+## Feedback surveys
+
+After interactions end, the platform can send a feedback survey to the customer.
+
+| Type | Scale |
+|------|-------|
+| **CSAT** | 1 (extremely poor) to 5 (extremely good). |
+| **NPS** | 0–10 (Detractors: 0–6, Passives: 7–8, Promoters: 9–10). |
+| **Like or Dislike** | 1 = Like, 0 = Dislike. |
+
+## Request supervisor support
+
+1. Select **⋮** (more options) on the Live Interaction Pane and select **Request Supervisor Support**.
+2. Select one or more supervisors from the list.

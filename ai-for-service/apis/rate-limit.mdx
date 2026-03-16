@@ -1,0 +1,52 @@
+---
+title: "API rate limits"
+description: "Per-minute and hourly rate limits for Automation AI, Contact Center AI, Case Management, and Quality AI APIs."
+---
+
+The Platform enforces rate limits to restrict the number of API requests a user, account, or application can make within a timeframe. This prevents a single user or service from consuming disproportionate resources.
+
+When a rate limit is exceeded, subsequent requests fail with one of the following error messages:
+
+- Minute-based limit: *"You've exceeded the per-minute rate limit. Please wait for sometime before retrying."*
+- Hour-based limit: *"You've exceeded the hourly rate limit. Please wait for sometime before retrying."*
+
+## Automation AI
+
+The Platform enforces rolling rate limits within a dynamic timeframe. Requests are monitored against both sixty-second and one-hour limits.
+
+| Enforcement level | Rate limit | API list |
+|---|---|---|
+| bot | 60 per minute / 1800 per hour | Bot Definition APIs, NLP Training APIs, Analytics APIs. |
+| request_id | 60 per minute / 1800 per hour | Bot Definition Status APIs, NLP Training Status APIs. |
+| account | 60 per minute / 1800 per hour | Admin APIs: Get Bots, Users, Roles, Groups, Create Users, Get Audit Logs. |
+| bot | 600 per minute / 18000 per hour | Proactive Notification APIs. |
+| account+table | 600 per minute / 18000 per hour | Data access APIs: Insert, Bulk Insert, Update, Delete, Get Table/View Data. |
+
+## Contact Center AI
+
+Requests are monitored against a sixty-second limit.
+
+| Enforcement level | Rate limit | API list |
+|---|---|---|
+| account | 60 per minute | Analytics and Reporting, Agent Creation, Skills, Skill Groups, Agent Groups, Contacts, Import/Export, Transfer Conversation, Queue Management, WFM, Hours of Operation, Voice Gateway, Campaign Management APIs. |
+
+## Case Management
+
+| Enforcement level | Rate limit | API list |
+|---|---|---|
+| account | 60 per minute | Create Case, Get Cases, Update Case, Create Task, Get Tasks, Update Task. |
+
+## Quality AI
+
+| Enforcement level | Rate limit | API list |
+|---|---|---|
+| account | 60 per minute | Raw Data API, Auto QA Reporting API. |
+
+## Best practices
+
+- Spread out calls evenly to avoid traffic spikes.
+- Use filters to limit the data response size and avoid calls that request overlapping data.
+- When the limit has been reached, stop making API calls and wait for the specific time period to pass.
+- Implement a backoff strategy where your application automatically reduces its request frequency and retries failed requests after a calculated delay.
+
+Need a higher or custom rolling rate limit? [Contact support](https://support.kore.ai/).

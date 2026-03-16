@@ -1,0 +1,147 @@
+---
+title: "Get started with AI for Service"
+description: "Sign up, access the platform, invite users, and create your first AI Agent."
+---
+
+## Platform access
+
+AI for Service is available in multiple regions. Use the URL for your region to sign in.
+
+| Region | URL |
+|--------|-----|
+| USA | https://platform.kore.ai |
+| Europe (London) | https://eu-platform.kore.ai |
+| Europe (Frankfurt) | https://de-platform.kore.ai |
+| Australia (APAC — Sydney) | https://au-platform.kore.ai |
+| Japan (APAC — Tokyo) | https://jp-platform.kore.ai |
+| India | https://ind-platform.kore.ai |
+| UAE | https://uae-platform.kore.ai |
+
+<Note>The USA URL is used as an example throughout the documentation. Replace it with your region-specific URL.</Note>
+
+**Supported browsers:** Use the latest version of Google Chrome, Microsoft Edge, Apple Safari, or Mozilla Firefox. Microsoft Internet Explorer mode in Edge is not supported.
+
+## Outbound IP addresses
+
+AI for Service makes outbound requests from fixed IP addresses per region. If your systems use IP allowlisting, add the relevant IPs to your allowlist.
+
+| Region | IP addresses |
+|--------|---|
+| **USA** | 52.207.81.54, 34.238.21.227, 34.228.134.6 |
+| **Europe — London** | 35.179.36.9, 35.179.4.190, 3.9.151.173 |
+| **Europe — Frankfurt** | 3.126.94.96, 18.194.131.193, 3.65.5.141 |
+| **Australia — Sydney** | 52.65.123.248, 52.63.83.166, 54.252.52.177 |
+| **Japan — Tokyo** | 54.65.238.216, 54.168.3.216, 18.180.133.211 |
+| **India** | 4.240.14.190, 4.247.161.41 |
+| **UAE** | 40.172.43.246, 51.112.108.234, 51.112.78.248 |
+
+## Trial plans
+
+AI for Service offers trials for Automation AI and Contact Center AI. For Agent AI and Search AI, click **Contact Us** to express interest.
+
+| Product | Duration | Key limits |
+|---------|----------|-------------|
+| **Automation AI** | 14 days | 2,000 sessions; 2,000 Voice Gateway minutes; 100 document pages; 10,000 search queries |
+| **Contact Center AI** | 30 days | 5 concurrent agent seats; 2,000 Voice Gateway minutes |
+
+- Trials for different modules run independently — you can start additional trials while one is active.
+- Automation AI (trial or paid) includes basic Search AI. Full functionality requires the Advanced RAG Add-on.
+- When a trial expires, apps stop responding to end users, but you retain access to build and deploy.
+
+## Account and workspace setup
+
+### Sign up
+
+You can sign up in two ways:
+
+- **Create a new account:** Sign up with your work email. You automatically become the account Admin and can invite others.
+- **Join an existing account:** Accept an Admin's email invite, or sign up with your enterprise email and select the enterprise workspace when prompted.
+
+<Steps>
+  <Step title="Visit your region-specific login page">
+    Go to the URL for your region listed above.
+  </Step>
+  <Step title="Enter your details">
+    Enter your work email and required details, then select **Sign up**.
+  </Step>
+  <Step title="Verify your email">
+    Enter the verification code sent to your email and select **Verify**.
+  </Step>
+</Steps>
+
+You can also sign up using Google or Microsoft Office 365. The platform uses SAML-based authentication for both sign-up and sign-in flows.
+
+<Note>If your verification code expires, request a new one. The platform sends reminder emails with updated codes at periodic intervals.</Note>
+
+### Sign in
+
+Sign in with your registered email and password. The platform also supports:
+
+- **Single sign-on (SSO):** Authenticate once using one set of credentials.
+- **Two-factor authentication (2FA):** An additional security layer that prompts for a code after your username and password.
+
+### Workspaces
+
+A **workspace** organizes your team and apps. Key facts:
+
+- Every new workspace is a **Standard Workspace** by default. A company representative can upgrade it to an **Enterprise Workspace**.
+- A workspace can have one or more apps; a user can belong to multiple workspaces and apps.
+- "Workspace" and "account" are used interchangeably throughout the documentation.
+
+| Task | How |
+|------|-----|
+| **Join a workspace** | If your email domain matches an existing workspace, it appears during sign-up. Select **Request Access** to join. |
+| **Create a workspace** | During sign-up, choose **Create New**. Provide a name and invite members by email. |
+| **Switch workspaces** | Use the **Account Switcher** in the upper-right corner of the platform. |
+| **Browse workspaces** | Select **Browse Workspaces** to see all active workspaces in your organization, filtered by email domain. |
+
+## Invite users
+
+### Invite to a workspace
+
+<Steps>
+  <Step title="Open the invite dialog">
+    On the platform landing page, select **Invite** from the top navigation menu.
+  </Step>
+  <Step title="Enter email addresses">
+    Enter the email addresses of the users to invite and press **Enter**.
+  </Step>
+  <Step title="Send invitations">
+    Select **Invite**. Users receive an email and gain workspace access upon accepting.
+  </Step>
+</Steps>
+
+<Note>The **Invite Members** option is visible by default to admins with the **Master Admin** role. For custom admin roles, enable the **Invite** permission in role management.</Note>
+
+### Invite via the Admin Portal
+
+1. Sign in to https://platform.kore.ai/admin.
+2. Select **Enrollment** > **Invite**.
+3. Enter the email IDs and select **Send Invitations**.
+
+### Grant platform access
+
+To allow invited users to build and manage apps:
+
+1. Sign in to https://platform.kore.ai/admin.
+2. Select **User Management** > **Users**.
+3. Select the target users, choose **XO Platform** from the **Actions** dropdown, and click **Apply**.
+
+## Create your first app
+
+DialogGPT is the default orchestration mode for new AI for Service apps. It reduces configuration effort and improves conversational accuracy.
+
+<Steps>
+  <Step title="Open the New App dialog">
+    On the app listing page, click **New App**.
+  </Step>
+  <Step title="Select the app type">
+    Select the app type: **AI Agents** (Automation AI), **Contact Center AI**, **Search AI**, or **Agent AI**.
+  </Step>
+  <Step title="Enter app details">
+    Enter the **App Name** and a brief **Description**. Select the **Language** and **App Icon**.
+  </Step>
+  <Step title="Proceed">
+    Click **Proceed**. In the confirmation dialog, choose to review the DialogGPT configuration or proceed directly to create dialogs.
+  </Step>
+</Steps>

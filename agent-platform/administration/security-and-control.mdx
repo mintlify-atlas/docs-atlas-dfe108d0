@@ -1,0 +1,162 @@
+---
+title: "Security and control"
+description: "Configure authentication, authorization, encryption, API access control, and custom scripts for your Agent Platform account."
+---
+
+Configure authentication, authorization, encryption, API access control, and custom scripts for your Agent Platform account.
+
+| Feature | Description |
+|---|---|
+| [Authentication settings](#authentication-settings) | Authenticate users through an external Identity Provider using SAML, WS-Federation, or OpenID Connect |
+| [Authorization profiles](#authorization-profiles) | Define how the platform authenticates with external web services using OAuth |
+| [Encryption key management](#encryption-key-management) | Configure platform-managed or bring-your-own-key (BYOK) encryption |
+| [API scopes](#api-scopes) | Create permission-limited API keys scoped to specific endpoints |
+| [Custom scripts](#custom-scripts) | Import, deploy, and manage custom scripts in isolated containers |
+
+## Authentication settings
+
+Authentication Settings lets administrators configure how users sign in to the platform. You can enable Single Sign-On (SSO) and Multi-Factor Authentication (MFA).
+
+<Note>Only account owners and admins can configure Authentication Settings.</Note>
+
+### Single Sign-On (SSO)
+
+SSO allows users to access their platform accounts using credentials managed by an external IdP.
+
+**Supported protocols and providers:**
+
+| Protocol | Providers |
+|---|---|
+| SAML 2.0 | Okta, OneLogin, Other Provider |
+| WS-Federation | Windows Azure, Other Provider |
+| OpenID Connect | Google |
+
+### Enable SSO
+
+1. On the **Single Sign-On** page, click **Enable SSO**.
+2. Select a **Sign-on protocol** and **SSO provider**.
+3. Enter the configuration parameters for your selected protocol and provider.
+4. Add at least one SSO-excluded user.
+5. Select **Save**.
+
+### SSO-excluded users
+
+When SSO is enabled, designate specific users who can bypass SSO and sign in via email/password—useful when the SSO provider is unavailable.
+
+<Note>The account owner is excluded by default. It is strongly recommended to exclude at least one additional admin user as a fallback.</Note>
+
+### Multi-Factor Authentication (MFA)
+
+MFA adds a second layer of verification during sign-in. Supported methods: Email Verification, Authenticator App (TOTP), and SMS.
+
+1. Go to **Security & Control** → **Authentication Settings**.
+2. Under **MFA Status**, toggle **MFA Required**.
+3. Under **Allowed MFA Methods**, select the methods to enable.
+4. Click **Save**.
+
+## Authorization profiles
+
+Authorization profiles define how the platform authenticates with external web services. Configure profiles once and reuse them across API nodes, AI nodes, and other integrations.
+
+### Supported auth types
+
+| Type | Description | Use case |
+|---|---|---|
+| **OAuth V2** | Token-based authorization supporting user-interactive flows | Third-party API access |
+| **OAuth V2 Client Credential** | Machine-to-machine flow using client ID and secret; no user interaction | Server-to-server communication |
+
+### Add an auth profile
+
+1. On the **Authorization Profile** page, click **Create Authorization Profile**.
+2. Select the **Authorization Type**.
+3. Enter the **Identity Provider Name**.
+4. Fill in the required fields (Callback URL, Client ID, Client Secret, Authorization URL, Token Request URL).
+5. Click **Save New Auth**.
+
+## Encryption key management
+
+The platform encrypts all account data. You can use the platform's built-in key management or integrate with your organization's external Key Management System (KMS) using Bring Your Own Key (BYOK).
+
+### Platform-managed encryption
+
+The platform automatically encrypts all data using built-in keys—no configuration required. Keys rotate every 90 days.
+
+### Bring Your Own Key (BYOK)
+
+Use keys stored in your own KMS. **Supported providers:** AWS KMS, Azure Key Vault.
+
+1. Go to **Settings** → **Key Management**.
+2. Click **Configure BYOK**.
+3. Select your cloud provider and enter the required configuration details.
+
+## API scopes
+
+API Scopes replace unrestricted management API keys with permission-limited, scoped keys.
+
+**Key rules:**
+- API keys are restricted to assigned scopes.
+- Multiple API keys can exist per app.
+- An API key cannot be shared across multiple apps.
+- API keys cannot be modified after creation—only deleted.
+- Each key can only be copied once.
+
+### Supported scopes
+
+| Scope | Description |
+|---|---|
+| Deploy Tool | Deploy a specific tool into an environment |
+| Undeploy Tool | Remove a deployed tool from an environment |
+| Deploy Model | Deploy an open-source or fine-tuned model |
+| Undeploy Model | Remove a deployed model |
+| Import Model | Import a model into the platform in chunks |
+| Import Tool | Import a new tool |
+| Export Model | Export a trained AI model |
+| Export Tool | Export a tool's configuration and associated data |
+| Deploy Guardrails | Deploy guardrails |
+| Undeploy Guardrails | Remove previously deployed guardrails |
+| View Connections | View connection details |
+| Manage Connections | Create and update connections |
+
+### Create an API app
+
+1. On the **API Scopes** page, click **Create an API App**.
+2. Enter an app name.
+3. Select the required scopes.
+4. Click **Next**.
+5. Click **Create API Key**, enter a name, and click **Generate Key**.
+6. Click **Copy and Close** to copy the key.
+
+<Note>The API key is shown only once. Save it in a secure location.</Note>
+
+## Custom scripts
+
+Admins can import, deploy, and manage custom scripts directly from **Settings** → **Manage Custom Scripts**. Scripts run in isolated containers.
+
+### Import and deploy a script
+
+Click **+ Import**, then complete the four-step wizard:
+
+1. **General details**: Enter script name, description, base language (JavaScript v20.19.0 or Python v3.10.15), and upload the project file (.zip, .gz, or .tar, max 1 GB).
+2. **Runtime settings**: Configure environment variables and execution timeout (30–600 seconds).
+3. **Resource allocation**: Set scaling parameters (min/max replicas, compute utilization) and select hardware profile.
+4. **Review and deploy**: Accept Terms and Conditions and click **Deploy**.
+
+### Script statuses
+
+| Status | Description |
+|---|---|
+| Draft | Saved but not yet deployed |
+| Deploying | Deployment in progress |
+| Ready to Deploy | Configured and ready for deployment |
+| Deployed | Running successfully |
+| Deployment Failed | Deployment did not complete successfully |
+
+### Hardware profiles
+
+| Profile | Credits/hour |
+|---|---|
+| 1 vCPU / 2 GB | 0.077 |
+| 2 vCPUs / 4 GB | 0.154 |
+| 2 vCPUs / 8 GB | 0.144 |
+| 4 vCPUs / 8 GB | 0.308 |
+| 4 vCPUs / 16 GB | 0.288 |

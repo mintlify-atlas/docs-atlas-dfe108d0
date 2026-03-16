@@ -1,0 +1,73 @@
+---
+title: "Dynamic routing"
+description: "Route user queries to the most appropriate specialized app using DialogGPT-powered intent detection through a single entry point."
+---
+
+Dynamic Routing is a single entry point that intelligently routes user queries to the most appropriate specialized app based on intent. It is powered by **DialogGPT**, an agentic orchestrator using Retrieval-Augmented Generation (RAG) and LLMs.
+
+You configure Dynamic Routing by linking apps through the **Automation Node** in Flows. This eliminates the need for extensive utterance-based training.
+
+## Key concepts
+
+### Autonomy levels
+
+| Level | Description |
+|-------|-------------|
+| **Orchestrated Autonomy** | DialogGPT-powered intent detection routes user input to linked apps. |
+| **Full Autonomy** | Agent Platform-powered automation that handles entire flows without predefined paths. |
+
+### Parent app and linked apps
+
+| Role | Description |
+|------|-------------|
+| **Parent App** | Manages its own dialogs, FAQs, and Knowledge Base. Orchestrates linked app dialogs and FAQs using DialogGPT. |
+| **Linked Apps** | Apps connected to the parent app. Their dialogs and FAQs are indexed to support intent resolution. |
+
+### App indexes
+
+| Index | Description |
+|-------|-------------|
+| **Configured App Index** | In-development version. Created when apps are first linked; updated via **Sync Updates**. |
+| **Published App Index** | Live, user-facing version. Created when the parent app is published; auto-updated when linked apps are published. |
+
+## How dynamic routing works
+
+1. **App linking and indexing** — When an app is linked, the parent app indexes the linked app's dialogs and FAQs. Indexes include metadata: dialog name, description, app name, and fulfillment type.
+2. **User query processing** — When a user submits a query, DialogGPT converts it to an embedding and compares it against stored embeddings to find the most semantically similar chunks.
+3. **Intent identification** — User input and the top-matching chunks are sent to the LLM, which identifies the most appropriate intent.
+4. **Fulfillment and response** — Based on the identified intent, Dynamic Routing executes a dialog, provides an FAQ answer, handles multiple intents, clarifies ambiguous intents, or engages in small talk.
+
+## Setup
+
+**Prerequisites:**
+- At least two apps in the same workspace.
+- Each app to be linked must contain at least one dialog.
+- DialogGPT must be enabled.
+
+<Steps>
+  <Step title="Open the Automation Node">
+    Go to **Flows & Channels > Flows > Start Flows > Welcome Chat Flow** and click the **Automation Node**.
+  </Step>
+  <Step title="Set Orchestrated Autonomy">
+    In **Component Properties**, set **Autonomy Level** to **Orchestrated Autonomy**.
+  </Step>
+  <Step title="Enable dynamic routing">
+    In **Automation AI Options**, select **Use GenAI to dynamically route to linked apps**.
+  </Step>
+  <Step title="Link apps">
+    Click **+Link Apps**, select the apps to link, and click **Save**.
+  </Step>
+</Steps>
+
+## Managing app updates
+
+| Scenario | Action required |
+|----------|----------------|
+| Dialog or FAQ added/updated in a linked app | Click **Sync Updates** in the linked app to refresh the Configured App Index. |
+| Dialog or FAQ added/updated in the parent app, or a new app linked | Click **Sync Updates** in the parent app, then publish the new or updated apps. |
+
+## Best practices
+
+- Enable DialogGPT before setting up Dynamic Routing.
+- Publish linked apps before publishing the parent app.
+- Use **Sync Updates** and re-publish apps after any changes to keep indexes in sync.

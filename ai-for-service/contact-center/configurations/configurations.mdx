@@ -1,0 +1,185 @@
+---
+title: "Contact center configurations"
+description: "Set up operational parameters including working hours, languages, response templates, surveys, and monitoring displays."
+---
+
+Use the Configurations section to set up the operational parameters of your contact center — working hours, languages, agent tools, and monitoring displays.
+
+| Configuration | Description |
+|---------|-------------|
+| [Hours of operation](#hours-of-operation) | Define working hours, holidays, and special days. |
+| [Languages and speech](#languages-and-speech) | Manage supported languages, hold audio, and voice authentication. |
+| [Response templates](#response-templates) | Create and organize canned responses for agents. |
+| [Surveys](#surveys) | Configure post-interaction customer satisfaction surveys. |
+| [Agent forms](#agent-forms) | Build forms for capturing customer information. |
+| [Widgets](#widgets) | Embed external systems into the Agent Console. |
+| [Wallboards](#wallboards) | Monitor contact center performance in real time. |
+
+## Hours of operation
+
+Hours of Operation defines when agents are available — standard working hours, weekends, holidays, and special days by time zone. Contact Center AI uses this configuration to trigger [Conditional Flows](/ai-for-service/contact-center/flows-and-routing/conditional-and-waiting-flows) for out-of-hours and no-agents-available scenarios.
+
+To access, go to **Contact Center AI** > **CONFIGURATIONS** > **Hours of Operation**.
+
+### Add hours of operation
+
+1. Select **+ Add New**.
+2. Enter a **Name** and select a **Time Zone**.
+3. Configure **Work Days** (set hours per day; weekdays open by default, weekends closed).
+4. Add **Holidays and Special Days** as needed:
+
+   | Field | Description |
+   |-------|-------------|
+   | **Date** | The date of the holiday or special day. |
+   | **Name** | A label for the entry. |
+   | **Period** | **Partial** — adjust working hours for that day. **Full** — the entire day is a holiday. |
+
+5. Select **Save**.
+
+## Languages and speech
+
+This section manages the languages, hold audio, and voice authentication settings for your contact center.
+
+To access, go to **Contact Center AI** > **CONFIGURATIONS** > **Languages & Speech**.
+
+### Language management
+
+Select **Supported Languages** to add, enable, or disable languages for agents and bots.
+
+- **Add a language:** Select languages from the Language pane and select **Save**.
+- **Disable a language:** Uncheck the language and select **Save**. The language is deactivated in all access channels but not removed.
+
+### Hold audio
+
+Hold audio plays to customers while they wait in queue or are on hold.
+
+1. Select **Browse** or drag a `.WAV` file into the panel.
+2. Optionally rename the file in the **Rename Audio** field.
+3. Select **Save**.
+
+### Voice authentication
+
+Voice authentication uses voiceprints to identify and verify customers for secure access.
+
+1. Go to **Languages & Speech** > **Voice Authentication**.
+2. Enable **Voice Biometric Authentication** and select a provider: **Illuma** or **ID R&D**.
+3. Enter the **Host URL** and **API Key** from the provider.
+4. Select **Save**.
+
+## Response templates
+
+Response Templates are predefined messages that agents send during customer interactions. Templates are organized into Response Groups and can be filtered by skill, agent group, or queue.
+
+To access, go to **Contact Center AI** > **CONFIGURATIONS** > **Response Templates**.
+
+**Default response groups:**
+
+| Group | Purpose |
+|-------|---------|
+| **Greeting** | Welcome messages. |
+| **Conversational** | Small talk, follow-ups on delays. |
+| **Closing** | End-of-chat messages, survey requests. |
+| **Transfer** | Messages for transferring to an agent, manager, or queue. |
+| **Abuse** | Initial and final warnings for abusive language. |
+| **Privacy** | Permission-based privacy responses. |
+
+### Create a response group
+
+1. Select **+ Response Group**.
+2. Configure **Group Name**, **Shortcut Command**, **Description**, and optional **Skill Match**, **Agent Group Match**, and **Queue Match** conditions.
+
+### Create a response
+
+1. Select a response group and then **+ New Response**.
+2. Set the **Title** and **Auto Expire** (Never or Custom Date).
+3. Select a response type (Chat or Email) and add content.
+4. Select **Create**.
+
+**Available variables in responses:**
+
+| Variable | Description |
+|----------|-------------|
+| `Customer First Name` | Customer's first name. |
+| `Customer Last Name` | Customer's last name. |
+| `Customer Email` | Customer's email address. |
+| `Agent First Name` | Agent's first name. |
+| `Agent Nick Name` | Agent's nickname. |
+
+## Surveys
+
+Surveys collect customer satisfaction feedback after an interaction ends.
+
+**Supported survey types:**
+
+| Type | Scale |
+|------|-------|
+| **CSAT** | 1 (extremely poor) to 5 (extremely good). |
+| **NPS** | 0–10: Detractors (0–6), Passives (7–8), Promoters (9–10). |
+| **Like or Dislike** | Thumbs up or thumbs down. |
+
+### Create a survey
+
+1. Enter the **Survey Name** and **Description**.
+2. Select the **Chat Experience**, **Call Experience**, or **Email Experience** tab and enable it.
+3. Configure the **Request Message** and **Gratitude Message** with language and text.
+4. Set the **Survey Frequency**: Show to Everyone, Show to Every nth User, or Agents can Trigger.
+5. Optionally configure **Advanced Survey Conditions**.
+6. Enable the survey toggle and select **Done**.
+
+## Agent forms
+
+Agent Forms are configurable input forms that agents use to capture customer information during interactions.
+
+To access, go to **Contact Center AI** > **CONFIGURATIONS** > **Agent Forms**.
+
+**Form statuses:**
+
+| Status | Meaning |
+|--------|---------|
+| **In-development** | The form is being built, or was edited after publishing. |
+| **Published** | The form is approved and available to human agents in the console. |
+
+### Create an agent form
+
+1. Select **+ New Form**.
+2. Enter the **Name**, **Display Name**, and **Description**.
+3. Optionally enable **Agent Form Data** to redact form input from logs.
+4. Select an **Assignment** (Queues or Agent Groups).
+5. Select **Save & Proceed**, then build the form using the Form Builder.
+
+## Widgets
+
+Widgets embed external systems or web pages into the Agent Console. Agents access widgets within custom agent console layouts.
+
+To access, go to **Contact Center AI** > **CONFIGURATIONS** > **Widgets**.
+
+### Add a widget
+
+1. Select **External Widget**, then **+ New External Widget**.
+2. Configure the **Widget Name**, **Load without conversation** option, and **Widget Icon**.
+3. Enter the **Widget URL**, optionally using variables:
+
+   | Variable | Description |
+   |----------|-------------|
+   | `Agent Id` | Unique agent identifier. |
+   | `Customer Email Id` | Customer's email address. |
+   | `Conversation Id` | Unique conversation identifier. |
+
+4. Enter a **Failure URL** (optional) and select **Save**.
+
+## Wallboards
+
+Wallboards display real-time contact center performance metrics across queues.
+
+To access, go to **Contact Center AI** > **CONFIGURATIONS** > **Wallboards**.
+
+### Create a wallboard
+
+1. Select **+ Add New Wallboard**.
+2. Enter a **Name** and optional **Description**.
+3. Select the **Wallboard Type**:
+
+   - **Center Wide** — shows aggregated data across multiple queues.
+   - **Queue Specific** — shows agent performance rankings for a specific queue.
+
+4. Configure the settings (queues, channels, time period, scroll text) and select **Create**.

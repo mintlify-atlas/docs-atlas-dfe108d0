@@ -1,0 +1,71 @@
+---
+title: "Digital and voice channels"
+description: "Deploy AI Agents across digital and voice channels including messaging, social, web, mobile, and voice."
+---
+
+Deploy AI Agents across digital and voice channels.
+
+## Overview
+
+AI for Service supports two broad channel categories:
+
+| Category | Channels |
+|---|---|
+| [**Digital**](#digital-channels) | Enterprise messaging (Slack, Teams, WhatsApp), social (Facebook Messenger, Instagram), web/mobile, webhooks, email, SMS. |
+| [**Voice**](#voice-channels) | Voice Gateway (native), third-party voice (Twilio, Alexa, AudioCodes, IVR). |
+
+Add and manage channels from **Flows & Channels > Channels**.
+
+## Digital channels
+
+Digital channels cover all non-voice delivery mechanisms. The platform groups them into **Enterprise**, **Social**, and **Other** categories.
+
+| Category | Examples |
+|---|---|
+| Enterprise | Amazon Connect Chat, Genesys Cloud CX, Microsoft Teams & Copilot, Slack, WhatsApp Business, Zoom Contact Center. |
+| Social | Facebook Messenger, Instagram, Twitter, Telegram, WeChat, Line. |
+| Other | Email, SMS, Twilio SMS, Web/Mobile Client, Widget SDK, Webhook. |
+
+**To enable a channel:** Go to **Flows & Channels > Channels > Digital > All**, select the channel, configure it, and publish the app.
+
+## Voice channels
+
+### Voice Gateway
+
+Voice Gateway is the platform's native voice automation solution. It manages inbound call flows for Contact Center AI and integrates with existing telephony infrastructure.
+
+**Go to:** Product > **Flows & Channels > Channels > Voice Gateway**
+
+#### Configure Voice Gateway
+
+| Task | Description |
+|---|---|
+| **Phone Numbers** | Buy Twilio-managed numbers or import existing ones. Attach a Start Flow to each number. |
+| **SIP Trunk** | Configure network IPs/FQDNs, DID numbers, transport (TCP/UDP/TLS), and SIP credentials. Supports Contact Center AI and Agent AI. |
+| **ASR/TTS** | Set Speech-to-Text and Text-to-Speech providers (Google, Microsoft Azure, AWS Polly, ElevenLabs, Deepgram, OpenAI, PlayHT) per language. |
+| **Voice Call Properties** | Define global call behavior: end-of-task actions, event handlers, call termination, timeout prompts, barge-in, and retry limits. |
+
+#### Advanced configuration
+
+| Topic | Description |
+|---|---|
+| **Utility Functions** | `agentUtils` for modifying SIP transfer properties. `voiceUtils` for controlling calls directly: hangup, SIP refer/invite, abort prompts, DTMF, pause/play, voicemail, transfer. |
+| **Speech Customization** | Override ASR/TTS settings at session or node level. Parameters include provider, language, voice name, barge-in, timeout, DTMF collection, confidence thresholds. |
+| **SSML support** | Control pitch, rate, volume, and pronunciation in TTS responses. |
+
+#### Troubleshooting
+
+| Issue | Resolution |
+|---|---|
+| App publish failing | Check `SIPTRUNK` status in the `dockstatus` API response via browser DevTools. |
+| Agent transfer not working | Verify Voice Enabled is on for the user, transfer type is set to SmartAssist, and the WebSocket/REGISTER handshake returns 200 OK. |
+| TTS error on voice call | Reselect the voice in Voice Preferences and make a minor edit to the flow to force the system to register the change. |
+
+### Third-party voice
+
+| Channel | Integration method | Key notes |
+|---|---|---|
+| **Amazon Alexa** | Alexa Skills Kit + Webhook URL | Export dialog tasks as Alexa Interaction Model JSON. |
+| **Twilio Voice** | TwiML App + Webhook URL | Associate a Twilio phone number with the TwiML app. |
+| **IVR-AudioCodes** | Webhook (JWT-authenticated) | Configure the Webhook URL as `botURL` in AudioCodes VoiceAI Connector. |
+| **IVR (Generic)** | VXML + Webhook | Native VXML generation, hybrid IVR flows, ASR metadata extraction. |

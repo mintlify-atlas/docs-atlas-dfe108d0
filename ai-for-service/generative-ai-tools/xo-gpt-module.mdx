@@ -1,0 +1,110 @@
+---
+title: "Kore.ai XO GPT module"
+description: "Fine-tuned LLMs for enterprise conversational AI optimized for accuracy, safety, and production efficiency."
+---
+
+The Kore.ai XO GPT module provides fine-tuned LLMs for enterprise conversational AI. These models are optimized for accuracy, safety, and production efficiency.
+
+**Current capabilities:** Answer Generation, Conversation Summarization, User Query Rephrasing, AI Agent Response Rephrasing, Vector/Embedding Generation (Text and Image), and Intent Resolution (DialogGPT).
+
+## Benefits
+
+| Benefit | Description |
+|---------|-------------|
+| **Better accuracy** | Smaller foundation models (under 10B parameters), fine-tuned for conversational AI, outperform prompting larger generative models directly |
+| **Faster responses** | Smaller models co-hosted with the platform deliver low-latency responses suited for digital and voice production use cases |
+| **Ready to use** | Pre-fine-tuned models deploy immediately — no in-house AI expertise or tuning cycles required |
+| **Data security** | Fully integrated into the platform, enforcing enterprise-grade data confidentiality, privacy, and governance |
+
+## Supported features
+
+| Feature | Description |
+|---------|-------------|
+| **Answer Generation** | Generates answers from data ingested into Search AI using RAG |
+| **Conversation Summary** | Generates concise summaries of agent-user-human interactions; integrates with Contact Center and third-party apps via API |
+| **DialogGPT — Conversation Orchestration** | Manages conversation flow, identifies intent, and routes conversations in universal apps |
+| **Rephrase Dialog Responses** | Rephrases AI Agent responses based on conversation context and user emotion |
+| **Rephrase User Query** | Expands and rephrases user queries to improve NLP accuracy |
+| **Vector Generation (Image & Text)** | Creates vector embeddings for text and image data in Search AI |
+
+## Model specifications
+
+### Answer Generation model
+
+A RAG-based model that generates accurate answers from domain-specific ingested data.
+
+- **Architecture:** Transformer-based, fine-tuned on enterprise QA datasets
+- **Input:** User query + retrieved context chunks from Search AI
+- **Output:** Grounded answer with source citations
+- **Languages:** English (primary), with multilingual support for common languages
+
+### Conversation Summarization model
+
+An abstractive summarization model for agent-customer interaction transcripts.
+
+- **Architecture:** Sequence-to-sequence transformer
+- **Input:** Full conversation transcript (up to configurable token limit)
+- **Output:** Structured summary with key topics, actions, and resolution
+- **Use cases:** Post-call notes, CRM updates, agent handoff summaries
+
+### DialogGPT model
+
+An intent prediction model for multi-turn conversation orchestration.
+
+- **Architecture:** Encoder-based classification model
+- **Input:** Current utterance + conversation history
+- **Output:** Intent classification with confidence score
+- **Use cases:** Universal bot intent routing, ambiguity resolution
+
+### Response Rephrasing model
+
+Rephrases AI Agent responses to be more empathetic and contextually appropriate.
+
+- **Input:** Original response + user emotion signal
+- **Output:** Rephrased response matching the desired tone
+- **Tones supported:** Empathetic, formal, casual, brief
+
+### User Query Paraphrasing model
+
+Expands and rephrases user queries to improve downstream NLP accuracy.
+
+- **Input:** User utterance + conversation context
+- **Output:** Normalized, disambiguated query
+- **Use case:** Improve intent detection for short or ambiguous inputs
+
+## Enabling XO GPT models
+
+<Steps>
+  <Step title="Open Generative AI Tools">
+    Go to **Generative AI Tools** > **Models Library**.
+  </Step>
+  <Step title="Select XO GPT">
+    Choose **Kore.ai XO GPT** from the model provider list.
+  </Step>
+  <Step title="Enable features">
+    Toggle on the specific features you want to use (Answer Generation, Summarization, etc.).
+  </Step>
+  <Step title="Configure prompts (optional)">
+    Customize prompts for each feature in the **Prompts Library** if needed.
+  </Step>
+  <Step title="Test">
+    Use the test console to verify each feature works as expected.
+  </Step>
+</Steps>
+
+## Model fine-tuning process
+
+1. **Collect data** — gather a task-relevant dataset to serve as training material
+2. **Select a base LLM** — choose a pre-trained model suited to the task
+3. **Train** — adjust model parameters using the task-specific dataset
+4. **Test and refine** — evaluate on a validation dataset and iterate
+
+## Providing feedback
+
+To submit feedback on model quality, open a support ticket with:
+- Sample inputs and outputs that demonstrate the issue
+- Error category (wrong answer, wrong tone, off-topic, etc.)
+- Your use case description
+- Expected vs. actual output
+
+Submit feedback via the Kore.ai support portal at [support.kore.ai](https://support.kore.ai).

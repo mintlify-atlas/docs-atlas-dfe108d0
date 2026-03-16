@@ -1,0 +1,99 @@
+---
+title: "Billing and usage"
+description: "Monitor and manage credit consumption, tool run usage, and cost breakdowns across your Agent Platform account."
+---
+
+Monitor and manage credit consumption, tool run usage, and cost breakdowns across your Agent Platform account.
+
+New accounts receive free credits by default: **75 model credits** and **10,000 tool runs**. Model credits cover model inference and guardrails; tool runs are consumed when invoking tools. Once exhausted, these actions are disabled until you add more credits. To add credits, [contact Support](https://support.kore.ai).
+
+## Accessing billing and usage
+
+1. Log in and click **Autonomous Agents** from the module list.
+2. Click **Settings** on the top navigation bar.
+3. In the left navigation pane, click **Billing** → **Usage**.
+
+The Usage page contains five tabs:
+
+| Tab | What it shows |
+|---|---|
+| **Overview** | High-level summary of runs, credits, and usage trends |
+| **Tools** | Activity and status for all deployed tools |
+| **Models** | Computational costs per model and deployment |
+| **Guardrails** | Guardrail statistics and credit consumption |
+| **Custom scripts** | Deployed script statistics and hosting credit usage |
+
+## Credit usage summary widget
+
+The **Clock** icon in the top-right corner provides an at-a-glance view of your account's credit status.
+
+| Icon state | Credit balance | What it means |
+|---|---|---|
+| **Green** | > 75% remaining | Healthy balance |
+| **Yellow/Orange** | 25–75% remaining | Moderate usage |
+| **Red** | < 25% remaining | Add credits soon |
+| **Triangle (warning)** | 0% remaining | All credits exhausted; services paused |
+
+## Alerts and notifications
+
+### Banner alerts
+
+In-app banners appear at these thresholds:
+
+| Threshold | Banner type |
+|---|---|
+| 20%, 50%, 70%, 80%, 90% used | Removable |
+| 100% used (credits or runs) | Fixed |
+| Free credits expired | Fixed |
+
+### Email notifications
+
+Emails are sent at **50%, 70%, 80%, and 90%** consumption of model credits and tool runs.
+
+## Overview tab
+
+| Metric | Description |
+|---|---|
+| **Runs** | Tool runs consumed vs. total allocation |
+| **Credits** | Credits used across models, guardrails, and custom scripts vs. total |
+| **Usage trend** | Chart showing tool runs and model credit consumption over the selected time period |
+
+## Tools tab
+
+Displays all tools that have been deployed at least once.
+
+| Field | Description |
+|---|---|
+| **Total tools** | Total number of tools in the account |
+| **Total runs** | Combined run count across all tools |
+| **Tool name** | Name of the tool |
+| **Runs** | Number of times the tool was invoked |
+| **Owner name** | User who created the tool |
+| **Last active on** | Date the tool was last used |
+| **Status** | Deployed, Undeployed, or Deleted |
+
+## Models tab
+
+Displays all open-source and fine-tuned models with their associated computational costs.
+
+| Metric | Description |
+|---|---|
+| **Total models** | Total number of models in the account |
+| **Total credits** | Credits used across all models and deployments |
+| **Fine-tuning credits** | Credits consumed for fine-tuning |
+| **Hosting credits** | Credits for deploying and running models on GPUs |
+
+## Guardrails tab
+
+Displays guardrails used in the account with hardware details and associated costs. Guardrail credits are deducted from your Model credits balance.
+
+## Custom scripts tab
+
+Displays all custom scripts with deployment credits and hosting details. Scripts are charged per deployment based on the hardware profile used.
+
+## Best practices
+
+- Review the **Overview** tab regularly to track trends before credits run low.
+- Use date filters to compare usage across different time periods.
+- Check the **Tools**, **Models**, **Guardrails**, and **Custom Scripts** tabs to identify cost-saving opportunities.
+- Monitor guardrail deployment duration—hardware costs accumulate over time.

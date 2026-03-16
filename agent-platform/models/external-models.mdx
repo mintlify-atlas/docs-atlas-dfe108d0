@@ -1,0 +1,174 @@
+---
+title: "External models"
+description: "Connect commercial and custom AI models to Agent Platform."
+---
+
+External models are AI models hosted outside the platform. Once connected, they can be used across Agent Platform in agentic apps, Prompt Studio, tools, and Evaluation Studio.
+
+## Supported providers (easy integration)
+
+| Provider | Authentication | Tool calling |
+|---|---|---|
+| OpenAI | API Key | ✓ |
+| Anthropic | API Key | ✓ |
+| Google | API Key | ✓ |
+| Cohere | API Key | ✓ |
+| Azure OpenAI | API Key + Endpoint | ✓ |
+| Amazon Bedrock | IAM Role ARN | ✓ |
+| Vertex AI | API Key | ✓ |
+| Microsoft Foundry | API Key / Service Principal | ✓ |
+
+**Custom models (API Integration)**: Connect any model via REST API endpoint.
+
+For the complete list of supported models, see [Supported models](/agent-platform/models/supported-models).
+
+## Add a model via easy integration
+
+Use easy integration for commercial providers with API keys or IAM roles.
+
+### Standard providers (OpenAI, Anthropic, Google, Cohere)
+
+1. Go to **Models** → **External Models** → **Add a model**.
+2. Select **Easy Integration** → click **Next**.
+3. Choose your provider → click **Next**.
+4. Select a model from the supported list.
+5. Enter a **Connection name** and your **API key**.
+6. Click **Confirm**.
+
+The model is now available across Agent Platform.
+
+### Amazon Bedrock
+
+Bedrock uses IAM role-based authentication instead of API keys.
+
+1. Go to **Models** → **External Models** → **Add a model**.
+2. Select **Easy Integration** → **AWS Bedrock** → **Next**.
+3. Configure credentials:
+
+| Field | Description |
+|---|---|
+| IAM Role ARN | Your IAM role with Bedrock permissions |
+| Trusted Principal ARN | Platform's AWS principal (pre-populated) |
+| Model Name | Internal identifier |
+| Model ID | Bedrock Model ID or Endpoint ID |
+| Region | AWS region of the model |
+
+4. Click **Confirm**.
+
+### Vertex AI
+
+Vertex AI uses API key authentication to access Gemini models from your Google Cloud account.
+
+1. Go to **Models** → **External Models** → **Add a model**.
+2. Select **Easy Integration** → **Vertex AI** → **Next**.
+3. Choose a configuration method:
+
+**Manual setup:**
+
+| Field | Description |
+|---|---|
+| Model | Select a Gemini model |
+| Connection name | Internal identifier |
+| API key | Your Google Vertex AI API key |
+| Project ID | (Optional) Your Google Cloud project identifier |
+| Region | (Optional) Google Cloud region |
+
+**Import from cURL:** Enter a connection name, paste a cURL command, click **Fetch**, then **Confirm**.
+
+### Microsoft Foundry
+
+Supports entering credentials manually or using an Azure Active Directory Service Principal.
+
+1. Go to **Models** → **External Models** → **Add a model**.
+2. Select **Easy Integration** → **Microsoft Foundry** → **Next**.
+3. Enter credentials from your model's Details page in Microsoft Foundry.
+
+## Add a model via API integration
+
+Use API integration for custom endpoints or self-hosted models.
+
+<Note>For agentic apps compatibility, custom models must support tool calling and follow OpenAI or Anthropic request/response structures.</Note>
+
+1. Go to **Models** → **External Models** → **Add a model**.
+2. Select **Custom Integration** → click **Next**.
+3. Enter configuration:
+
+| Field | Description |
+|---|---|
+| Connection name | Unique identifier |
+| Model endpoint URL | Full API endpoint URL |
+| Authorization profile | Select configured auth profile or None |
+| Headers | Optional key-value pairs for requests |
+
+4. Configure model settings using Default or Existing Provider Structures mode.
+5. Click **Confirm**.
+
+## Model configuration modes
+
+### Default mode
+
+Manually configure request/response handling for complete control.
+
+**Configure request body** using `{{variable}}` placeholders:
+
+```json
+{
+  "model": "your-model-name",
+  "messages": [
+    {"role": "system", "content": "{{system.prompt}}"},
+    {"role": "user", "content": "{{prompt}}"}
+  ],
+  "max_tokens": 1000,
+  "temperature": 0.7
+}
+```
+
+**Map response JSON paths** after testing:
+
+| Field | Description | Example |
+|---|---|---|
+| Output path | Location of generated text | `choices[0].message.content` |
+| Input tokens | Input token count | `usage.prompt_tokens` |
+| Output tokens | Output token count | `usage.completion_tokens` |
+
+### Existing provider structures mode
+
+Automatically apply pre-defined schemas from known providers.
+
+| Template | Use when |
+|---|---|
+| OpenAI (Chat Completions) | Model follows OpenAI chat API format |
+| Anthropic (Messages) | Model follows Anthropic messages API format |
+| Google (Gemini) | Model follows Gemini API format |
+
+**Model features to enable:**
+
+| Feature | Description |
+|---|---|
+| Structured response | JSON-formatted outputs for Prompts and Tools |
+| Tool calling | Function calling for agentic apps and AI nodes |
+| Parallel tool calling | Multiple tool calls per request |
+| Streaming | Real-time token generation |
+
+<Warning>Enabling unsupported features may cause unexpected behavior.</Warning>
+
+## Manage connections
+
+Each model can have multiple connections with different API keys, enabling separate usage tracking and billing.
+
+| Action | Description |
+|---|---|
+| Inference toggle | Enable/disable model availability across platform |
+| Edit | Update API key or credentials |
+| Delete | Remove the connection |
+
+## Troubleshooting
+
+| Issue | Solution |
+|---|---|
+| Test fails | Verify endpoint URL and authentication |
+| Empty response | Check JSON path mapping matches response structure |
+| Model not in dropdowns | Ensure inference toggle is ON |
+| Tool calling not working | Verify model supports it and feature is enabled |
+| Bedrock connection fails | Check IAM role ARN and trust policy configuration |
+| Vertex AI auth error | Ensure API key is valid; check that Vertex AI API is enabled for your project |

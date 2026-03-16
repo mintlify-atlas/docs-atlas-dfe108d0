@@ -1,0 +1,176 @@
+---
+title: "Supervisor tools"
+description: "Real-time monitoring, agent management, and queue controls for contact center supervisors."
+---
+
+Supervisor tools provide real-time monitoring, agent management, and queue controls for contact center supervisors.
+
+| Feature | Description |
+|---------|-------------|
+| [Real-time monitor](#real-time-monitor) | View live queues, agents, and interactions from the Monitor tab. |
+| [Live conversation monitoring](#live-conversation-monitoring) | Listen, whisper, and join agent-customer calls. |
+| [Queue actions](#queue-actions) | Assign, move, bulk transfer, or force-close conversations. |
+| [Agent actions](#agent-actions) | Chat with agents, mark offline, force logout, and update settings. |
+| [Agent management](#agent-management) | Configure agent groups, statuses, and global agent settings. |
+| [Dispositions](#dispositions) | Create and manage disposition sets and codes for conversation outcomes. |
+
+## Real-time monitor
+
+The Monitor tab has four views: **Queues**, **Agents**, **Interactions**, and **Service Levels**.
+
+### Queues view
+
+Shows all assigned queues with:
+
+- Conversations waiting and engaged
+- Agent availability summary
+- Average wait time, max wait time, and drop-off rate
+
+### Agents view
+
+Shows all agents assigned to your queues with their current status and conversation metrics.
+
+| Metric | Description |
+|--------|-------------|
+| **Completed** | Interactions closed by the agent. |
+| **Transferred** | Interactions transferred to a queue or agent. |
+| **Rejected** | Interactions explicitly rejected. |
+| **Unanswered** | Interactions not picked up within the acceptance timeout. |
+
+### Interactions view
+
+Shows all live interactions assigned to agents. Select an ongoing conversation to view the **Assign** and **Change Queue** options.
+
+### Service levels view
+
+Monitor service-level targets by queue.
+
+| Metric | Description |
+|--------|-------------|
+| **Average Speed to Answer (ASA)** | Average time to answer inbound contacts after they enter the queue. |
+| **Response Service Level (SL)** | Percentage of contacts answered within the target threshold time. |
+| **Abandonment Rate** | Percentage of contacts disconnected before reaching an agent. |
+| **Transfer Rate** | Percentage of contacts transferred. |
+
+For configuring service levels, see [SLAs & Alerts](/ai-for-service/contact-center/performance-management/slas-and-alerts).
+
+## Live conversation monitoring
+
+### Listen & Whisper (voice)
+
+- **Listen** — monitor a call silently.
+- **Whisper** — speak to the agent only; the customer cannot hear.
+
+**Steps:**
+
+1. Go to **Monitor** > **Agents** and select the conversation.
+2. Select **Listen & Whisper**.
+3. To coach the agent, select **Whisper to Agent**.
+4. Select **Stop Whispering** to end the session.
+
+### Join a conversation
+
+1. On the right pane, select **Join Conversation**.
+2. In the confirmation pop-up, select **Confirm**.
+
+## Queue actions
+
+### Manually assign a conversation
+
+1. Select the conversation in the Queue panel and select **Assign**.
+2. Select an agent from the pop-up.
+3. Optionally select **Mark as priority**, then select **Assign**.
+
+<Note>Manual assignments ignore skill-based routing and slot limits.</Note>
+
+### Change queue
+
+1. Go to **Monitor** > **Queues** and select the conversation.
+2. Select **Change Queue**.
+3. In the pop-up, select a destination queue and optionally mark as priority.
+
+### Bulk transfer and force close
+
+Transfer or force-close multiple conversations at once across chat, email, and voice.
+
+1. Open the **Monitor** tab and select a queue or the **Agents** tab.
+2. Select **⋮** in the top corner and choose **Transfer Conversations** or **Force Close**.
+3. Select conversations and choose the destination agent or queue.
+4. Select **Transfer** or **Force Close** and confirm.
+
+## Agent actions
+
+- **Chat with an agent:** Select the **Chat** option from the agent view.
+- **Mark agent offline:** Stops new conversations from being assigned to the agent.
+- **Force Logout:** Frees up an agent so their ongoing conversations can be reassigned.
+
+### Agent profile and settings
+
+Access an agent's profile by selecting or hovering over the agent.
+
+| Tab | Description |
+|-----|-------------|
+| **Profile** | View and edit the agent's profile. |
+| **Settings** | Configure chat and voice experience, max chats, language. |
+| **Queues & Skills** | Configure queue and skill assignments. |
+
+## Agent management
+
+Go to **Contact Center AI** > **Agent & Supervisors** > **Agent Management**.
+
+### Agent groups
+
+An Agent Group is a collection of agents organized by skills, roles, or other criteria.
+
+**Pre-configured groups:**
+
+| Group | Description |
+|-------|-------------|
+| **Unassigned** | Default group for new users; not considered for routing. |
+| **Default Group** | Standard default group. |
+
+**Create an agent group:** Select **Add Group**, enter the **Group Name**, **Description**, and optional **Agent Status**, then select **Save**.
+
+### Agent statuses
+
+Agent statuses show what agents are currently doing. System-defined statuses: Available, Offline, Busy, Away. You can also create custom statuses.
+
+**Create an agent status:**
+
+1. Select **+ New Status**.
+2. Enter the **Status Name**, **Status Type** (Away or Busy), **Description**, and **Assign to Agent Groups**.
+3. Select **Add & Exit**.
+
+### Agent settings
+
+Go to **Agent & Supervisors** > **Agent Management** > **Agent Settings**.
+
+| Setting | Description |
+|---------|-------------|
+| **Answer Mode** | How conversations are answered on each channel (Manual or Auto). |
+| **Call Recording Control** | Recording behavior and pause/resume permissions. |
+| **Transfers** | External transfer settings and skill match enforcement. |
+| **Skill Modification** | Whether agents can modify skills on a conversation. |
+| **Auto Logout & Auto Close Conversation** | Inactivity timeout settings. |
+| **Snooze** | Lets agents temporarily pause conversations. |
+| **Blended Agents** | Enables agents to handle voice and digital simultaneously. |
+
+## Dispositions
+
+Dispositions are labels agents assign to the outcome of a conversation. Organized into **Disposition Sets** containing **Disposition Codes**.
+
+**Default disposition codes:**
+
+| Code | Use |
+|------|-----|
+| **Resolved** | Resolved with no further action needed. |
+| **Requires Supervisor Attention** | Needs escalation to a supervisor. |
+| **Unresolved** | Closed but not resolved. |
+
+### Create a disposition set
+
+1. Select **Add Set**.
+2. Configure the **Name**, **Description**, **Display** type, **Is Required** setting, and **Assignment** (Queues or Agent Groups).
+3. Add **Disposition Codes** on the Codes tab.
+4. Optionally configure **Notify** supervisors for specific codes.
+5. Select **Create**.

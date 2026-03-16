@@ -1,0 +1,356 @@
+{
+  "projectType": "saas",
+  "projectName": "Kore.ai",
+  "projectDescription": "Enterprise AI platform providing Agent Platform, AI for Work, AI for Service, and AI for Process solutions for building, deploying, and managing intelligent AI agents at scale.",
+  "theme": "linden",
+  "primaryColor": "#848c94",
+  "lightColor": "#171f2f",
+  "darkColor": "#d4d5d7",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Home",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": ["home"]
+          }
+        ]
+      },
+      {
+        "tab": "Agent Platform",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "agent-platform/index",
+              "agent-platform/concepts",
+              "agent-platform/getting-started"
+            ]
+          },
+          {
+            "group": "Building Agents",
+            "pages": [
+              "agent-platform/agents",
+              "agent-platform/agents/create-an-agent",
+              "agent-platform/agents/agent-management",
+              "agent-platform/agents/agentic-apps/create-an-app"
+            ]
+          },
+          {
+            "group": "Orchestration",
+            "pages": [
+              "agent-platform/orchestrate",
+              "agent-platform/orchestration/single-agent",
+              "agent-platform/orchestration/supervisor",
+              "agent-platform/orchestration/adaptive-network"
+            ]
+          },
+          {
+            "group": "Tools",
+            "pages": [
+              "agent-platform/tools",
+              "agent-platform/tools/workflow",
+              "agent-platform/tools/nodes",
+              "agent-platform/tools/code",
+              "agent-platform/tools/mcp",
+              "agent-platform/tools/calling",
+              "agent-platform/tools/context-object"
+            ]
+          },
+          {
+            "group": "Knowledge & Memory",
+            "pages": [
+              "agent-platform/knowledge",
+              "agent-platform/memory"
+            ]
+          },
+          {
+            "group": "Platform Services",
+            "pages": [
+              "agent-platform/models",
+              "agent-platform/models/external-models",
+              "agent-platform/models/open-source-models",
+              "agent-platform/models/fine-tuned-models",
+              "agent-platform/models/supported-models",
+              "agent-platform/prompts",
+              "agent-platform/prompts/using-prompt-studio",
+              "agent-platform/prompts/advanced-features",
+              "agent-platform/evaluation",
+              "agent-platform/evaluation/model-evaluation",
+              "agent-platform/evaluation/agentic-evaluation",
+              "agent-platform/guardrails",
+              "agent-platform/analytics"
+            ]
+          },
+          {
+            "group": "Deployment",
+            "pages": [
+              "agent-platform/deploy-apps",
+              "agent-platform/deploy/diagnostics",
+              "agent-platform/deploy/import-export",
+              "agent-platform/agents/agentic-apps/simulation-and-testing"
+            ]
+          },
+          {
+            "group": "Administration",
+            "pages": [
+              "agent-platform/administration/overview",
+              "agent-platform/administration/user-management",
+              "agent-platform/administration/role-management",
+              "agent-platform/administration/security-and-control",
+              "agent-platform/administration/billing-and-usage"
+            ]
+          },
+          {
+            "group": "References",
+            "pages": [
+              "agent-platform/apis",
+              "agent-platform/sdk-overview",
+              "agent-platform/agents/agentic-apps/marketplace",
+              "agent-platform/how-to-guides"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "AI for Work",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "ai-for-work/index",
+              "ai-for-work/getting-started",
+              "ai-for-work/getting-started/how-to-use",
+              "ai-for-work/getting-started/scheduler"
+            ]
+          },
+          {
+            "group": "Agents",
+            "pages": [
+              "ai-for-work/custom-agents/enterprise-knowledge",
+              "ai-for-work/pre-built-agents",
+              "ai-for-work/custom-agents",
+              "ai-for-work/custom-agents/agent-management",
+              "ai-for-work/getting-started/marketplace"
+            ]
+          },
+          {
+            "group": "Platform Services",
+            "pages": [
+              "ai-for-work/analytics",
+              "ai-for-work/assistant-configurations",
+              "ai-for-work/llm-configuration",
+              "ai-for-work/channels"
+            ]
+          },
+          {
+            "group": "Administration",
+            "pages": [
+              "ai-for-work/administration/account-and-workspace",
+              "ai-for-work/administration/user-management",
+              "ai-for-work/administration/security-and-control",
+              "ai-for-work/administration/audit-log",
+              "ai-for-work/integration/amazon-q"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "AI for Service",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "ai-for-service/index",
+              "ai-for-service/getting-started",
+              "ai-for-service/getting-started/upgrade-guide"
+            ]
+          },
+          {
+            "group": "Automation AI",
+            "pages": [
+              "ai-for-service/automationai",
+              "ai-for-service/automation/dialoggpt",
+              "ai-for-service/automation/agent-flows",
+              "ai-for-service/automation/dialogs/node-types/overview",
+              "ai-for-service/automation/dialogs/node-types/node-connections",
+              "ai-for-service/automation/dialogs/prompt-editor",
+              "ai-for-service/automation/testing/playground",
+              "ai-for-service/automation/intelligence/events",
+              "ai-for-service/automation/intelligence/conversation-management",
+              "ai-for-service/manage-assistant/feedback-survey",
+              "ai-for-service/automation/dynamic-routing",
+              "ai-for-service/automation/natural-language/nlp-topics"
+            ]
+          },
+          {
+            "group": "Search AI",
+            "pages": [
+              "ai-for-service/searchai",
+              "ai-for-service/searchai/content-sources",
+              "ai-for-service/searchai/index-configuration",
+              "ai-for-service/searchai/retrieval-answer-configuration",
+              "ai-for-service/searchai/agentic-rag-and-business-rules",
+              "ai-for-service/searchai/testing-and-debugging",
+              "ai-for-service/searchai/advance-config-and-dev-tools",
+              "ai-for-service/searchai/tips-and-faqs"
+            ]
+          },
+          {
+            "group": "Contact Center AI",
+            "pages": [
+              "ai-for-service/contact-center",
+              "ai-for-service/contact-center/flows-and-routing/conditional-and-waiting-flows",
+              "ai-for-service/contact-center/routing-queues-skills",
+              "ai-for-service/contact-center/configurations/configurations",
+              "ai-for-service/contact-center/configurations/settings/configuration-settings",
+              "ai-for-service/contact-center/performance-management/slas-and-alerts",
+              "ai-for-service/contact-center/agent-console",
+              "ai-for-service/contact-center/supervisor",
+              "ai-for-service/contact-center/campaigns"
+            ]
+          },
+          {
+            "group": "Agent AI",
+            "pages": [
+              "ai-for-service/agent-ai",
+              "ai-for-service/agentai/agent-experience",
+              "ai-for-service/agentai/agent-experience/agent-realtime-coaching",
+              "ai-for-service/agentai/agent-experience/playbook",
+              "ai-for-service/agentai/configurations",
+              "ai-for-service/agentai/integrations"
+            ]
+          },
+          {
+            "group": "Quality AI",
+            "pages": [
+              "ai-for-service/quality",
+              "ai-for-service/quality-ai/configurations",
+              "ai-for-service/quality-ai/analyze",
+              "ai-for-service/quality-ai/coaching"
+            ]
+          },
+          {
+            "group": "Platform Services",
+            "pages": [
+              "ai-for-service/generative-ai-tools/overview",
+              "ai-for-service/generative-ai-tools/llm-integration",
+              "ai-for-service/generative-ai-tools/xo-gpt-module",
+              "ai-for-service/generative-ai-tools/prompts-library",
+              "ai-for-service/generative-ai-tools/data-anonymization",
+              "ai-for-service/generative-ai-tools/guardrails",
+              "ai-for-service/channels",
+              "ai-for-service/integrations/overview",
+              "ai-for-service/deployment/overview",
+              "ai-for-service/analytics/overview"
+            ]
+          },
+          {
+            "group": "Administration",
+            "pages": [
+              "ai-for-service/manage-assistant/plan-and-usage/accounts-or-workspace-overview",
+              "ai-for-service/user-management/users-and-role",
+              "ai-for-service/app-settings",
+              "ai-for-service/manage-assistant/plan-and-usage/billing-and-payments",
+              "ai-for-service/administration/overview",
+              "ai-for-service/administration/data/data-tables-and-views"
+            ]
+          },
+          {
+            "group": "References",
+            "pages": [
+              "ai-for-service/apis/automation/api-introduction",
+              "ai-for-service/apis/rate-limit",
+              "ai-for-service/apis/api-list",
+              "ai-for-service/sdk/bot-sdk-introduction",
+              "ai-for-service/sdk/web-sdk",
+              "ai-for-service/sdk/botkit-sdk",
+              "ai-for-service/apis/automation/koreutil-libraries"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "AI for Process",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "ai-for-process/index",
+              "ai-for-process/concepts",
+              "ai-for-process/getting-started"
+            ]
+          },
+          {
+            "group": "Building",
+            "pages": [
+              "ai-for-process/workflows/overview",
+              "ai-for-process/workflows/workflow-builder",
+              "ai-for-process/workflows/triggers-and-access",
+              "ai-for-process/workflows/workflow-data-and-execution",
+              "ai-for-process/workflows/monitor-and-debug",
+              "ai-for-process/supported-libraries",
+              "ai-for-process/nodes",
+              "ai-for-process/inbox"
+            ]
+          },
+          {
+            "group": "Platform Services",
+            "pages": [
+              "ai-for-process/prompts",
+              "ai-for-process/models",
+              "ai-for-process/models/external-models",
+              "ai-for-process/models/fine-tuned-model",
+              "ai-for-process/models/open-source-models",
+              "ai-for-process/models/supported-models",
+              "ai-for-process/settings/monitoring-overview",
+              "ai-for-process/settings/monitoring/workflows-analytics",
+              "ai-for-process/settings/monitoring/model-analytics-and-traces",
+              "ai-for-process/settings/monitor-custom-scripts",
+              "ai-for-process/settings/audit-logs"
+            ]
+          },
+          {
+            "group": "Administration",
+            "pages": [
+              "ai-for-process/admin-settings",
+              "ai-for-process/settings/user-management",
+              "ai-for-process/settings/role-management",
+              "ai-for-process/settings/security-control",
+              "ai-for-process/settings/billing-and-usage"
+            ]
+          },
+          {
+            "group": "References",
+            "pages": [
+              "ai-for-process/settings/manage-dataset",
+              "ai-for-process/settings/integrations"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Agent Platform with multi-agent orchestration, tools, knowledge/RAG, and evaluation",
+    "AI for Work: enterprise productivity with custom and pre-built AI agents",
+    "AI for Service: Automation AI, Search AI, Contact Center AI, Agent AI, Quality AI",
+    "AI for Process: no-code workflow automation with human-in-the-loop capabilities",
+    "Model Hub supporting OpenAI, Anthropic, Google, open-source, and fine-tuned models",
+    "Prompt Studio for collaborative prompt design, testing, and optimization",
+    "Enterprise-grade guardrails with PII anonymization and content filtering",
+    "Analytics and observability across all platform components",
+    "Role-based access controls and audit logging"
+  ],
+  "publicApiSurface": [
+    "Agent Protocol API (agent-platform/apis)",
+    "AI for Service Automation API (ai-for-service/apis/automation/api-introduction)",
+    "AI for Service API List (ai-for-service/apis/api-list)",
+    "Bot SDK (ai-for-service/sdk/bot-sdk-introduction)",
+    "Web SDK (ai-for-service/sdk/web-sdk)",
+    "BotKit SDK (ai-for-service/sdk/botkit-sdk)",
+    "Agent Platform SDK (agent-platform/sdk-overview)",
+    "KoreUtil Libraries (ai-for-service/apis/automation/koreutil-libraries)"
+  ]
+}
